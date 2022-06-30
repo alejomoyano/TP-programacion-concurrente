@@ -2,30 +2,44 @@ import java.util.Random;
 
 public class Politicas {
 	private RdP Red;
-	private int[][] conflictos;
+//	private int[][] conflictos;
 	
 	public Politicas(RdP red) {
 		this.Red=red;
 		
-		conflictos=new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}};
+//		conflictos=new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}};
 	}
 
+
+	/**
+	 * Metodo que resuelve los conflicos estructurales.
+	 * @param secuencia: secuencia que contiene la tansicion con conflicto que quiere ser ejecutada
+	 * @return secuencia a ejecutar
+	 */
 	public int[][] HayConflicto(int[][] secuencia){
+
 		Random random = new Random();
-		boolean hayconflicto=false;
-		//int[][] transicion= new int[17][1];
-		int[][] and= new int[17][0];
+		boolean hayConflicto=false;
 		int indice=0;
-		
-		and= RdP.calcularAND(secuencia, conflictos);	//la transicion a disparar tiene conflicto?
-		for(int i=0;i< and.length;i++) {
-			if(and[i][0]==1) {
-				indice=i;
-				hayconflicto=true;
-				break;
-			}
-		}
-		if(hayconflicto) {
+//
+// 		int[][] transicion= new int[17][1];
+//		int[][] conflicto= new int[17][0];
+//
+//		conflicto= RdP.calcularAND(secuencia, conflictos);	//la transicion a disparar tiene conflicto?
+//		for(int i=0;i< conflicto.length;i++) {
+//			if(conflicto[i][0]==1) {
+//				indice=i;
+//				hayConflicto=true;
+//				break;
+//			}
+//		}
+
+		indice = RdP.tieneConflicto(secuencia);
+
+		// coloca true si >= 0 y false si == -1
+		hayConflicto = indice != -1;
+
+		if(hayConflicto) {
 			if(indice==1 || indice==2) {	//conflicto para elegir el procesador
 				 secuencia[this.ConflictoProcesador()][0]=1;
 				 return secuencia;
@@ -98,10 +112,10 @@ public class Politicas {
 			// Obtain a number between [0 - 1].
 		int s = rand.nextInt(2);
 			if(s==0) {
-				return n=9;
+				return 9;
 			}
 			else {
-				return n=10;
+				return 10;
 			}
 	}
 	
@@ -119,10 +133,10 @@ public class Politicas {
 			// Obtain a number between [0 - 1].
 		int s = rand.nextInt(2);
 			if(s==0) {
-				return n=11;
+				return 11;
 			}
 			else {
-				return n=12;
+				return 12;
 			}
 	}
 }

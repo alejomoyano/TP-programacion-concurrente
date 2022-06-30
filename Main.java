@@ -3,7 +3,7 @@ import java.util.concurrent.TimeUnit;
 
 // import sun.management.Sensor;
 
-public class Main {
+public class  Main {
 	
 	private static int tareas;
 	

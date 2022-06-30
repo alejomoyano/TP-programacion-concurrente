@@ -12,7 +12,7 @@ public class ArrivalRate implements Runnable {
     }
     
     public void run(){
-    	for(int i=0;i<4;i++) {
+    	for(int i=0;i<1000;i++) {
     		//System.out.println("Entro al for, proximo a disparar");
     		monitor.Disparar(secuencia);
     		//System.out.println("T0 ya dispare");

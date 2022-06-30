@@ -1,37 +1,81 @@
+import java.util.Arrays;
 import java.util.concurrent.Semaphore;
 
 
 public class Monitor {
 	
-	private RdP RedPetri;
+	private RdP RP;
     public Semaphore mutex;
     private Politicas politica;
     private Colas colas; 
 
-	public Monitor(RdP red, Politicas politica,Colas cola){
+	public Monitor(RdP red, Politicas politica,Colas colas){
         this.politica = politica;
-		RedPetri=red;
-		this.colas=cola;
-		mutex= new Semaphore(1);//con o sin fairness?
+        RP = red;
+		this.colas = colas;
+		mutex = new Semaphore(1);//con o sin fairness?
 	}
 	
 	public void Disparar (int [][] secuencia) {
 
+        boolean disparar = false;
+
         try {
           //  System.out.println(" Realizando acquire - Hilo: "+Thread.currentThread()+" - Hilos en cola: " + mutex.getQueueLength());
-  
+
+            // intentamos adquirir permisos para entrar el monitor. Si no hay nadie entonces entro, sino quedo bloqueado esperando?
             mutex.acquire();
 
-            // --------------
-            System.out.println(" Acquire realizado por: "+Thread.currentThread()+" - Permisos restantes: " + mutex.availablePermits());
-            // -------------
 
-//            
-            while(!RedPetri.EcuacionEstado(secuencia,true)){
+            System.out.println(" Acquire realizado por: "+Thread.currentThread()+" - Permisos restantes: " + mutex.availablePermits());
+
+
+
+            disparar = RP.EcuacionEstado(secuencia); // intentamos disparar
+
+            // si noo puede disparar entonces
+            while (!disparar){
+                //   System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
+
+                //  si debe dormirse y es temporal entra
+                if(RP.getDormirse() && RP.esTemporal(secuencia)) {
+                    RdP.setDormirse(false);	//bajo el flag, borro el indicador para el proximo hilo
+                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread());
+                    try{
+                        // suelta el mutex ya que debe dormirse
+                        mutex.release();
+                        Thread.sleep(RP.getSleepTime());
+                    }
+                    catch (InterruptedException exception){
+                        exception.printStackTrace();
+                    }
+                    try {
+                        // una vez que se levanta debe intentar adquirir el monitor de nuevo
+                        mutex.acquire();
+                    }
+                    catch (InterruptedException exception){
+                        exception.printStackTrace();
+                    }
+                }
+                // si no es temporal la transicion o si es temporal pero estamos despues del beta entramos aca
+                else {
+                    System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
+                    mutex.release();
+                    colas.setDormirse(secuencia);
+                }
+                // cuando se despierte va a volver a preguntar si puede disparar
+                disparar = RdP.EcuacionEstado(secuencia);
+            }
+
+
+
+    /*
+//           // si no se pudo disparar entra
+            while(!RedPetri.EcuacionEstado(secuencia)){
              //   System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
-            	
-                
-                if(RedPetri.getDormirse() && RedPetri.esTemporal(secuencia)) {		 
+
+                //  pregunta si se tiene que dormir y si es temporal
+                if(RedPetri.getDormirse() && RedPetri.esTemporal(secuencia)) {
                 	RdP.setDormirse(false);	//bajo el flag, borro el indicador para el proximo hilo
                 	 System.out.println(" No pude disparar temporal, me voy a dormir por: "+RedPetri.getSleepTime()+" ms.Thread:"+Thread.currentThread());
                 	try{
@@ -49,28 +93,34 @@ public class Monitor {
                 	mutex.release();
                 	colas.setDormirse(secuencia);
                 }
+                // cuando se despierte va a volver a preguntar si puede disparar
             }
+            */
         // ya disparo
             System.out.println(" He disparado: "+Thread.currentThread());
+
+            // debemos dejarle el mutex a alguien, tienen mas prioridad aquellos que ya entraron al monitor
+            // y estan esperando en las colas
             
-            
-            
-            int[][] and = RdP.calcularAND(RedPetri.getSensibilizado(),colas.getDormidos());
-            
+            // dormidos que estan sensibilizados
+            int[][] sensibilizadas = RdP.calcularAND(RP.getSensibilizado(),colas.getDormidos());
+
+            // guardamos en el log de transiciones la que fue disparada
             Log.Tlogger(secuencia);
                 //System.out.println("Hilo: "+Thread.currentThread()+"Valor de And["+i+"][0]: "+and[i][0]);}
-                
-            int m=0;
-            for(int i=0;i<and.length;i++) {
-                if(and[i][0]==1) {
-                    m++;
+
+            // obtenemos que cantidad de transiciones que estan sensibilizadas
+            int cantDormidosSens=0;
+            for (int[] sensibilizada : sensibilizadas) {
+                if (sensibilizada[0] == 1) {
+                    cantDormidosSens++;
                 }
             }
-            if(m>0) {
+            // si hay algunas sensi debemos despertar una
+            if(cantDormidosSens>0) {
                  //  System.out.println("Hilo: "+Thread.currentThread()+"entre a if con m: "+m+" voy a despertar");
-
-                colas.despertar(and,this.politica);
-                return;
+                colas.despertar(sensibilizadas,this.politica,cantDormidosSens);
+                return; // y esto?
 
             }
             mutex.release();
