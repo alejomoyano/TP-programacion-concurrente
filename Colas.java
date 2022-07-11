@@ -38,26 +38,29 @@ public class Colas {
      * @param cantDormidosSens: cantidad de transiciones sensibilizadas
      */
     public void despertar(int[][] sensibilizadas,Politicas politica, int cantDormidosSens){
-        //int cant=0;
-        int count=0;
-			
-        //for (int i = 0; i < and.length; i++) {//cuenta la cantidad hilos que pueden disparar
-        //    if(and[i][0]==1){cant++;}
-        //}
-        int pos = (int) (Math.random() * cantDormidosSens) + 1;//rand entre 1 y la cant de hilos disparables
-        int indexTransicion=0;
+
+        int count = 0;
+        int transicionSeleccionada = (int) (Math.random() * cantDormidosSens) + 1;//rand entre 1 y la cant de hilos disparables
+        int indexTransicion = 0;
+
 
         //encuentra la posicion del hilo elegido, se elije un hilo al azar para despertar, en caso que deba aplicarse politicas se aplicara
-        while(count!=pos){
+        while(count != transicionSeleccionada){
         	if(sensibilizadas[indexTransicion][0]==1)
                 count++;
-        	if(count==pos)
+        	if(count == transicionSeleccionada)
                 break;
             indexTransicion++;
         }
 
+        // generamos la secuencia que fue elegida para ser disparada, revisamos y solucionamos el conflicto.
+        int[][] secuencia = new int[17][1];
+        secuencia[indexTransicion][0] = 1;
 
         //TODO -> REVISAR [politicas.HayConflicto()]
+
+        // devolvera la misma secuencia si no hay conflicto y en caso contrario la solucion de dicho conflicto.
+        secuencia = politica.HayConflicto(secuencia);
 
 
      //   System.out.println("Hilo en clase colas despertando: "+Thread.currentThread()+"Valor j: "+j);

@@ -54,12 +54,11 @@ public class Log {
 	   for(int i=0;i<17;i++) {
        	if(secuencia[i][0]==1) {
        		PrintWriter pw;
-			try {
+			try{
 				pw = new PrintWriter(new FileWriter("Tlog.txt",true));
 				pw.print("T"+i);
 				pw.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException e){
 				e.printStackTrace();
 			}
 			

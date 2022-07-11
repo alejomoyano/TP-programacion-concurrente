@@ -31,7 +31,7 @@ public class Monitor {
 
 
 
-            disparar = RP.EcuacionEstado(secuencia); // intentamos disparar
+            disparar = RP.shootIfWeCan(secuencia); // intentamos disparar
 
             // si noo puede disparar entonces
             while (!disparar){
@@ -64,7 +64,7 @@ public class Monitor {
                     colas.setDormirse(secuencia);
                 }
                 // cuando se despierte va a volver a preguntar si puede disparar
-                disparar = RdP.EcuacionEstado(secuencia);
+                disparar = RdP.shootIfWeCan(secuencia);
             }
 
 

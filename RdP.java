@@ -177,7 +177,7 @@ public class RdP {
 	 * @param secuencia
 	 * @return true si se disparo, false si no
 	 */
-	public static boolean EcuacionEstado(int[][] secuencia) {
+	public static boolean shootIfWeCan(int[][] secuencia) {
 
 		boolean disparar = false;
 
@@ -463,18 +463,18 @@ public class RdP {
 	 * @return -1 si no tiene conflicto, 0 <= si tiene conflicto
 	 */
 	public static int tieneConflicto(int[][] secuencia) {
-		boolean hayConflicto=false;
-		//int[][] transicion= new int[17][1];
-		int[][] conflicto= new int[17][0];
-		int indice=-1;
+		boolean hayConflicto = false;
+
+		int[][] conflicto = new int[17][0];
+		int indice = -1;
 
 		conflicto = RdP.calcularAND(secuencia, conflictos);	//la transicion a disparar tiene conflicto?
 
 		// si tiene conflicto entonces buscamos en que transicion es y la retornamos
-		for(int i=0;i< conflicto.length;i++) {
+		for(int i=0;i < conflicto.length;i++) {
 			if(conflicto[i][0]==1) {
-				indice=i;
-				hayConflicto=true;
+				indice = i;
+				hayConflicto = true;
 				break;
 			}
 		}
