@@ -17,7 +17,7 @@ public class Politicas {
      * @param secuencia: secuencia que contiene la tansicion con conflicto que quiere ser ejecutada
      * @return secuencia a ejecutar
      */
-    public int[][] HayConflicto(int[][] secuencia) {
+    public int HayConflicto(int[][] secuencia, int[][] dormidos) {
 
 
         boolean hayConflicto = false;
@@ -32,30 +32,36 @@ public class Politicas {
 
         // si hay conflicto lo resolvemos
         if (hayConflicto) {
-            return resolvemosConflicto(indice);
+            return resolvemosConflicto(indice, dormidos);
         }
 
         //si no hay conflicto, devolvemos la transicion original
-        return secuencia;
+        return Utils.getIndex(secuencia);
     }
 
-    public int[][] resolvemosConflicto(int indice) {
+    /**
+     * Metodo que resuelve el conflicto
+     * @param indice indice de la transicion donde hay conflicto
+     * @return indice de la transicion elegida
+     */
+    public int resolvemosConflicto(int indice, int[][] dormidos) {
 
-        int[][] secuencia = new int[17][1];
+//        int[][] secuencia = new int[17][1];
+        int auxiliar = 0;
         Random random = new Random();
 
         //conflicto para elegir el procesador
         if (indice == 1 || indice == 2) {
-            secuencia[this.ConflictoProcesador()][0] = 1;
+            auxiliar =  this.ConflictoProcesador();
         }
 
         //conflicto Tareas en procesador1 - 50% de probabilidad cada uno
         if (indice == 5 || indice == 13) {
             int rand = random.nextInt(2);
             if (rand == 0) {
-                secuencia[5][0] = 1;
+                auxiliar = 5;
             } else {
-                secuencia[13][0] = 1;
+                auxiliar = 13;
             }
         }
 
@@ -65,24 +71,31 @@ public class Politicas {
             int rand = random.nextInt(2);
 
             if (rand == 0) {
-                secuencia[6][0] = 1;
+                auxiliar = 6;
+
             } else {
-                secuencia[14][0] = 1;
+                auxiliar = 14;
+
             }
         }
 
         //conflicto en memorias desde procesador1
         if (indice == 9 || indice == 10) {
-            secuencia[this.ConflictoMemoriasP1()][0] = 1;
+            auxiliar = this.ConflictoMemoriasP1();
 
         }
 
         //conflicto en memorias desde procesador2
         if (indice == 11 || indice == 12) {
-            secuencia[this.ConflictoMemoriasP2()][0] = 1;
+            auxiliar = this.ConflictoMemoriasP2();
         }
 
-        return secuencia;
+        // si es posible disparar la transicion que eligio la politica
+        // entonces la devolvemos. Sino, nos volvemos con la anterior.
+        if(dormidos[auxiliar][0] > 0){
+            return auxiliar;
+        }
+        return indice;
 
     }
 

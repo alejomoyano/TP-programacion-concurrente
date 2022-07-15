@@ -31,7 +31,7 @@ public class Monitor {
 
 
 
-            disparar = RP.shootIfWeCan(secuencia); // intentamos disparar
+            disparar = RdP.shootIfWeCan(secuencia); // intentamos disparar
 
             // si noo puede disparar entonces
             while (!disparar){
@@ -62,6 +62,8 @@ public class Monitor {
                     System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
                     mutex.release();
                     colas.setDormirse(secuencia);
+                    System.out.println("Soy: " + Thread.currentThread() + " voy a intentar disparar de nuevo, me sacaron de la cola.");
+
                 }
                 // cuando se despierte va a volver a preguntar si puede disparar
                 disparar = RdP.shootIfWeCan(secuencia);
@@ -103,7 +105,7 @@ public class Monitor {
             // y estan esperando en las colas
             
             // dormidos que estan sensibilizados
-            int[][] sensibilizadas = RdP.calcularAND(RP.getSensibilizado(),colas.getDormidos());
+            int[][] sensibilizadas = Utils.calcularAND(RP.getSensibilizado(),colas.getDormidos());
 
             // guardamos en el log de transiciones la que fue disparada
             Log.Tlogger(secuencia);
@@ -118,13 +120,12 @@ public class Monitor {
             }
             // si hay algunas sensi debemos despertar una
             if(cantDormidosSens>0) {
-                 //  System.out.println("Hilo: "+Thread.currentThread()+"entre a if con m: "+m+" voy a despertar");
-                colas.despertar(sensibilizadas,this.politica,cantDormidosSens);
-                return; // y esto?
-
+               System.out.println("Hilo: " + Thread.currentThread() + ". Hay " + cantDormidosSens + " sensibilizadas dormida con hilos esperando");
+                colas.signal(sensibilizadas,this.politica,cantDormidosSens);
+                return;
             }
             mutex.release();
-            System.out.println(" Me voy del monitor y hago Realese desde: "+Thread.currentThread()+" - Permisos restantes: " + mutex.availablePermits() + " - Hilos esperando: " + mutex.getQueueLength());
+            System.out.println(" Me voy del monitor y hago Release desde: "+Thread.currentThread()+" - Permisos restantes: " + mutex.availablePermits() + " - Hilos esperando: " + mutex.getQueueLength());
 
         } catch (InterruptedException e) {
             e.printStackTrace();

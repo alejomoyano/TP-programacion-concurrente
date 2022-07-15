@@ -2,21 +2,24 @@ public class AsignarP2 implements Runnable {
     private int[][] secuencia;
     private Monitor monitor;
     private String nombre;
-    
-    public AsignarP2(Monitor monitor){
-    	secuencia = new int[17][1];
-        secuencia[2][0]=1;
+
+    private int ejecuciones;
+
+    public AsignarP2(Monitor monitor, int ejecuciones) {
+        secuencia = new int[17][1];
+        secuencia[2][0] = 1;
         this.monitor = monitor;
-        nombre= "AsignarP2";
+        nombre = "AsignarP2";
+        this.ejecuciones = ejecuciones;
     }
-    
+
     public String getNombre() {
-    	return nombre;
+        return nombre;
     }
-    
-    public void run(){
-    	while(Main.getTareas()<1000) {
-    		monitor.Disparar(secuencia);
-    	}
+
+    public void run() {
+        while (Main.getTareas() < ejecuciones) {
+            monitor.Disparar(secuencia);
+        }
     }
 }

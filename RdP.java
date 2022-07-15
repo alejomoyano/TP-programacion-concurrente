@@ -39,26 +39,26 @@ public class RdP {
 
 		// obtenemos la matriz de incidencia
 		try {
-			MIncidencia = leerMatriz2D(IncidenciaPath, 19, 17);
+			MIncidencia = Utils.leerMatriz2D(IncidenciaPath, 19, 17);
 		} catch (FileNotFoundException e) {
 		}
 		System.out.println("Matriz incidencia");
-		imprimirMatriz2D(MIncidencia);
+		Utils.imprimirMatriz2D(MIncidencia);
 
 		// obtenemos el marcado inicial
 		try {
-			MarcadoInicial = leerMatriz2D(marcadoPath, 19, 1);
+			MarcadoInicial = Utils.leerMatriz2D(marcadoPath, 19, 1);
 		} catch (FileNotFoundException e) {
 		}
 		System.out.println("MarcadoInicial");
-		imprimirMatriz2D(MarcadoInicial);
+		Utils.imprimirMatriz2D(MarcadoInicial);
 
 
 		MarcadoActual = MarcadoInicial;
 
 		Sensibilizados();
 		System.out.println("Vector E de transiciones sensibilizadas:\n");
-		RdP.imprimirMatriz2D(TSensibilizadas);
+		Utils.imprimirMatriz2D(TSensibilizadas);
 
 		RdP.setTiempos();
 		int k=0;
@@ -72,82 +72,63 @@ public class RdP {
 	}
 	
 
-	public static int[][] leerMatriz2D(String path, int filas, int columnas) throws FileNotFoundException {
-
-		Scanner sc = new Scanner(new BufferedReader(new FileReader(path)));
-		int[][] myArray = new int[filas][columnas];
-		while (sc.hasNextLine()) {
-			for (int i = 0; i < myArray.length; i++) {
-				String[] line = sc.nextLine().trim().split(" ");
-				for (int j = 0; j < line.length; j++) {
-					myArray[i][j] = Integer.parseInt(line[j]);
-				}
-			}
-		}
-		return myArray;
-	}
-
-	public int[][] getMarcado() {
-		return MarcadoActual;
-	}
-	
-	public boolean getDormirse() {
-		return dormirse;
-	}
-	
-	public long getSleepTime() {
-		return sleepTime;
-	}
-	
-	public static void setDormirse(boolean c) {
-		dormirse=c;
-	}
-	
-	public static void setSleepTime(long time) {
-		sleepTime=time;
-	}
-
-	public static void imprimirMatriz2D(int[][] matriz) {
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz[0].length; j++) {
-				System.out.print(" " + matriz[i][j] + " ");
-			}
-			System.out.println(" ");
-		}
-		System.out.println(" ");
-	}
-
-	public static int[][] SumarMatrices(int[][] a, int[][] b) {
-		int m = a.length;  // numero de filas
-		int n = a[0].length;   // numero de columnas
-		int[][] c = new int[m][n];
-		for (int i = 0; i < m; i++)
-			for (int j = 0; j < n; j++)
-				c[i][j] = a[i][j] + b[i][j];
-		return c;
-	}
-
-	public static int[][] MultiplicarMatrices(int[][] a, int[][] b) {
-		int m1 = a.length;  // filas de a
-		int n1 = a[0].length;   // columnas de a
-		int m2 = b.length;      // filas de b
-		int n2 = b[0].length;    // columnas de b.
-	        
-	       /* System.out.println("Columnas de a: "+n1 );
-	        System.out.println("filas de b: "+m2);
-	        System.out.println("columnas de b: "+n2);*/
-
-
-		if (n1 != m2) throw new RuntimeException("Dimensiones de matrices incompatibles.");
-		int[][] c = new int[m1][n2];    //filas de a y columnas de b
-		for (int i = 0; i < m1; i++) {
-			//  for (int j = 0; j < n2; j++)
-			for (int k = 0; k < n1; k++) {
-				c[i][0] += a[i][k] * b[k][0];
-			}
-		}
-		return c;
-	}
+//	public static int[][] leerMatriz2D(String path, int filas, int columnas) throws FileNotFoundException {
+//
+//		Scanner sc = new Scanner(new BufferedReader(new FileReader(path)));
+//		int[][] myArray = new int[filas][columnas];
+//		while (sc.hasNextLine()) {
+//			for (int i = 0; i < myArray.length; i++) {
+//				String[] line = sc.nextLine().trim().split(" ");
+//				for (int j = 0; j < line.length; j++) {
+//					myArray[i][j] = Integer.parseInt(line[j]);
+//				}
+//			}
+//		}
+//		return myArray;
+//	}
+//
+//
+//	public static void imprimirMatriz2D(int[][] matriz) {
+//		for (int i = 0; i < matriz.length; i++) {
+//			for (int j = 0; j < matriz[0].length; j++) {
+//				System.out.print(" " + matriz[i][j] + " ");
+//			}
+//			System.out.println(" ");
+//		}
+//		System.out.println(" ");
+//	}
+//
+//	public static int[][] SumarMatrices(int[][] a, int[][] b) {
+//		int m = a.length;  // numero de filas
+//		int n = a[0].length;   // numero de columnas
+//		int[][] c = new int[m][n];
+//		for (int i = 0; i < m; i++)
+//			for (int j = 0; j < n; j++)
+//				c[i][j] = a[i][j] + b[i][j];
+//		return c;
+//	}
+//
+//	public static int[][] MultiplicarMatrices(int[][] a, int[][] b) {
+//		int m1 = a.length;  // filas de a
+//		int n1 = a[0].length;   // columnas de a
+//		int m2 = b.length;      // filas de b
+//		int n2 = b[0].length;    // columnas de b.
+//
+//	       /* System.out.println("Columnas de a: "+n1 );
+//	        System.out.println("filas de b: "+m2);
+//	        System.out.println("columnas de b: "+n2);*/
+//
+//
+//		if (n1 != m2) throw new RuntimeException("Dimensiones de matrices incompatibles.");
+//		int[][] c = new int[m1][n2];    //filas de a y columnas de b
+//		for (int i = 0; i < m1; i++) {
+//			//  for (int j = 0; j < n2; j++)
+//			for (int k = 0; k < n1; k++) {
+//				c[i][0] += a[i][k] * b[k][0];
+//			}
+//		}
+//		return c;
+//	}
 
 
 	/**
@@ -156,8 +137,8 @@ public class RdP {
 	 * @return null si no es disparable, matriz con el nuevo marcado si es disparable
 	 */
 	public static int[][] esDisparable(int[][] secuencia){
-		int[][] multiplicacion = MultiplicarMatrices(MIncidencia, secuencia); // realizamos el disparo de la secuencia [ W*si ]
-		int[][] NuevoMarcado = SumarMatrices(multiplicacion, MarcadoActual); // obtenemos el nuevo marcado [ W*si+mi = mi+1 ]
+		int[][] multiplicacion = Utils.MultiplicarMatrices(MIncidencia, secuencia); // realizamos el disparo de la secuencia [ W*si ]
+		int[][] NuevoMarcado = Utils.SumarMatrices(multiplicacion, MarcadoActual); // obtenemos el nuevo marcado [ W*si+mi = mi+1 ]
 
 		// debemos revisar si le nuevo marcado tiene algun elemento negativo. De esta forma podemos determinar
 		// si es posible o no realizar el disparo.
@@ -198,6 +179,14 @@ public class RdP {
 		}
 		// si no es temporal o si es temporal y se cumplen las condiciones, dispara.
 		if(disparar){
+			System.out.println("--------------------------------------------------------");
+
+			System.out.println("Acabo de disparar la secuencia:");
+			Utils.imprimirMatriz2D(secuencia);
+			System.out.println(Thread.currentThread().getName());
+			System.out.println("El Marcado quedo:");
+			Utils.imprimirMatriz2D(nuevoMarcado);
+			System.out.println("--------------------------------------------------------");
 
 			MarcadoActual = nuevoMarcado;    //efectuo el disparo si se cumplen las condiciones, guardando el nuevo marcado
 			RdP.Sensibilizados();            //se actualizan las transiciones sensibilizadas
@@ -245,19 +234,19 @@ public class RdP {
 	}
 
 
-	/**
-	 * And entre dos matrices
-	 * @param primeraMatriz
-	 * @param segundaMatriz
-	 * @return transiciones sensibilizadas que son temporales
-	 */
-	public static int[][] calcularAND(int[][] primeraMatriz, int[][] segundaMatriz) {
-		int[][] resultado = new int[17][1];
-		for (int i = 0; i < 17; i++) {
-			resultado[i][0] = primeraMatriz[i][0] & segundaMatriz[i][0];
-		}
-		return resultado;
-	}
+//	/**
+//	 * And entre dos matrices
+//	 * @param primeraMatriz
+//	 * @param segundaMatriz
+//	 * @return transiciones sensibilizadas que son temporales
+//	 */
+//	public static int[][] calcularAND(int[][] primeraMatriz, int[][] segundaMatriz) {
+//		int[][] resultado = new int[17][1];
+//		for (int i = 0; i < 17; i++) {
+//			resultado[i][0] = primeraMatriz[i][0] & segundaMatriz[i][0];
+//		}
+//		return resultado;
+//	}
 
 
 	/**
@@ -271,8 +260,8 @@ public class RdP {
 	 */
 	public static void setTiempos() {//mira quien de las sensibilizadas es temp y completa  la matriz
 
-		int counter = 0;//posicion en matrizTemp -  indica que transicion temporal es?
-		int[][] sensibilizadas = calcularAND(TSensibilizadas, temporales);//devuelve las que son temp y estan sensibilizadas
+		int counter = 0;//posicion en matrizTemp - indica que transicion temporal es?
+		int[][] sensibilizadas = Utils.calcularAND(TSensibilizadas, temporales);//devuelve las que son temp y estan sensibilizadas
 
 		for (int i = 0; i < 17; i++) {
 			// esto esta para hacer que counter aumente, asi podemos encontrar el indice en matrizTemp
@@ -400,7 +389,7 @@ public class RdP {
 	 * @return true si tiene una temporal, false si no tiene
 	 */
 	public boolean esTemporal(int[][] secuencia) {
-		int[][] sens = calcularAND(secuencia, temporales);//mira si la transicion es temporal
+		int[][] sens = Utils.calcularAND(secuencia, temporales);//mira si la transicion es temporal
 
 		for (int i = 0; i < sens.length; i++) {
 			if (sens[i][0] == 1) {
@@ -418,7 +407,7 @@ public class RdP {
 	 */
 	private static int isTemporal(int[][] secuencia) {
 		int pos = -1;
-		int[][] sens = calcularAND(secuencia, temporales);//mira si la transicion es temporal
+		int[][] sens = Utils.calcularAND(secuencia, temporales);//mira si la transicion es temporal
 		for (int i = 0; i < sens.length; i++) {
 			if (sens[i][0] == 1) {
 				pos = posicion(i);
@@ -468,7 +457,7 @@ public class RdP {
 		int[][] conflicto = new int[17][0];
 		int indice = -1;
 
-		conflicto = RdP.calcularAND(secuencia, conflictos);	//la transicion a disparar tiene conflicto?
+		conflicto = Utils.calcularAND(secuencia, conflictos);	//la transicion a disparar tiene conflicto?
 
 		// si tiene conflicto entonces buscamos en que transicion es y la retornamos
 		for(int i=0;i < conflicto.length;i++) {
@@ -482,5 +471,25 @@ public class RdP {
 	}
 
 
+
+	public int[][] getMarcado() {
+		return MarcadoActual;
+	}
+
+	public boolean getDormirse() {
+		return dormirse;
+	}
+
+	public long getSleepTime() {
+		return sleepTime;
+	}
+
+	public static void setDormirse(boolean c) {
+		dormirse=c;
+	}
+
+	public static void setSleepTime(long time) {
+		sleepTime=time;
+	}
 
 }
