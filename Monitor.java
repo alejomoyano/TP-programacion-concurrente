@@ -101,14 +101,15 @@ public class Monitor {
         // ya disparo
             System.out.println(" He disparado: "+Thread.currentThread());
 
+            // guardamos en el log de transiciones la que fue disparada
+            Log.Tlogger(secuencia);
+
             // debemos dejarle el mutex a alguien, tienen mas prioridad aquellos que ya entraron al monitor
             // y estan esperando en las colas
             
             // dormidos que estan sensibilizados
             int[][] sensibilizadas = Utils.calcularAND(RP.getSensibilizado(),colas.getDormidos());
 
-            // guardamos en el log de transiciones la que fue disparada
-            Log.Tlogger(secuencia);
                 //System.out.println("Hilo: "+Thread.currentThread()+"Valor de And["+i+"][0]: "+and[i][0]);}
 
             // obtenemos que cantidad de transiciones que estan sensibilizadas

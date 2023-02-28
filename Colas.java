@@ -33,9 +33,9 @@ public class Colas {
     /**
      * Metodo que selecciona al azar una transicion que se encuentra sensibilizada y que tiene
      * hilos esperando en la cola para ejecutarla
-     * @param sensibilizadas: transiciones sensibilizadas
-     * @param politica: instancia de la clase Politica
-     * @param cantDormidosSens: cantidad de transiciones sensibilizadas
+     * @param sensibilizadas transiciones sensibilizadas
+     * @param politica instancia de la clase Politica
+     * @param cantDormidosSens cantidad de transiciones sensibilizadas
      */
     public void signal(int[][] sensibilizadas,Politicas politica, int cantDormidosSens){
 
@@ -44,7 +44,8 @@ public class Colas {
         int indexTransicion = 0;
 
 
-        //encuentra la posicion del hilo elegido, se elige un hilo al azar para despertar, en caso de que deba aplicarse politicas se aplicara
+        //encuentra la posicion del hilo elegido, se elige un hilo al azar para despertar,
+        // en caso de que deba aplicarse politicas se aplicara
         while(count != transicionSeleccionada){
         	if(sensibilizadas[indexTransicion][0]==1)
                 count++;

@@ -72,65 +72,6 @@ public class RdP {
 	}
 	
 
-//	public static int[][] leerMatriz2D(String path, int filas, int columnas) throws FileNotFoundException {
-//
-//		Scanner sc = new Scanner(new BufferedReader(new FileReader(path)));
-//		int[][] myArray = new int[filas][columnas];
-//		while (sc.hasNextLine()) {
-//			for (int i = 0; i < myArray.length; i++) {
-//				String[] line = sc.nextLine().trim().split(" ");
-//				for (int j = 0; j < line.length; j++) {
-//					myArray[i][j] = Integer.parseInt(line[j]);
-//				}
-//			}
-//		}
-//		return myArray;
-//	}
-//
-//
-//	public static void imprimirMatriz2D(int[][] matriz) {
-//		for (int i = 0; i < matriz.length; i++) {
-//			for (int j = 0; j < matriz[0].length; j++) {
-//				System.out.print(" " + matriz[i][j] + " ");
-//			}
-//			System.out.println(" ");
-//		}
-//		System.out.println(" ");
-//	}
-//
-//	public static int[][] SumarMatrices(int[][] a, int[][] b) {
-//		int m = a.length;  // numero de filas
-//		int n = a[0].length;   // numero de columnas
-//		int[][] c = new int[m][n];
-//		for (int i = 0; i < m; i++)
-//			for (int j = 0; j < n; j++)
-//				c[i][j] = a[i][j] + b[i][j];
-//		return c;
-//	}
-//
-//	public static int[][] MultiplicarMatrices(int[][] a, int[][] b) {
-//		int m1 = a.length;  // filas de a
-//		int n1 = a[0].length;   // columnas de a
-//		int m2 = b.length;      // filas de b
-//		int n2 = b[0].length;    // columnas de b.
-//
-//	       /* System.out.println("Columnas de a: "+n1 );
-//	        System.out.println("filas de b: "+m2);
-//	        System.out.println("columnas de b: "+n2);*/
-//
-//
-//		if (n1 != m2) throw new RuntimeException("Dimensiones de matrices incompatibles.");
-//		int[][] c = new int[m1][n2];    //filas de a y columnas de b
-//		for (int i = 0; i < m1; i++) {
-//			//  for (int j = 0; j < n2; j++)
-//			for (int k = 0; k < n1; k++) {
-//				c[i][0] += a[i][k] * b[k][0];
-//			}
-//		}
-//		return c;
-//	}
-
-
 	/**
 	 * Metodo que devuelve si la secuencia es disparable o no
 	 * @param secuencia
@@ -452,7 +393,6 @@ public class RdP {
 	 * @return -1 si no tiene conflicto, 0 <= si tiene conflicto
 	 */
 	public static int tieneConflicto(int[][] secuencia) {
-		boolean hayConflicto = false;
 
 		int[][] conflicto = new int[17][0];
 		int indice = -1;
@@ -463,7 +403,6 @@ public class RdP {
 		for(int i=0;i < conflicto.length;i++) {
 			if(conflicto[i][0]==1) {
 				indice = i;
-				hayConflicto = true;
 				break;
 			}
 		}

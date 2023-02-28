@@ -14,7 +14,7 @@ public class Politicas {
     /**
      * Metodo que resuelve los conflicos estructurales.
      *
-     * @param secuencia: secuencia que contiene la tansicion con conflicto que quiere ser ejecutada
+     * @param secuencia secuencia que contiene la tansicion con conflicto que quiere ser ejecutada
      * @return secuencia a ejecutar
      */
     public int HayConflicto(int[][] secuencia, int[][] dormidos) {
