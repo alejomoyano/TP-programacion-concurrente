@@ -41,21 +41,32 @@ pattern = r"(T0)(((T1)(.*?)(T3)(.*?))((T5)(.*?)((T9)(.*?)(T15)|(T10)(.*?)(T16))|
 # abrimos el archivo y pasamos todas las lineas a una variable
 with open('Tlog.txt') as file:
     transitions = file.readlines()
-transitions = transitions[0]
+transitions = transitions[1]
 # print(transitions)
 
 
 while 1:
-
+    # print(transitions)
     # buscamos un match
     result = re.search(pattern,transitions)
+    print(result)
     # si result es None significa que no se encontro match, salimos del loop
     if result == None:
         break
-    
+
+    # posicion del caracter donde inicia el match
+    start = result.span()[0]
+
+    # si el match no empieza en 0 entonces dividimos el string
+    if start > 0:
+        pre, transitions = transitions[:start], transitions[start:]
+    else:
+        pre = ""
+
     print("===============================================")
     # obtenemos un array de lo que fue matcheado por todos los grupos que conforman la regex
     groups_list = list(result.groups())
+    print("Inicio de match: " + str(start))
     print("Grupos: ", end="")
     print(*groups_list, sep=", ")
     print("Match encontrado: ", end="")
@@ -77,18 +88,10 @@ while 1:
                     print(groups_list[group-1], end="")
                     transitions = re.sub(groups_list[group-1] + r'(?=\w)',"",transitions,1)
             break
+
+    transitions = pre + transitions
     print()
     # time.sleep(1)
 
 print("===============================================")                
 print("\nTransiciones restantes: " + transitions + "\n")
-
-
-# result.groups()
-
-
-
-
-
-
-# print(match)
