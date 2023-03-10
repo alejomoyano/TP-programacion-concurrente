@@ -51,7 +51,10 @@ public class Politicas {
         Random random = new Random();
 
         //conflicto para elegir el procesador
-        if (indice == 1 || indice == 2) {
+        if (indice == 1 || indice == 2) { //if((index==1 || index==2) && (sensibilizadas[1][0]==1 && sensibilizadas[2][0]==1))
+                                          // deberiamos aprovechar q tenemos las sensibilizadas calculadas con AND
+                                          // con los hilos q estan dormidos asi no preguntamos al final si se puede disparar con los dormidos
+                                          // ya que queda un poco redundante
             auxiliar =  this.ConflictoProcesador();
         }
 
@@ -93,8 +96,8 @@ public class Politicas {
         // si es posible disparar la transicion que eligio la politica
         // entonces la devolvemos. Sino, nos volvemos con la anterior.
         if(dormidos[auxiliar][0] > 0){
-            return auxiliar;
-        }
+            return auxiliar;             
+        }                                
         return indice;
 
     }
@@ -111,19 +114,15 @@ public class Politicas {
         if (marca[0][0] > marca[1][0]) {
             return 2;//devolver la transicion AsignarP2
         }
-        // Obtain a number between [1 - 2].
-//		n = (int) (Math.random() * 2) + 1;
-//		return n;
 
 
-        // seleccionamos con un 50% alguna de las transiciones.
+        // seleccionamos con un 50% alguna de las transiciones en caso de que esten iguales de tokens
         int random = rand.nextInt(2);
         if (random == 0) {
             return 1;
         } else {
             return 2;
         }
-
 
     }
 
@@ -156,11 +155,12 @@ public class Politicas {
 
         // mirando en el marcado, seleccionamos el que tiene menos ocupados
         if (marca[9][0] < marca[10][0]) {
-            return 11;    //devolver la transicion P2M1
+            return 11;      //devolver la transicion P2M1
         }
         if (marca[9][0] > marca[10][0]) {
-            return 12;//devolver la transicion P2M2
+            return 12;      //devolver la transicion P2M2
         }
+
         // seleccionamos con un 50% alguna de las transiciones.
         int random = rand.nextInt(2);
         if (random == 0) {

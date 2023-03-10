@@ -114,14 +114,16 @@ public class Monitor {
 
             // obtenemos que cantidad de transiciones que estan sensibilizadas
             int cantDormidosSens=0;
+            
             for (int[] sensibilizada : sensibilizadas) {
                 if (sensibilizada[0] == 1) {
                     cantDormidosSens++;
                 }
             }
-            // si hay algunas sensi debemos despertar una
+            // si hay uno o mas hilos dormidos cuya transicion esta sensibilizada debemos despertar uno
             if(cantDormidosSens>0) {
-               System.out.println("Hilo: " + Thread.currentThread() + ". Hay " + cantDormidosSens + " sensibilizadas dormida con hilos esperando");
+
+                System.out.println("Hilo: " + Thread.currentThread() + ". Hay " + cantDormidosSens + " sensibilizadas dormida con hilos esperando");
                 colas.signal(sensibilizadas,this.politica,cantDormidosSens);
                 return;
             }
