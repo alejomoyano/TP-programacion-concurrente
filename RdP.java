@@ -74,7 +74,7 @@ public class RdP {
 
 	/**
 	 * Metodo que devuelve si la secuencia es disparable o no
-	 * @param secuencia
+	 * @param secuencia secuencia que se quiere disparar
 	 * @return null si no es disparable, matriz con el nuevo marcado si es disparable
 	 */
 	public static int[][] esDisparable(int[][] secuencia){
@@ -96,7 +96,7 @@ public class RdP {
 
 	/**
 	 * Metodo que realiza el disparo de una secuencia si es posible hacerlo
-	 * @param secuencia
+	 * @param secuencia secuencia a disparar
 	 * @return true si se disparo, false si no
 	 */
 	public static boolean shootIfWeCan(int[][] secuencia) {
@@ -141,7 +141,7 @@ public class RdP {
 
 
 	/**
-	 * Metodo que modifica la matriz de sensibilizados si es que se realiza el disparo
+	 * Metodo que actualiza la matriz de sensibilizados si es que se realiza el disparo
 	 */
 	public static void Sensibilizados() {
 
@@ -152,7 +152,7 @@ public class RdP {
 		for (int i = 0; i < 17; i++) {
 			vector[i][0] = 1;
 			if (!(i == 0)) {
-				vector[i - 1][0] = 0;
+				vector[i - 1][0] = 0;	//vamos rotando haciendo la anterior 0 y la actual 1 ej: 100.. 0100.. 0010..
 			}
 
 			if(esDisparable(vector) != null){ // entra si es disparable
@@ -174,22 +174,6 @@ public class RdP {
 		return TSensibilizadas;
 	}
 
-
-//	/**
-//	 * And entre dos matrices
-//	 * @param primeraMatriz
-//	 * @param segundaMatriz
-//	 * @return transiciones sensibilizadas que son temporales
-//	 */
-//	public static int[][] calcularAND(int[][] primeraMatriz, int[][] segundaMatriz) {
-//		int[][] resultado = new int[17][1];
-//		for (int i = 0; i < 17; i++) {
-//			resultado[i][0] = primeraMatriz[i][0] & segundaMatriz[i][0];
-//		}
-//		return resultado;
-//	}
-
-
 	/**
 	 * Metodo que setea los tiempos de las transiciones temporales.
 	 *
@@ -202,12 +186,13 @@ public class RdP {
 	public static void setTiempos() {//mira quien de las sensibilizadas es temp y completa  la matriz
 
 		int counter = 0;//posicion en matrizTemp - indica que transicion temporal es?
-		int[][] sensibilizadas = Utils.calcularAND(TSensibilizadas, temporales);//devuelve las que son temp y estan sensibilizadas
+		//int[][] sensibilizadas = Utils.calcularAND(TSensibilizadas, temporales);//devuelve las que son temp y estan sensibilizadas
+		//esta de mas calcular el and si abajo en los if pregunto primero si es temporal y despues si esta sensibilizada
 
 		for (int i = 0; i < 17; i++) {
 			// esto esta para hacer que counter aumente, asi podemos encontrar el indice en matrizTemp
 			if (temporales[i][0] == 1){
-				if(sensibilizadas[i][0] == 1) {//si es temporal y esta sensibilizada entra
+				if(TSensibilizadas[i][0] == 1) {//si es temporal y esta sensibilizada entra
 					// si no estaba sensibilizada entonces debemos guardar el momento en el que se sensibilizo
 					if (matrizTemp[counter][4] == 0) {
 						long wiStart = System.currentTimeMillis();//wiStart = tiempo en ese instante en mili, se puede poner en nano
@@ -224,6 +209,7 @@ public class RdP {
 					}
 					//else -> no estaba sensibilizada
 				}
+
 				counter++;
 			}
 		}
@@ -231,7 +217,7 @@ public class RdP {
 
 	/**
 	 * Metodo que se encarga de indicar si se puede disparar o no una transicion temporal
-	 * @param pos: transicion temporal a disparar
+	 * @param pos transicion temporal a disparar
 	 * @return true si se puede disparar (esta dentro de la ventana), false si no puede hacerlo
 	 */
 	private static boolean dispararTemporal(int pos) {
@@ -248,13 +234,14 @@ public class RdP {
 
 		long currentThreadId = Thread.currentThread().getId(); // id del hilo que se esta ejecutando
 
-		// revisamos si hay alguien esperando para disparar. Y si ese alguien es el
+		// revisamos si hay alguien esperando para disparar o si ese alguien es el
 		if(matrizTemp[pos][3] == 0 || matrizTemp[pos][3] == currentThreadId) {
 
 			if (ventana(arrivalTime,pos)){	// si esta dentro de la ventana debe dispararse
 					return true;
 			}
-			// si es menor que el beta relativo entonces significa que esta entre wi y alfa
+			// si es menor que el beta relativo entonces significa que esta entre wi y alfa ya que tampoco esta dentro
+			// de la ventana
 			else if(arrivalTime < betaRelativo) {
 
 				// si no hay un id entonces guardamos el current. Si hay id entonces dejamos el que esta
@@ -272,25 +259,6 @@ public class RdP {
 				return false;//se debe ir a la cola de la transicion
 			}
 
-
-
-
-
-			// aca no se si hay un error: porque verifica si esta en la ventana, si no esta entonces mira si el tiempo cuando llego es mayor
-			// al tiempo cuando se sensibilizo la transicion. Pero eso no significa que este entre wi y el alfa, puede que sea hasta mas grande que el beta
-
-//			else if(arrivalTime>=matrizTemp[pos][0]){// no esta en la ventana, esta entre wi y alfa
-//				matrizTemp[pos][3]=Thread.currentThread().getId();	//guardo el id - aca esta reemplazando el que estaba esperando para ejecutarse
-//				long alfaMasWi = matrizTemp[pos][1]+matrizTemp[pos][0];
-//				RdP.setDormirse(true);
-//				RdP.setSleepTime(alfaMasWi-arrivalTime);
-//				//System.out.println("Llegue antes de la ventana, deberia dormirme. Alfa: "+alfaMasWi+"ms. arrivalTime: "+arrival+"ms.");
-//				return false;
-//			}
-//			else{//esta despues de beta
-//				System.out.println("No estoy en la ventana ni antes de alfa");
-//				return false;//se debe ir a la cola de la transicion
-//			}
 		}
 		//System.out.println("puedo disparar temporal,hilo: "+Thread.currentThread().getName());
 		//si ya hay un id guardado y no es suyo devuelvo falso
@@ -298,9 +266,12 @@ public class RdP {
 	}
 
 
-
-
-//
+	/**
+	 * Metodo que devuelve si esta dentro de la ventana o no
+	 * @param arrival tiempo de llegada
+	 * @param t posicion en la matrizTemp
+	 * @return true si esta en la ventana, false si esta fuera
+	 */
 	private static boolean ventana(long arrival, int t) {//esta o no en la ventana
 		return (matrizTemp[t][1] + matrizTemp[t][0]) <= arrival && (matrizTemp[t][2] + matrizTemp[t][0]) >= arrival;
 	}
@@ -309,7 +280,7 @@ public class RdP {
 	/**
 	 * Metodo que devuelve que posicion de la matrizTemp es la transicion temporal
 	 * que le pasamos
-	 * @param t: transicion temporal
+	 * @param t transicion temporal
 	 * @return posicion en la matrizTemp
 	 */
 	private static int posicion(int t) {
@@ -326,7 +297,7 @@ public class RdP {
 
 	/**
 	 * Metodo que indica si una secuencia tiene una transicion que es temporal o no
-	 * @param secuencia: secuencia de ejecucion
+	 * @param secuencia secuencia de ejecucion
 	 * @return true si tiene una temporal, false si no tiene
 	 */
 	public boolean esTemporal(int[][] secuencia) {
@@ -342,7 +313,7 @@ public class RdP {
 
 
 	/**
-	 * Matriz que devuelve -1 si no es temp, >=0 si es temp y la posicion en matrizTemp
+	 * Funcion que devuelve -1 si no es temp, >=0 si es temp y la posicion en matrizTemp
 	 * @param secuencia secuencia a disparar
 	 * @return posicion en la matrizTemp
 	 */
