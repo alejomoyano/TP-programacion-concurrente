@@ -2,6 +2,7 @@ import java.util.Random;
 
 public class Politicas {
     private RdP Red;
+    private int[][] sensAndDormidos;
 //	private int[][] conflictos;
 
     public Politicas(RdP red) {
@@ -15,11 +16,13 @@ public class Politicas {
      * Metodo que resuelve los conflicos estructurales.
      *
      * @param secuencia secuencia que contiene la tansicion con conflicto que quiere ser ejecutada
+     * @param dormidos transiciones que tienen hilos dormidos
+     * @param sensConDormidos transiciones sensibilidadas que ademas tienen hilos en cola
      * @return secuencia a ejecutar
      */
-    public int HayConflicto(int[][] secuencia, int[][] dormidos) {
+    public int HayConflicto(int[][] secuencia, int[][] dormidos, int[][] sensConDormidos) {
 
-
+        sensAndDormidos = sensConDormidos; // sensibilizadas que tienen hilos dormidos esperando
         boolean hayConflicto = false;
         int indice = 0;
 
@@ -51,7 +54,8 @@ public class Politicas {
         Random random = new Random();
 
         //conflicto para elegir el procesador
-        if (indice == 1 || indice == 2) { //if((index==1 || index==2) && (sensibilizadas[1][0]==1 && sensibilizadas[2][0]==1))
+        if ((indice == 1 || indice == 2) && (sensAndDormidos[1][0] == 1 && sensAndDormidos[2][0] == 1)) { // asi decis? habria que repetirlo con las demas condicionales
+                                            //if((index==1 || index==2) && (sensibilizadas[1][0]==1 && sensibilizadas[2][0]==1))
                                           // deberiamos aprovechar q tenemos las sensibilizadas calculadas con AND
                                           // con los hilos q estan dormidos asi no preguntamos al final si se puede disparar con los dormidos
                                           // ya que queda un poco redundante
@@ -95,10 +99,11 @@ public class Politicas {
 
         // si es posible disparar la transicion que eligio la politica
         // entonces la devolvemos. Sino, nos volvemos con la anterior.
-        if(dormidos[auxiliar][0] > 0){
-            return auxiliar;             
-        }                                
-        return indice;
+        //if(dormidos[auxiliar][0] > 0){
+        //    return auxiliar;
+        //}
+
+        return auxiliar != 0 ? auxiliar : indice;
 
     }
 

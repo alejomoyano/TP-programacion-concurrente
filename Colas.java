@@ -20,18 +20,23 @@ public class Colas {
         return dormidos;
     }
 
+    /**
+     * Metodo que en el que se manda a dormir al hilo que intento disparar una transicion no disponible.
+     * Puede que haya sido porque no estaba sensibilizada o porque esta despues de la ventana temporal.
+     * @param secuencia secuencia de disparo
+     */
     public void setDormirse(int[][] secuencia){
-        int indice = 0;
+        // int indice = 0;
         for(int i=0;i<17;i++){
             if(secuencia[i][0] == 1){
-                indice = i;
+                // indice = i;
                 //este indice creo que esta de mas
-                //semaforos.get(i).acquireUninterruptibly();
-                //break
+                semaforos.get(i).acquireUninterruptibly();
+                break;
                 //directamente aca ya que solo se entra una vez al if que es a la secuencia q corresponda
             }
         }
-        semaforos.get(indice).acquireUninterruptibly();
+        //semaforos.get(indice).acquireUninterruptibly();
     }
 
     /**
@@ -61,9 +66,11 @@ public class Colas {
         int[][] secuencia = new int[17][1];
         secuencia[indexTransicion][0] = 1;
 
+        int[][] dormidos = getDormidos();
 
+        // te referis a hacer lo siguiente?
         // devolvera el indice de la transicion que debera dispararse.
-        indexTransicion = politica.HayConflicto(secuencia,getDormidos()); //mandar las sensibilizadas aca
+        indexTransicion = politica.HayConflicto(secuencia,dormidos,sensibilizadas); //mandar las sensibilizadas aca
         semaforos.get(indexTransicion).release();
 
     }
