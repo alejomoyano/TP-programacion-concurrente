@@ -111,8 +111,9 @@ public class RdP {
 
 		disparar = nuevoMarcado != null; // true si tiene marcado, false si es null
 
-		if(tempTransIndex >= 0) {
-
+		if(tempTransIndex >= 0) { //se puede preguntar aca en el if tambien si disparar es false, q significa q no esta sensibilizada
+								  //asi no entra al vicio a preguntar por todas las condiciones temporales o adentro
+								  //del metodo disparartemporal preguntando por la matriztemp 0 (wi)==0
 			//si no cumplen las condiciones de una transicion temporal, disparar sera falso y no se efectuara el disparo
 			disparar = RdP.dispararTemporal(tempTransIndex);
 			//System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
@@ -221,12 +222,15 @@ public class RdP {
 	 * @return true si se puede disparar (esta dentro de la ventana), false si no puede hacerlo
 	 */
 	private static boolean dispararTemporal(int pos) {
-		/* -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde
+		/* -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde. Este caso no estaria contemplado me parece
 		   -Si llega entre el wi y el alfa entonces sleep(alfa-(tiempo actual-wi))
 		   -Si llega en la ventana se dispara
 		   -Si llega y ya hay un id en la matriz, se duerme en la cola del semaforo que corresponde
 		*/
-		
+		/*if(matrizTemp[pos][0] == 0){ //no esta sensibilizado, preguntamos aca? o en el shootifwecan con disparar?
+			return false;
+		}*/
+
 		long arrivalTime = System.currentTimeMillis();//tiempo en el que llega el hilo a disparar la transicion
 
 		long alfaRelativo = matrizTemp[pos][0] + matrizTemp[pos][1]; // wi + alfa
@@ -240,9 +244,11 @@ public class RdP {
 			if (ventana(arrivalTime,pos)){	// si esta dentro de la ventana debe dispararse
 					return true;
 			}
-			// si es menor que el beta relativo entonces significa que esta entre wi y alfa ya que tampoco esta dentro
-			// de la ventana
-			else if(arrivalTime < betaRelativo) {
+
+			// si es menor que el beta relativo entonces significa que esta entre wi y alfa
+			// ya que tampoco esta dentro de la ventana
+			else if(arrivalTime < betaRelativo) {	//creo q no esta contemplado el hecho de que llegue antes que este sensibilizado
+													//es decir antes del wi, aca entra igual y hace un sleep por tiempo
 
 				// si no hay un id entonces guardamos el current. Si hay id entonces dejamos el que esta
 				matrizTemp[pos][3] =  matrizTemp[pos][3] == 0 ? currentThreadId : matrizTemp[pos][3];
