@@ -42,7 +42,7 @@ public class Colas {
     /**
      * Metodo que selecciona al azar una transicion que se encuentra sensibilizada y que tiene
      * hilos esperando en la cola para ejecutarla
-     * @param sensibilizadas transiciones sensibilizadas
+     * @param sensibilizadas transiciones sensibilizadas con hilos dormidos
      * @param politica instancia de la clase Politica
      * @param cantDormidosSens cantidad de transiciones sensibilizadas
      */
@@ -66,11 +66,11 @@ public class Colas {
         int[][] secuencia = new int[17][1];
         secuencia[indexTransicion][0] = 1;
 
-        int[][] dormidos = getDormidos();
+       // int[][] dormidos = getDormidos(); no haria falta guardar los dormidos, ya los tenemos en sensibilizadas
 
         // te referis a hacer lo siguiente?
         // devolvera el indice de la transicion que debera dispararse.
-        indexTransicion = politica.HayConflicto(secuencia,dormidos,sensibilizadas); //mandar las sensibilizadas aca
+        indexTransicion = politica.HayConflicto(secuencia,sensibilizadas); //mandar las sensibilizadas aca
         semaforos.get(indexTransicion).release();
 
     }

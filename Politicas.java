@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Politicas {
     private RdP Red;
-    private int[][] sensAndDormidos;
+//  private int[][] sensAndDormidos;    //no creo q haga falta esta variable, directamente se la vamos pasando como argumento a los metodos
 //	private int[][] conflictos;
 
     public Politicas(RdP red) {
@@ -16,13 +16,13 @@ public class Politicas {
      * Metodo que resuelve los conflicos estructurales.
      *
      * @param secuencia secuencia que contiene la tansicion con conflicto que quiere ser ejecutada
-     * @param dormidos transiciones que tienen hilos dormidos
-     * @param sensConDormidos transiciones sensibilidadas que ademas tienen hilos en cola
+     * @param sensConDormidos transiciones sensibilidadas que ademas tienen hilos dormidos en cola
      * @return secuencia a ejecutar
      */
-    public int HayConflicto(int[][] secuencia, int[][] dormidos, int[][] sensConDormidos) {
+    public int HayConflicto(int[][] secuencia, int[][] sensConDormidos) {
 
-        sensAndDormidos = sensConDormidos; // sensibilizadas que tienen hilos dormidos esperando
+       // sensAndDormidos = sensConDormidos; // sensibilizadas que tienen hilos dormidos esperando.
+                                            // no creo q haga falta usar otra variable para guardarla
         boolean hayConflicto = false;
         int indice = 0;
 
@@ -35,7 +35,7 @@ public class Politicas {
 
         // si hay conflicto lo resolvemos
         if (hayConflicto) {
-            return resolvemosConflicto(indice, dormidos);
+            return resolvemosConflicto(indice, sensConDormidos); //aca en vez de mandar dormidos habria q mandar sensConDormidos
         }
 
         //si no hay conflicto, devolvemos la transicion original
@@ -45,9 +45,10 @@ public class Politicas {
     /**
      * Metodo que resuelve el conflicto
      * @param indice indice de la transicion donde hay conflicto
+     * @param sensAndDormidos transiciones sensibilizadas con hilos dormidos
      * @return indice de la transicion elegida
      */
-    public int resolvemosConflicto(int indice, int[][] dormidos) {
+    public int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
 
 //        int[][] secuencia = new int[17][1];
         int auxiliar = 0;
@@ -55,6 +56,8 @@ public class Politicas {
 
         //conflicto para elegir el procesador
         if ((indice == 1 || indice == 2) && (sensAndDormidos[1][0] == 1 && sensAndDormidos[2][0] == 1)) { // asi decis? habria que repetirlo con las demas condicionales
+                                                                                                          //Claro, pero usando una variable q venga en el argumento,
+                                                                                                          // y dormidos no hace falta usarla ni pasarla
                                             //if((index==1 || index==2) && (sensibilizadas[1][0]==1 && sensibilizadas[2][0]==1))
                                           // deberiamos aprovechar q tenemos las sensibilizadas calculadas con AND
                                           // con los hilos q estan dormidos asi no preguntamos al final si se puede disparar con los dormidos

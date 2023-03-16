@@ -111,10 +111,7 @@ public class RdP {
 
 		disparar = nuevoMarcado != null; // true si tiene marcado, false si es null
 
-		//se puede preguntar aca en el if tambien si disparar es false, q significa q no esta sensibilizada
-		//asi no entra al vicio a preguntar por todas las condiciones temporales o adentro
-		//del metodo disparartemporal preguntando por la matriztemp 0 (wi)==0
-		if(tempTransIndex >= 0 && disparar) {
+		if(tempTransIndex >= 0 && disparar) {	//si es temporal y esta sensibilizado/se puede disparar
 			//si no cumplen las condiciones de una transicion temporal, disparar sera falso y no se efectuara el disparo
 			disparar = RdP.dispararTemporal(tempTransIndex);
 			//System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
@@ -223,15 +220,11 @@ public class RdP {
 	 * @return true si se puede disparar (esta dentro de la ventana), false si no puede hacerlo
 	 */
 	private static boolean dispararTemporal(int pos) {
-		/* -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde. Este caso no estaria contemplado me parece
-				(No lo hace en esta funcion porque se verifica antes eso. Me parece que es donde hace el checkeo si esta sensibilizada o no)
+		/* -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde.
 		   -Si llega entre el wi y el alfa entonces sleep(alfa-(tiempo actual-wi))
 		   -Si llega en la ventana se dispara
 		   -Si llega y ya hay un id en la matriz, se duerme en la cola del semaforo que corresponde
 		*/
-		/*if(matrizTemp[pos][0] == 0){ //no esta sensibilizado, preguntamos aca? o en el shootifwecan con disparar? Lo agregue antes de que entre a esta funcion, en el if
-			return false;
-		}*/
 
 		long arrivalTime = System.currentTimeMillis();//tiempo en el que llega el hilo a disparar la transicion
 
@@ -249,9 +242,7 @@ public class RdP {
 
 			// si es menor que el beta relativo entonces significa que esta entre wi y alfa
 			// ya que tampoco esta dentro de la ventana
-			else if(arrivalTime < betaRelativo) {	//creo q no esta contemplado el hecho de que llegue antes que este sensibilizado
-													//es decir antes del wi, aca entra igual y hace un sleep por tiempo.
-													// Solucionado creo, al verificar el valor de disparar (que sea true)
+			else if(arrivalTime < betaRelativo) {
 
 				// si no hay un id entonces guardamos el current. Si hay id entonces dejamos el que esta
 				matrizTemp[pos][3] =  matrizTemp[pos][3] == 0 ? currentThreadId : matrizTemp[pos][3];
