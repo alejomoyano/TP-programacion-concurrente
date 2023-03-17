@@ -22,10 +22,11 @@ public class Main {
         int ejecuciones = 1000; // cantidad de tiradas
         int ejecuciones2 = 994; // agregue esta vvariable para crear menos tareas y probar que pasa.
         // claramente se queda el hilo main dando vueltas porque espera que se hagan 1000 ejecuciones pero hay 995 tareas
-        // tire el script de las invariantes y sobran transiciones asi que joya.
+        // tire el script de las invariantes y sobran transiciones asi que joya. buenisimo
         // lo que si, cuando le di que haga 995 hizo 998. O sea hace mas tareas de las que le pido.
         // todavia no le di vueltas al tema, seguro algo se me esta pasando.
-
+        // quiza sea esas cosas raras de java con los hilos que dependen de la maquina virtual, si no se encuentra nada raro no hay q darle mucha vuelta
+        
         executor.ejecutar(new ArrivalRate(monitor,ejecuciones));
         executor.ejecutar(new AsignarP1(monitor,ejecuciones));
         executor.ejecutar(new AsignarP2(monitor,ejecuciones));
