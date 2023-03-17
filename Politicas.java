@@ -55,18 +55,12 @@ public class Politicas {
         Random random = new Random();
 
         //conflicto para elegir el procesador
-        if ((indice == 1 || indice == 2) && (sensAndDormidos[1][0] == 1 && sensAndDormidos[2][0] == 1)) { // asi decis? habria que repetirlo con las demas condicionales
-                                                                                                          //Claro, pero usando una variable q venga en el argumento,
-                                                                                                          // y dormidos no hace falta usarla ni pasarla
-                                            //if((index==1 || index==2) && (sensibilizadas[1][0]==1 && sensibilizadas[2][0]==1))
-                                          // deberiamos aprovechar q tenemos las sensibilizadas calculadas con AND
-                                          // con los hilos q estan dormidos asi no preguntamos al final si se puede disparar con los dormidos
-                                          // ya que queda un poco redundante
+        if ((indice == 1 || indice == 2) && (sensAndDormidos[1][0] == 1 && sensAndDormidos[2][0] == 1)) {
             auxiliar =  this.ConflictoProcesador();
         }
 
         //conflicto Tareas en procesador1 - 50% de probabilidad cada uno
-        if (indice == 5 || indice == 13) {
+        if ((indice == 5 || indice == 13) && (sensAndDormidos[5][0] == 1 && sensAndDormidos[13][0] == 1)){
             int rand = random.nextInt(2);
             if (rand == 0) {
                 auxiliar = 5;
@@ -76,7 +70,7 @@ public class Politicas {
         }
 
         //conflicto en tareas procesador2 - 50% de probabilidad cada uno
-        if (indice == 6 || indice == 14) {
+        if ((indice == 6 || indice == 14) && (sensAndDormidos[6][0] == 1 && sensAndDormidos[14][0] == 1)) {
 
             int rand = random.nextInt(2);
 
@@ -90,13 +84,13 @@ public class Politicas {
         }
 
         //conflicto en memorias desde procesador1
-        if (indice == 9 || indice == 10) {
+        if ((indice == 9 || indice == 10) && (sensAndDormidos[9][0] == 1 && sensAndDormidos[10][0] == 1)){
             auxiliar = this.ConflictoMemoriasP1();
 
         }
 
         //conflicto en memorias desde procesador2
-        if (indice == 11 || indice == 12) {
+        if ((indice == 11 || indice == 12) && (sensAndDormidos[11][0] == 1 && sensAndDormidos[12][0] == 1)){
             auxiliar = this.ConflictoMemoriasP2();
         }
 

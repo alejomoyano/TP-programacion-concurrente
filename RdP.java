@@ -29,8 +29,8 @@ public class RdP {
 	 * la sensibilizacion incial...
 	 */
 	public RdP() {
-		IncidenciaPath = "/home/alejo/Documents/Facultad/PC/CodigoMasNuevo/Codigo1000/Matrizincidencia.txt";
-		marcadoPath = "/home/alejo/Documents/Facultad/PC/CodigoMasNuevo/Codigo1000/Marcadoinicial.txt";
+		IncidenciaPath = "/home/alejomoyano/Documents/Facultad/PC/TP-programacion-concurrente/Matrizincidencia.txt";
+		marcadoPath = "/home/alejomoyano/Documents/Facultad/PC/TP-programacion-concurrente/Marcadoinicial.txt";
 
 		PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
 		temporales = new int[][]{{0},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
