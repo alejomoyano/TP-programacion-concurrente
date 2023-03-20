@@ -16,7 +16,9 @@ public class VaciarM1 implements Runnable {
     public void run() {
         while (Main.getTareas() < ejecuciones) {
             monitor.Disparar(secuencia);
-            m1.vaciar();
+
+            m1.vaciar();    //segun el enunciado el vaciado de las memorias se debe realizar entre alfa y beta milisegundos,
+                            //creo q no esta contemplado eso en ningun lado
         }
     }
 }

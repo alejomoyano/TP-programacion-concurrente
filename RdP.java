@@ -34,6 +34,7 @@ public class RdP {
 
 		PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
 		temporales = new int[][]{{0},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
+		//aca en temporales no estan las transiciones de vaciar memorias como temporales. Yo dejaria asi, sin que sean temporales las transiciones
 		matrizTemp = new long[7][5];
 		conflictos = new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}}; // contiene las transiciones con conflicto
 
@@ -67,6 +68,11 @@ public class RdP {
 				matrizTemp[k][1] =(long) ((Math.random() * 50) + 1);//alfa entre 1-50ms
 				matrizTemp[k][2] =(long) ((Math.random() * 1000) + 400);//beta	entre 400-1000ms
 				k++;
+			/*Enunciado: La suma de los tiempos asignados a las transiciones relacionadas a las tareas de tipo T2,
+			debe ser mayor al tiempo asignado a la transición de tipo T1.
+			Tiempo de ProcesarT2Px + tiempo de FinalizarT2Px > tiempo de FinalizarT1Px
+			Esto esta contemplado en los thread.sleep de cada hilo pero aca no. Podria darse el caso q una tareaT1 demore mas
+			que las T2 mas alla de los sleep q hay en los run? voy a seguir revisando eso yo*/
 			}
 		}
 	}

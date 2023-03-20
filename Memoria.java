@@ -36,6 +36,11 @@ public class Memoria {
                 e.printStackTrace();
             }
         }
+            /*try {
+                Thread.sleep(((Math.random() * 200) + 50)); se demora entre alfa 50ms y beta 200ms. Bastara con esto para cumplir con el enunciado?
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
         buffer--;
         notify();
     }
