@@ -13,7 +13,7 @@ public class Monitor {
         this.politica = politica;
         RP = red;
 		this.colas = colas;
-		mutex = new Semaphore(1);//con o sin fairness?
+		mutex = new Semaphore(1,true);//con o sin fairness? Esto nunca lo probe, en teoria con fairness seria mejor porque da prioridad al acquire a los que tienen mas tiempo esperando, seria una FIFO
 	}
 	
 	public void Disparar (int [][] secuencia) {
@@ -33,7 +33,7 @@ public class Monitor {
 
             disparar = RdP.shootIfWeCan(secuencia); // intentamos disparar
 
-            // si noo puede disparar entonces
+            // si no puede disparar entonces
             while (!disparar){
                 //   System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
 
@@ -70,34 +70,6 @@ public class Monitor {
             }
 
 
-
-    /*
-//           // si no se pudo disparar entra
-            while(!RedPetri.EcuacionEstado(secuencia)){
-             //   System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
-
-                //  pregunta si se tiene que dormir y si es temporal
-                if(RedPetri.getDormirse() && RedPetri.esTemporal(secuencia)) {
-                	RdP.setDormirse(false);	//bajo el flag, borro el indicador para el proximo hilo
-                	 System.out.println(" No pude disparar temporal, me voy a dormir por: "+RedPetri.getSleepTime()+" ms.Thread:"+Thread.currentThread());
-                	try{
-                		mutex.release();
-        				Thread.sleep(RedPetri.getSleepTime());
-        			}
-        			catch (InterruptedException e){e.printStackTrace();}
-        			try {
-        				mutex.acquire();
-        			}
-        			catch (InterruptedException e){e.printStackTrace();}
-                }
-                else {
-                	System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
-                	mutex.release();
-                	colas.setDormirse(secuencia);
-                }
-                // cuando se despierte va a volver a preguntar si puede disparar
-            }
-            */
         // ya disparo
             System.out.println(" He disparado: "+Thread.currentThread());
 
@@ -127,6 +99,7 @@ public class Monitor {
                 colas.signal(sensibilizadas,this.politica,cantDormidosSens);
                 return;
             }
+            
             mutex.release();
             System.out.println(" Me voy del monitor y hago Release desde: "+Thread.currentThread()+" - Permisos restantes: " + mutex.availablePermits() + " - Hilos esperando: " + mutex.getQueueLength());
 

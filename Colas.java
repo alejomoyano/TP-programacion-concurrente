@@ -66,11 +66,9 @@ public class Colas {
         int[][] secuencia = new int[17][1];
         secuencia[indexTransicion][0] = 1;
 
-       // int[][] dormidos = getDormidos(); no haria falta guardar los dormidos, ya los tenemos en sensibilizadas
 
-        // te referis a hacer lo siguiente?
         // devolvera el indice de la transicion que debera dispararse.
-        indexTransicion = politica.HayConflicto(secuencia,sensibilizadas); //mandar las sensibilizadas aca
+        indexTransicion = politica.HayConflicto(secuencia,sensibilizadas);
         semaforos.get(indexTransicion).release();
 
     }

@@ -72,7 +72,10 @@ public class RdP {
 			debe ser mayor al tiempo asignado a la transición de tipo T1.
 			Tiempo de ProcesarT2Px + tiempo de FinalizarT2Px > tiempo de FinalizarT1Px
 			Esto esta contemplado en los thread.sleep de cada hilo pero aca no. Podria darse el caso q una tareaT1 demore mas
-			que las T2 mas alla de los sleep q hay en los run? voy a seguir revisando eso yo*/
+			que las T2 mas alla de los sleep q hay en los run? voy a seguir revisando eso aunque creo q esta bien asi
+			Ya revise y en teoria esta bien por los sleep q hay en los run. Ahora puede darse el caso que se demore de mas
+			el finalizarT1 porq no puede adquirir el mutex despues de hacer el sleep pero me parece algo medio fuera de 
+			nuestro control o algo demasiado engorroso de manejar*/
 			}
 		}
 	}

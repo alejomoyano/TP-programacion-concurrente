@@ -2,13 +2,10 @@ import java.util.Random;
 
 public class Politicas {
     private RdP Red;
-//  private int[][] sensAndDormidos;    //no creo q haga falta esta variable, directamente se la vamos pasando como argumento a los metodos
-//	private int[][] conflictos;
 
     public Politicas(RdP red) {
         this.Red = red;
 
-//		conflictos=new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}};
     }
 
 
@@ -21,8 +18,6 @@ public class Politicas {
      */
     public int HayConflicto(int[][] secuencia, int[][] sensConDormidos) {
 
-       // sensAndDormidos = sensConDormidos; // sensibilizadas que tienen hilos dormidos esperando.
-                                            // no creo q haga falta usar otra variable para guardarla
         boolean hayConflicto = false;
         int indice = 0;
 
@@ -35,7 +30,7 @@ public class Politicas {
 
         // si hay conflicto lo resolvemos
         if (hayConflicto) {
-            return resolvemosConflicto(indice, sensConDormidos); //aca en vez de mandar dormidos habria q mandar sensConDormidos
+            return resolvemosConflicto(indice, sensConDormidos);
         }
 
         //si no hay conflicto, devolvemos la transicion original
@@ -50,7 +45,6 @@ public class Politicas {
      */
     public int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
 
-//        int[][] secuencia = new int[17][1];
         int auxiliar = 0;
         Random random = new Random();
 
@@ -93,12 +87,6 @@ public class Politicas {
         if ((indice == 11 || indice == 12) && (sensAndDormidos[11][0] == 1 && sensAndDormidos[12][0] == 1)){
             auxiliar = this.ConflictoMemoriasP2();
         }
-
-        // si es posible disparar la transicion que eligio la politica
-        // entonces la devolvemos. Sino, nos volvemos con la anterior.
-        //if(dormidos[auxiliar][0] > 0){
-        //    return auxiliar;
-        //}
 
         return auxiliar != 0 ? auxiliar : indice;
 

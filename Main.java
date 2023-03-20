@@ -20,12 +20,12 @@ public class Main {
         Log log = new Log(memoria1, memoria2);
 
         int ejecuciones = 1000; // cantidad de tiradas
-        int ejecuciones2 = 994; // agregue esta vvariable para crear menos tareas y probar que pasa.
+        int ejecuciones2 = 994; // agregue esta variable para crear menos tareas y probar que pasa.
         // claramente se queda el hilo main dando vueltas porque espera que se hagan 1000 ejecuciones pero hay 995 tareas
         // tire el script de las invariantes y sobran transiciones asi que joya. buenisimo
         // lo que si, cuando le di que haga 995 hizo 998. O sea hace mas tareas de las que le pido.
         // todavia no le di vueltas al tema, seguro algo se me esta pasando.
-        // quiza sea esas cosas raras de java con los hilos que dependen de la maquina virtual, si no se encuentra nada raro no hay q darle mucha vuelta
+        // quiza sea esas cosas raras de java con los hilos que dependen de la maquina virtual de java, si no se encuentra nada raro no hay q darle mucha vuelta
         
         executor.ejecutar(new ArrivalRate(monitor,ejecuciones));
         executor.ejecutar(new AsignarP1(monitor,ejecuciones));
@@ -42,13 +42,6 @@ public class Main {
         executor.ejecutar(new Tarea2P2(monitor,ejecuciones2));
         executor.ejecutar(new VaciarM1(monitor, memoria1,ejecuciones));
         executor.ejecutar(new VaciarM2(monitor, memoria2,ejecuciones));
-
-		/*try {
-            TimeUnit.MILLISECONDS.sleep(5000);
-        }
-        catch (Exception e) {
-            System.out.println("Error al dormir hilo Main");
-        }*/
 
 
         while (tareas <= ejecuciones) {
