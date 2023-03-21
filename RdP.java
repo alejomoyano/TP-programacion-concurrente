@@ -115,10 +115,10 @@ public class RdP {
 		int[][] nuevoMarcado = esDisparable(secuencia); // obtenemos el nuevo marcado si es que es disparable
 
 
-		int tempTransIndex = isTemporal(secuencia); // 0 > no es temporal, 0 <= si es temporal
+		int tempTransIndex = isTemporal(secuencia); // -1 no es temporal, 0 <= si es temporal
 		//System.out.println("Disparar segun marcado: "+disparar+" Hilo: "+Thread.currentThread().getName());
 
-		disparar = nuevoMarcado != null; // true si tiene marcado, false si es null
+		disparar = nuevoMarcado != null; 		// true si tiene marcado, false si es null
 
 		if(tempTransIndex >= 0 && disparar) {	//si es temporal y esta sensibilizado/se puede disparar
 			//si no cumplen las condiciones de una transicion temporal, disparar sera falso y no se efectuara el disparo
@@ -245,7 +245,10 @@ public class RdP {
 		// revisamos si hay alguien esperando para disparar o si ese alguien es el
 		if(matrizTemp[pos][3] == 0 || matrizTemp[pos][3] == currentThreadId) {
 
-			if (ventana(arrivalTime,pos)){	// si esta dentro de la ventana debe dispararse
+			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)){	// si esta dentro de la ventana debe dispararse
+											/*  la funcion ventana se usa solo aca, y podriamos preguntar lo mismo
+ 												usando las variables alfaRelativo y betaRelativo y no usar una funcion
+											*/
 					return true;
 			}
 
@@ -269,11 +272,10 @@ public class RdP {
 			}
 
 		}
-		//System.out.println("puedo disparar temporal,hilo: "+Thread.currentThread().getName());
+		
 		//si ya hay un id guardado y no es suyo devuelvo falso
 		return false;
 	}
-
 
 	/**
 	 * Metodo que devuelve si esta dentro de la ventana o no
@@ -281,9 +283,11 @@ public class RdP {
 	 * @param t posicion en la matrizTemp
 	 * @return true si esta en la ventana, false si esta fuera
 	 */
+	 /* 
 	private static boolean ventana(long arrival, int t) {//esta o no en la ventana
 		return (matrizTemp[t][1] + matrizTemp[t][0]) <= arrival && (matrizTemp[t][2] + matrizTemp[t][0]) >= arrival;
-	}
+	} */
+	
 //
 
 	/**
