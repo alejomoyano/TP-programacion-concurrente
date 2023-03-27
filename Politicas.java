@@ -43,7 +43,8 @@ public class Politicas {
      * @param sensAndDormidos transiciones sensibilizadas con hilos dormidos
      * @return indice de la transicion elegida
      */
-    public int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
+//    public int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
+    private int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
 
         int auxiliar = 0;
         Random random = new Random();
@@ -92,7 +93,8 @@ public class Politicas {
 
     }
 
-    public int ConflictoProcesador() {
+//    public int ConflictoProcesador() {
+    private int ConflictoProcesador() {
 
         Random rand = new Random();
         int[][] marca = Red.getMarcado();
@@ -116,7 +118,7 @@ public class Politicas {
 
     }
 
-    public int ConflictoMemoriasP1() {
+    private int ConflictoMemoriasP1() {
 
         Random rand = new Random();
         int[][] marca = Red.getMarcado();
@@ -138,7 +140,7 @@ public class Politicas {
         }
     }
 
-    public int ConflictoMemoriasP2() {
+    private int ConflictoMemoriasP2() {
 
         Random rand = new Random();
         int[][] marca = Red.getMarcado();

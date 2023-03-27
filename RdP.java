@@ -29,8 +29,8 @@ public class RdP {
 	 * la sensibilizacion incial...
 	 */
 	public RdP() {
-		IncidenciaPath = "/home/alejomoyano/Documents/Facultad/PC/TP-programacion-concurrente/Matrizincidencia.txt";
-		marcadoPath = "/home/alejomoyano/Documents/Facultad/PC/TP-programacion-concurrente/Marcadoinicial.txt";
+		IncidenciaPath = "./Matrizincidencia.txt";
+		marcadoPath = "./Marcadoinicial.txt";
 
 		PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
 		temporales = new int[][]{{0},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
@@ -76,6 +76,10 @@ public class RdP {
 			Ya revise y en teoria esta bien por los sleep q hay en los run. Ahora puede darse el caso que se demore de mas
 			el finalizarT1 porq no puede adquirir el mutex despues de hacer el sleep pero me parece algo medio fuera de 
 			nuestro control o algo demasiado engorroso de manejar*/
+
+				/* Claro, parece que con los sleeps antes de intentar disparar la transicion se soluciona. Aunque quedaria mas lipio si
+				* esas transiciones tuvieran un alpha mas grande(? o sea que para dispararla, despues de sensibilizarla, deba pasar mas tiempo
+				* (hablando de las T2 sobre las T1) */
 			}
 		}
 	}
@@ -86,11 +90,12 @@ public class RdP {
 	 * @param secuencia secuencia que se quiere disparar
 	 * @return null si no es disparable, matriz con el nuevo marcado si es disparable
 	 */
-	public static int[][] esDisparable(int[][] secuencia){
+//	public static int[][] esDisparable(int[][] secuencia){
+	private static int[][] esDisparable(int[][] secuencia){
 		int[][] multiplicacion = Utils.MultiplicarMatrices(MIncidencia, secuencia); // realizamos el disparo de la secuencia [ W*si ]
 		int[][] NuevoMarcado = Utils.SumarMatrices(multiplicacion, MarcadoActual); // obtenemos el nuevo marcado [ W*si+mi = mi+1 ]
 
-		// debemos revisar si le nuevo marcado tiene algun elemento negativo. De esta forma podemos determinar
+		// debemos revisar si el nuevo marcado tiene algún elemento negativo. De esta forma podemos determinar
 		// si es posible o no realizar el disparo.
 		for (int[] ints : NuevoMarcado) {
 			if (ints[0] < 0) {    //si algun elemento del nuevo marcado es negativo, no se puede efectuar el disparo
@@ -114,28 +119,26 @@ public class RdP {
 
 		int[][] nuevoMarcado = esDisparable(secuencia); // obtenemos el nuevo marcado si es que es disparable
 
-
 		int tempTransIndex = isTemporal(secuencia); // -1 no es temporal, 0 <= si es temporal
 		//System.out.println("Disparar segun marcado: "+disparar+" Hilo: "+Thread.currentThread().getName());
 
 		disparar = nuevoMarcado != null; 		// true si tiene marcado, false si es null
 
-		if(tempTransIndex >= 0 && disparar) {	//si es temporal y esta sensibilizado/se puede disparar
-			//si no cumplen las condiciones de una transicion temporal, disparar sera falso y no se efectuara el disparo
+		if(tempTransIndex >= 0 && disparar) {	//si es temporal y está sensibilizado/se puede disparar
+			//si no cumplen las condiciones de una transition temporal, disparar será falso y no se efectuara el disparo
 			disparar = RdP.dispararTemporal(tempTransIndex);
 			//System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
-
 		}
 		// si no es temporal o si es temporal y se cumplen las condiciones, dispara.
 		if(disparar){
-			System.out.println("--------------------------------------------------------");
-
-			System.out.println("Acabo de disparar la secuencia:");
-			Utils.imprimirMatriz2D(secuencia);
-			System.out.println(Thread.currentThread().getName());
-			System.out.println("El Marcado quedo:");
-			Utils.imprimirMatriz2D(nuevoMarcado);
-			System.out.println("--------------------------------------------------------");
+//			System.out.println("--------------------------------------------------------");
+//
+//			System.out.println("Acabo de disparar la secuencia:");
+//			Utils.imprimirMatriz2D(secuencia);
+//			System.out.println(Thread.currentThread().getName());
+//			System.out.println("El Marcado quedo:");
+//			Utils.imprimirMatriz2D(nuevoMarcado);
+//			System.out.println("--------------------------------------------------------");
 
 			MarcadoActual = nuevoMarcado;    //efectuo el disparo si se cumplen las condiciones, guardando el nuevo marcado
 			RdP.Sensibilizados();            //se actualizan las transiciones sensibilizadas
@@ -151,7 +154,8 @@ public class RdP {
 	/**
 	 * Metodo que actualiza la matriz de sensibilizados si es que se realiza el disparo
 	 */
-	public static void Sensibilizados() {
+	private static void Sensibilizados() {
+//		public static void Sensibilizados() {
 
 		int[][] vector = new int[17][1];
 		int[][] sensibilizadas = new int[17][1];
@@ -191,7 +195,8 @@ public class RdP {
 	 * @matrizTemp[n][1] -> alpha
 	 * @matrizTemp[n][0] -> guarda el tiempo de sensibilizacion
 	 */
-	public static void setTiempos() {//mira quien de las sensibilizadas es temp y completa  la matriz
+//	public static void setTiempos() {//mira quien de las sensibilizadas es temp y completa  la matriz
+	private static void setTiempos() {//mira quien de las sensibilizadas es temp y completa  la matriz
 
 		int counter = 0;//posicion en matrizTemp - indica que transicion temporal es?
 		//int[][] sensibilizadas = Utils.calcularAND(TSensibilizadas, temporales);//devuelve las que son temp y estan sensibilizadas
@@ -267,7 +272,7 @@ public class RdP {
 			}
 			// esta despues del beta
 			else{
-				System.out.println("No estoy en la ventana ni antes de alfa");
+//				System.out.println("No estoy en la ventana ni antes de alfa");
 				return false;//se debe ir a la cola de la transicion
 			}
 
@@ -345,7 +350,8 @@ public class RdP {
 	/**
 	 * Metodo que revisa si se cumplen las invariantes de plaza
 	 */
-	public static void invariantesDePlaza() {//comprueba si se cumplen las p-inv
+	private static void invariantesDePlaza() {//comprueba si se cumplen las p-inv
+//		public static void invariantesDePlaza() {//comprueba si se cumplen las p-inv
 		int[][] inv = new int[8][1];
 		inv[0][0] = MarcadoActual[11][0] + MarcadoActual[2][0];
 		inv[1][0] = MarcadoActual[0][0] + MarcadoActual[5][0];
@@ -367,7 +373,7 @@ public class RdP {
 				return;
 			}
 		}
-		System.out.println("Se cumplen las p-inv\n");
+//		System.out.println("Se cumplen las p-inv\n");
 	}
 
 

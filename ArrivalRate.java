@@ -21,7 +21,7 @@ public class ArrivalRate implements Runnable {
             //System.out.println("T0 ya dispare");
 
         }
-        System.out.println("T0, yo ya gane");
+//        System.out.println("T0, yo ya gane");
     }
 
     @Override
