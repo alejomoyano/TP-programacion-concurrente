@@ -93,12 +93,12 @@ public class RdP {
 //	public static int[][] esDisparable(int[][] secuencia){
 	private static int[][] esDisparable(int[][] secuencia){
 		int[][] multiplicacion = Utils.MultiplicarMatrices(MIncidencia, secuencia); // realizamos el disparo de la secuencia [ W*si ]
-		int[][] NuevoMarcado = Utils.SumarMatrices(multiplicacion, MarcadoActual); // obtenemos el nuevo marcado [ W*si+mi = mi+1 ]
+		int[][] NuevoMarcado = Utils.SumarMatrices(multiplicacion, MarcadoActual); // obtenemos el nuevo marcado [ W*si+mi = mi+1 ] [Ecuacion fundamental]
 
 		// debemos revisar si el nuevo marcado tiene algún elemento negativo. De esta forma podemos determinar
 		// si es posible o no realizar el disparo.
 		for (int[] ints : NuevoMarcado) {
-			if (ints[0] < 0) {    //si algun elemento del nuevo marcado es negativo, no se puede efectuar el disparo
+			if (ints[0] < 0) {   // si algún elemento del nuevo marcado es negativo, no se puede efectuar el disparo
 				return null;
 			}
 		}
@@ -124,7 +124,7 @@ public class RdP {
 
 		disparar = nuevoMarcado != null; 		// true si tiene marcado, false si es null
 
-		if(tempTransIndex >= 0 && disparar) {	//si es temporal y está sensibilizado/se puede disparar
+		if(tempTransIndex >= 0 && disparar) {	// si es temporal y está sensibilizado/se puede disparar
 			//si no cumplen las condiciones de una transition temporal, disparar será falso y no se efectuara el disparo
 			disparar = RdP.dispararTemporal(tempTransIndex);
 			//System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
@@ -193,7 +193,7 @@ public class RdP {
 	 * @matrizTemp[n][3] -> id del hilo que llego primero (entre wi y alpha) y esta sleep esperando para disparar
 	 * @matrizTemp[n][2] -> beta
 	 * @matrizTemp[n][1] -> alpha
-	 * @matrizTemp[n][0] -> guarda el tiempo de sensibilizacion
+	 * @matrizTemp[n][0] -> guarda el tiempo de sensibilizacion (wi)
 	 */
 //	public static void setTiempos() {//mira quien de las sensibilizadas es temp y completa  la matriz
 	private static void setTiempos() {//mira quien de las sensibilizadas es temp y completa  la matriz
@@ -234,10 +234,11 @@ public class RdP {
 	 * @return true si se puede disparar (esta dentro de la ventana), false si no puede hacerlo
 	 */
 	private static boolean dispararTemporal(int pos) {
-		/* -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde.
-		   -Si llega entre el wi y el alfa entonces sleep(alfa-(tiempo actual-wi))
-		   -Si llega en la ventana se dispara
-		   -Si llega y ya hay un id en la matriz, se duerme en la cola del semaforo que corresponde
+		/*
+		   -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde. Esto no lo hace aca no? porque directamente no entraria.
+		   -Si llega entre el wi y el alfa entonces sleep(alfa-(tiempo actual-wi)).
+		   -Si llega en la ventana se dispara.
+		   -Si llega y ya hay un id en la matriz, se duerme en la cola del semaforo que corresponde.
 		*/
 
 		long arrivalTime = System.currentTimeMillis();//tiempo en el que llega el hilo a disparar la transicion
@@ -251,15 +252,12 @@ public class RdP {
 		if(matrizTemp[pos][3] == 0 || matrizTemp[pos][3] == currentThreadId) {
 
 			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)){	// si esta dentro de la ventana debe dispararse
-											/*  la funcion ventana se usa solo aca, y podriamos preguntar lo mismo
- 												usando las variables alfaRelativo y betaRelativo y no usar una funcion
-											*/
-					return true;
+				return true;
 			}
 
 			// si es menor que el beta relativo entonces significa que esta entre wi y alfa
 			// ya que tampoco esta dentro de la ventana
-			else if(arrivalTime < betaRelativo) {
+			else if(arrivalTime < betaRelativo) { // seria lo mismo preguntar (arrivalTime < alphaRelativo)?
 
 				// si no hay un id entonces guardamos el current. Si hay id entonces dejamos el que esta
 				matrizTemp[pos][3] =  matrizTemp[pos][3] == 0 ? currentThreadId : matrizTemp[pos][3];

@@ -338,3 +338,23 @@
 +Datos almacenados en memoria 1: 492/1000(49%)
 +Datos almacenados en memoria 2: 503/1000(51%)
 -----------------------------------
+-----------------------------------
++Procesador 1: 516/1000(51%)
+   Tarea 1: 273
+   Tarea 2: 243
++Procesador 2: 484/1000(49%)
+   Tarea 1: 260
+   Tarea 2: 224
++Datos almacenados en memoria 1: 517/1000(51%)
++Datos almacenados en memoria 2: 483/1000(49%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 465/1000(46%)
+   Tarea 1: 269
+   Tarea 2: 196
++Procesador 2: 535/1000(54%)
+   Tarea 1: 274
+   Tarea 2: 261
++Datos almacenados en memoria 1: 500/1000(50%)
++Datos almacenados en memoria 2: 500/1000(50%)
+-----------------------------------
