@@ -235,7 +235,7 @@ public class RdP {
 	 */
 	private static boolean dispararTemporal(int pos) {
 		/*
-		   -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde. Esto no lo hace aca no? porque directamente no entraria.
+		   -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde. Esto no lo hace aca no? porque directamente no entraria. claro
 		   -Si llega entre el wi y el alfa entonces sleep(alfa-(tiempo actual-wi)).
 		   -Si llega en la ventana se dispara.
 		   -Si llega y ya hay un id en la matriz, se duerme en la cola del semaforo que corresponde.
@@ -255,9 +255,11 @@ public class RdP {
 				return true;
 			}
 
-			// si es menor que el beta relativo entonces significa que esta entre wi y alfa
+			// si es menor que el alpha relativo entonces significa que esta entre wi y alfa
 			// ya que tampoco esta dentro de la ventana
-			else if(arrivalTime < betaRelativo) { // seria lo mismo preguntar (arrivalTime < alphaRelativo)?
+			else if(arrivalTime < alfaRelativo) { // seria lo mismo preguntar (arrivalTime < alphaRelativo)?
+													// creo q si porque nunca se va a dar q sea mayor q alphaRelativo y menor q betaRelativo, porq hubiese entrado en la ventana
+													// siempre va a ser menor q alphaRelativo en este punto
 
 				// si no hay un id entonces guardamos el current. Si hay id entonces dejamos el que esta
 				matrizTemp[pos][3] =  matrizTemp[pos][3] == 0 ? currentThreadId : matrizTemp[pos][3];
@@ -280,18 +282,6 @@ public class RdP {
 		return false;
 	}
 
-	/**
-	 * Metodo que devuelve si esta dentro de la ventana o no
-	 * @param arrival tiempo de llegada
-	 * @param t posicion en la matrizTemp
-	 * @return true si esta en la ventana, false si esta fuera
-	 */
-	 /* 
-	private static boolean ventana(long arrival, int t) {//esta o no en la ventana
-		return (matrizTemp[t][1] + matrizTemp[t][0]) <= arrival && (matrizTemp[t][2] + matrizTemp[t][0]) >= arrival;
-	} */
-	
-//
 
 	/**
 	 * Metodo que devuelve que posicion de la matrizTemp es la transicion temporal
@@ -349,7 +339,6 @@ public class RdP {
 	 * Metodo que revisa si se cumplen las invariantes de plaza
 	 */
 	private static void invariantesDePlaza() {//comprueba si se cumplen las p-inv
-//		public static void invariantesDePlaza() {//comprueba si se cumplen las p-inv
 		int[][] inv = new int[8][1];
 		inv[0][0] = MarcadoActual[11][0] + MarcadoActual[2][0];
 		inv[1][0] = MarcadoActual[0][0] + MarcadoActual[5][0];

@@ -95,3 +95,8 @@ while 1:
 
 print("===============================================")                
 print("\nTransiciones restantes: " + transitions + "\n")
+
+#fijarse con las transiciones restantes de dispararlas segun la red. Deberia quedar un marcado igual al que figura al final de la ejecucion del main.
+#creo que se dispara desde el marcado inicial ya que se cuando quedan las restantes se completaron ciclos q hacen q el marcado quede como al principio, es decir
+# si no hubiesen transiciones restantes significa que se completaron las invariantes y el marcado en teoria deberia quedar igual q el marcado inicial.
+# eso recuerdo del trabajo que hicieron el grupo de fran bonino, ver eso.
