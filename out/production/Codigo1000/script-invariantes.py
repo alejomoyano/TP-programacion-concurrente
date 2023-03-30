@@ -95,3 +95,61 @@ while 1:
 
 print("===============================================")                
 print("\nTransiciones restantes: " + transitions + "\n")
+
+#fijarse con las transiciones restantes de dispararlas segun la red. Deberia quedar un marcado igual al que figura al final de la ejecucion del main.
+#creo que se dispara desde el marcado inicial ya que se cuando quedan las restantes se completaron ciclos q hacen q el marcado quede como al principio, es decir
+# si no hubiesen transiciones restantes significa que se completaron las invariantes y el marcado en teoria deberia quedar igual q el marcado inicial.
+# eso recuerdo del trabajo que hicieron el grupo de fran bonino, ver eso.
+
+# hice eso, a partir del marcado inicial fui ejecutando las transiciones que me sobraron y llegue al marcado final de la red despues de una ejecucion
+# esto me sobro del script: T0T2T4T6T12
+# y este es el marcado que quedo
+
+# 0
+# 0
+# 0
+# 8
+# 7
+# 4
+# 4
+# 0
+# 0
+# 0
+# 1
+# 1
+# 1
+# 1
+# 0
+# 0
+# 1
+# 0
+# 0
+
+# el tema es que hice la red en PIPE y no me tiro las transiciones en el mimsmo orden que estan puestas aca asi que es un quilombo
+# pero bueno mas o menos me doy cuenta. Voy a probar con mas ejecuciones...
+# No siempre las transiciones que sobran se pueden ejecutar, por ejemplo T0T2T11T4T6T16 sobro de una ejecucion de 357 tareas
+# y partiendo desde el marcado inicial no hay chance que llegue al marcado final (mismo que esta arriba)
+
+
+
+# con este marcado y con estas transiciones sobrantes T0T1T0T1T3T13T7T9T3T5T10 funciono joya
+
+ #0
+ #0
+ #0
+ #7
+ #7
+ #4
+ #4
+ #0
+ #0
+ #1
+ #1
+ #1
+ #1
+ #1
+ #0
+ #0
+ #1
+ #0
+ #0
