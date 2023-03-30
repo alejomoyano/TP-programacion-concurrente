@@ -16,7 +16,6 @@ public class Log {
             pw.println(""); // Borro el texto del log anterior
             pw.close();
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
     }
@@ -55,7 +54,7 @@ public class Log {
 
     }
 
-    public static synchronized void Tlogger(int[][] secuencia) {
+    public static synchronized void Tlogger(int[][] secuencia) { //esto se ejecuta adentro del monitor, hace falta que sea synchronized?
         for (int i = 0; i < 17; i++) {
             if (secuencia[i][0] == 1) {
                 PrintWriter pw;

@@ -2,7 +2,7 @@ public class ArrivalRate implements Runnable {
 
     private int[][] secuencia;
     private Monitor monitor;
-    private String nombre;
+   // private String nombre; no se usa la variable
 
     private int ejecuciones;
 
@@ -10,7 +10,7 @@ public class ArrivalRate implements Runnable {
         secuencia = new int[17][1];
         secuencia[0][0] = 1;
         this.monitor = monitor;
-        nombre = "ArrivalRate";
+       // nombre = "ArrivalRate";
         this.ejecuciones = ejecuciones;
     }
 
@@ -26,6 +26,6 @@ public class ArrivalRate implements Runnable {
 
     @Override
     public String toString() {
-        return "ArrivalRate";
+        return "ArrivalRate";   //le estamos pasando el string directamente, si queda asi borrar la variable nombre
     }
 }

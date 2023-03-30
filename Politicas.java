@@ -43,7 +43,7 @@ public class Politicas {
      * @param sensAndDormidos transiciones sensibilizadas con hilos dormidos
      * @return indice de la transicion elegida
      */
-//    public int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
+
     private int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
 
         int auxiliar = 0;
@@ -93,7 +93,6 @@ public class Politicas {
 
     }
 
-//    public int ConflictoProcesador() {
     private int ConflictoProcesador() {
 
         Random rand = new Random();
