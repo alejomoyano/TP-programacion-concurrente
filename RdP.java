@@ -83,10 +83,11 @@ public class RdP {
 				//FinalizarT2 100 ms siendo la suma 200ms cumpliendo el enunciado
 				//no random para no perderse con los calculos y dejarlo fijo, no deberia afectar el funcionamiento, eso se puede cambiar
 				//en teoria de esta forma no harian falta los sleep en los run
-
+			else{
 				matrizTemp[k][1] = 100;//alfa 100ms			 //ProcesarT2Px y Finalizar T2Px con ventanas de 100-500 ms
 				matrizTemp[k][2] = 500;//beta 500ms
-				k++;*/
+				k++;
+			}*/
 			/*Enunciado: La suma de los tiempos asignados a las transiciones relacionadas a las tareas de tipo T2,
 			debe ser mayor al tiempo asignado a la transición de tipo T1.
 			Tiempo de ProcesarT2Px + tiempo de FinalizarT2Px > tiempo de FinalizarT1Px
