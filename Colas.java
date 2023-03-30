@@ -26,17 +26,13 @@ public class Colas {
      * @param secuencia secuencia de disparo
      */
     public void setDormirse(int[][] secuencia){
-        // int indice = 0;
+      
         for(int i=0;i<17;i++){
             if(secuencia[i][0] == 1){
-                // indice = i;
-                //este indice creo que esta de mas
                 semaforos.get(i).acquireUninterruptibly();
                 break;
-                //directamente aca ya que solo se entra una vez al if que es a la secuencia q corresponda
             }
         }
-        //semaforos.get(indice).acquireUninterruptibly();
     }
 
     /**

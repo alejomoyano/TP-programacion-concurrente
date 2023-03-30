@@ -96,7 +96,7 @@ while 1:
 print("===============================================")                
 print("\nTransiciones restantes: " + transitions + "\n")
 
-#fijarse con las transiciones restantes de dispararlas segun la red. Deberia quedar un marcado igual al que figura al final de la ejecucion del main.
-#creo que se dispara desde el marcado inicial ya que se cuando quedan las restantes se completaron ciclos q hacen q el marcado quede como al principio, es decir
-# si no hubiesen transiciones restantes significa que se completaron las invariantes y el marcado en teoria deberia quedar igual q el marcado inicial.
-# eso recuerdo del trabajo que hicieron el grupo de fran bonino, ver eso.
+#fijarse con las transiciones restantes de dispararlas segun la red en el pipe o algun sw. Deberia quedar un marcado igual al que figura al final de la ejecucion del main.
+# si no hubiesen transiciones restantes significa que se ejecutaron justo las invariantes sin q sobre nada y el marcado en teoria deberia quedar igual q el marcado inicial.
+# eso recuerdo del trabajo que hicieron el grupo de fran bonino, ver eso. Por ej: si solo quedo la T0 sobrante
+# deberia quedar un marcado donde la unica diferencia con el marcado inicial seria el disparo de T0 con la plaza colaProcesos
