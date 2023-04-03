@@ -127,9 +127,10 @@ print("\nTransiciones restantes: " + transitions + "\n")
 # 0
 
 # el tema es que hice la red en PIPE y no me tiro las transiciones en el mimsmo orden que estan puestas aca asi que es un quilombo
-# pero bueno mas o menos me doy cuenta. Voy a probar con mas ejecuciones...
+# pero bueno mas o menos me doy cuenta. Voy a probar con mas ejecuciones... Fijarse si en las propiedades del pipe te salen en algun 
+# lugar en el mismo orden, porque de algun lado sacamos ese orden del marcado inicial
 # No siempre las transiciones que sobran se pueden ejecutar, por ejemplo T0T2T11T4T6T16 sobro de una ejecucion de 357 tareas
-# y partiendo desde el marcado inicial no hay chance que llegue al marcado final (mismo que esta arriba)
+# y partiendo desde el marcado inicial no hay chance que llegue al marcado final (mismo que esta arriba) Raro, deberia quedar otro marcado si sobraron otras transiciones, pero bueno va queriendo
 
 
 
@@ -154,9 +155,3 @@ print("\nTransiciones restantes: " + transitions + "\n")
  #1
  #0
  #0
-
-#fijarse con las transiciones restantes de dispararlas segun la red en el pipe o algun sw. Deberia quedar un marcado igual al que figura al final de la ejecucion del main.
-# si no hubiesen transiciones restantes significa que se ejecutaron justo las invariantes sin q sobre nada y el marcado en teoria deberia quedar igual q el marcado inicial.
-# eso recuerdo del trabajo que hicieron el grupo de fran bonino, ver eso. Por ej: si solo quedo la T0 sobrante
-# deberia quedar un marcado donde la unica diferencia con el marcado inicial seria el disparo de T0 con la plaza colaProcesos
-
