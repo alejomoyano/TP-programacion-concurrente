@@ -13,10 +13,9 @@ public class Monitor {
         this.politica = politica;
         RP = red;
 		this.colas = colas;
-		mutex = new Semaphore(1,true);//con o sin fairness? Esto nunca lo probe, en teoria con fairness seria mejor porque da prioridad al acquire a los que tienen mas tiempo esperando, seria una FIFO
-	}   // yo lo dejaria con fairness. No vi cambios en la ejecucion realmente, no debe afectar tanto. Por lo menos con la cantidad de ejecuciones que manejamos.
-        // ok, lo dejamos asi entonces
-	
+		mutex = new Semaphore(1,true);
+    }
+
 	public void Disparar (int [][] secuencia) {
 
         boolean disparar = false;
