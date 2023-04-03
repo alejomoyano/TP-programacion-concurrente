@@ -153,3 +153,8 @@ print("\nTransiciones restantes: " + transitions + "\n")
  #1
  #0
  #0
+
+
+ # ahora que hice los cambios de las temporales queda esto T0T2T0T1T0T2T0T1T0T1T0T2T0T2T0T1T0T4T6T2T3T5T0T1T0T11T4T2T6T10T0T3T5T1T0T12T4T6T2T9T3T0T1T5T0T10T3T13T1T11T0T7T4T14T2T0T8T9T3T1T5T12T4T14T10T8T3T13T7T11T4T14T8T12T4T9T6T3T5T10T3T5T11T4T14T8T12T9T3T5
+# es como si no se ejecutaran las de vaciar y quedan todas las otras transiciones colgadas. Voy a debuggear en estos dias y ademas cambiar las matrices de incidencia, marcado y eso conr especto a la red que hice en PIPE
+# sino se hace dificil

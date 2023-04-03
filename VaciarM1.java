@@ -19,6 +19,8 @@ public class VaciarM1 implements Runnable {
 
             m1.vaciar();    //segun el enunciado el vaciado de las memorias se debe realizar entre alfa y beta milisegundos,
                             //creo q no esta contemplado eso en ningun lado
+            System.out.println("vaciarm1");
+
         }
     }
 }
