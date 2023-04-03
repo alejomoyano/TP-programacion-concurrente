@@ -19,7 +19,7 @@ public class Main {
         Memoria memoria2 = new Memoria();
         Log log = new Log(memoria1, memoria2);
 
-        int ejecuciones = 766; // cantidad de tiradas
+        int ejecuciones = 239; // cantidad de tiradas
         //int ejecuciones2 = 998; // agregue esta variable para crear menos tareas y probar que pasa.
         // claramente se queda el hilo main dando vueltas porque espera que se hagan 1000 ejecuciones pero hay 995 tareas
         // tire el script de las invariantes y sobran transiciones asi que joya. buenisimo

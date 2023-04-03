@@ -33,26 +33,25 @@ public class RdP {
 		marcadoPath = "./Marcadoinicial.txt";
 
 		PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
-		temporales = new int[][]{{0},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
-		matrizTemp = new long[7][5]; // aca es de 7x5 pero hay 6 temporales, que serian hasta indice 5, no seria 5x5?
+		temporales = new int[][]{{1},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
+		matrizTemp = new long[7][5]; // aca es de 7x5 pero hay 6 temporales, que serian hasta indice 5, no seria 5x5? son 7 temporales. Falta una entonces, arrivalRate
 		conflictos = new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}}; // contiene las transiciones con conflicto
 
 		// obtenemos la matriz de incidencia
 		try {
 			MIncidencia = Utils.leerMatriz2D(IncidenciaPath, 19, 17);
-		} catch (FileNotFoundException e) {
-		}
+		} catch (FileNotFoundException e) {}
+
 		System.out.println("Matriz incidencia");
 		Utils.imprimirMatriz2D(MIncidencia);
 
 		// obtenemos el marcado inicial
 		try {
 			MarcadoInicial = Utils.leerMatriz2D(marcadoPath, 19, 1);
-		} catch (FileNotFoundException e) {
-		}
+		} catch (FileNotFoundException e) {}
+
 		System.out.println("MarcadoInicial");
 		Utils.imprimirMatriz2D(MarcadoInicial);
-
 
 		MarcadoActual = MarcadoInicial;
 
@@ -93,7 +92,7 @@ public class RdP {
 			Tiempo de ProcesarT2Px + tiempo de FinalizarT2Px > tiempo de FinalizarT1Px
 			*/
 
-				/* Claro, parece que con los sleeps antes de intentar disparar la transicion se soluciona. Aunque quedaria mas lipio si
+				/* Claro, parece que con los sleeps antes de intentar disparar la transicion se soluciona. Aunque quedaria mas limpio si
 				* esas transiciones tuvieran un alpha mas grande(? o sea que para dispararla, despues de sensibilizarla, deba pasar mas tiempo
 				* (hablando de las T2 sobre las T1) */
 			}
@@ -110,14 +109,12 @@ public class RdP {
 		int[][] multiplicacion = Utils.MultiplicarMatrices(MIncidencia, secuencia); // realizamos el disparo de la secuencia [ W*si ]
 		int[][] NuevoMarcado = Utils.SumarMatrices(multiplicacion, MarcadoActual); // obtenemos el nuevo marcado [ W*si+mi = mi+1 ] [Ecuacion fundamental]
 
-		// debemos revisar si el nuevo marcado tiene algún elemento negativo. De esta forma podemos determinar
-		// si es posible o no realizar el disparo.
+		// debemos revisar si el nuevo marcado tiene algún elemento negativo. De esta forma podemos determinar si es posible o no realizar el disparo.
 		for (int[] ints : NuevoMarcado) {
-			if (ints[0] < 0) {   // si algún elemento del nuevo marcado es negativo, no se puede efectuar el disparo
+			// si algún elemento del nuevo marcado es negativo, no se puede efectuar el disparo
+			if (ints[0] < 0)
 				return null;
-			}
 		}
-
 		return NuevoMarcado;
 	}
 
@@ -203,16 +200,19 @@ public class RdP {
 
 	/**
 	 * Metodo que setea los tiempos de las transiciones temporales.
+	 * Si estaba sensibilizada y ahora no, entonces limpia su posicion en la matriz.
+	 * Si se acaba de sensibilizar guardamos el wi y la marcamos como sensibilizada.
 	 *
 	 * @matrizTemp[n][4] -> 1 si esta sensibilizada, 0 si no lo esta
-	 * @matrizTemp[n][3] -> id del hilo que llego primero (entre wi y alpha) y esta sleep esperando para disparar
+	 * @matrizTemp[n][3] -> id del hilo que llego primero entre wi y alpha y esta sleep
 	 * @matrizTemp[n][2] -> beta
 	 * @matrizTemp[n][1] -> alpha
-	 * @matrizTemp[n][0] -> guarda el tiempo de sensibilizacion (wi)
+	 * @matrizTemp[n][0] -> tiempo de sensibilizacion (wi)
 	 */
-	private static void setTiempos() {//mira quien de las sensibilizadas es temp y completa  la matriz
 
-		int counter = 0;//posicion en matrizTemp
+	private static void setTiempos() {
+
+		int counter = 0; // posicion en matrizTemp
 
 		for (int i = 0; i < 17; i++) {
 			// esto esta para hacer que counter aumente, asi podemos encontrar el indice en matrizTemp
@@ -220,21 +220,20 @@ public class RdP {
 				if(TSensibilizadas[i][0] == 1) {//si es temporal y esta sensibilizada entra
 					// si no estaba sensibilizada entonces debemos guardar el momento en el que se sensibilizo
 					if (matrizTemp[counter][4] == 0) {
-						long wiStart = System.currentTimeMillis();//wiStart = tiempo en ese instante en mili, se puede poner en nano
-						matrizTemp[counter][0] = wiStart;//guarda wiStart en la matriz, en la transicion que corresponde
-						matrizTemp[counter][4] = 1;//set sensibilizada
+						long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
+						matrizTemp[counter][0] = wiStart; // guarda wiStart en la matriz, en la transicion que corresponde
+						matrizTemp[counter][4] = 1; // set sensibilizada
 					}
-					//else -> antes estaba sensibilizada
+					// else -> antes estaba sensibilizada
 				}
-				else{//no esta sensibilizada
-					if(matrizTemp[counter][4] == 1){//estaba sensibilizada
+				else{ // no esta sensibilizada
+					if(matrizTemp[counter][4] == 1){ // estaba sensibilizada
 						matrizTemp[counter][4] = 0;
 						matrizTemp[counter][3] = 0;
 						matrizTemp[counter][0] = 0;
 					}
-					//else -> no estaba sensibilizada
+					// else -> no estaba sensibilizada
 				}
-
 				counter++;
 			}
 		}
@@ -247,7 +246,6 @@ public class RdP {
 	 */
 	private static boolean dispararTemporal(int pos) {
 		/*
-		   -Si llega antes de que este sensibilizada entonces se duerme en la cola del semaforo que corresponde. Esto no lo hace aca no? porque directamente no entraria. claro
 		   -Si llega entre el wi y el alfa entonces sleep(alfa-(tiempo actual-wi)).
 		   -Si llega en la ventana se dispara.
 		   -Si llega y ya hay un id en la matriz, se duerme en la cola del semaforo que corresponde.
@@ -260,18 +258,19 @@ public class RdP {
 
 		long currentThreadId = Thread.currentThread().getId(); // id del hilo que se esta ejecutando
 
-		// revisamos si hay alguien esperando para disparar o si ese alguien es el
+		// es el primero en llegar o el hilo registrado es el mismo
 		if(matrizTemp[pos][3] == 0 || matrizTemp[pos][3] == currentThreadId) {
 
-			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)){	// si esta dentro de la ventana debe dispararse
+			// si esta dentro de la ventana debe dispararse
+			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime))
 				return true;
-			}
 
-			// si es menor que el alpha relativo entonces significa que esta entre wi y alfa
-			// ya que tampoco esta dentro de la ventana
+
+			// si es menor que el alpha relativo entonces significa que esta entre wi y alfa. Ya que tampoco esta dentro de la ventana
+
 			else if(arrivalTime < alfaRelativo) {
 
-				// si no hay un id entonces guardamos el current. Si hay id entonces dejamos el que esta
+				// si no hay un id entonces guardamos el current.
 				matrizTemp[pos][3] =  matrizTemp[pos][3] == 0 ? currentThreadId : matrizTemp[pos][3];
 
 				// debemos dormir el hilo durante alfaRelativo-arrivalTime que es lo mismo que (alfa-(tiempo actual-wi))
@@ -287,7 +286,6 @@ public class RdP {
 			}
 
 		}
-		
 		//si ya hay un id guardado y no es suyo devuelvo falso
 		return false;
 	}
@@ -302,10 +300,11 @@ public class RdP {
 	private static int posicion(int t) {
 		int counter = 0;//posicion en matrizTemp
 		for (int i = 0; i < 17; i++) {//buscar en que posicion de la matrizTemp esta esa transicion
-			if (i == t) {
+			if (i == t)
 				break;
-			}
-			if(temporales[i][0]==1){counter++;}
+
+			if(temporales[i][0]==1)
+				counter++;
 		}
 		return counter;
 	}
@@ -317,12 +316,11 @@ public class RdP {
 	 * @return true si tiene una temporal, false si no tiene
 	 */
 	public boolean esTemporal(int[][] secuencia) {
-		int[][] sens = Utils.calcularAND(secuencia, temporales);//mira si la transicion es temporal
+		int[][] sens = Utils.calcularAND(secuencia, temporales);
 
 		for (int i = 0; i < sens.length; i++) {
-			if (sens[i][0] == 1) {
+			if (sens[i][0] == 1)
 				return true;
-			}
 		}
 		return false;
 	}
@@ -335,12 +333,13 @@ public class RdP {
 	 */
 	private static int isTemporal(int[][] secuencia) {
 		int pos = -1;
-		int[][] sens = Utils.calcularAND(secuencia, temporales);//mira si la transicion es temporal
+		int[][] sens = Utils.calcularAND(secuencia, temporales);
+
 		for (int i = 0; i < sens.length; i++) {
-			if (sens[i][0] == 1) {
+			if (sens[i][0] == 1)
 				pos = posicion(i);
-			}
 		}
+
 		return pos;
 	}
 
@@ -348,7 +347,8 @@ public class RdP {
 	/**
 	 * Metodo que revisa si se cumplen las invariantes de plaza
 	 */
-	private static void invariantesDePlaza() {//comprueba si se cumplen las p-inv
+	private static void invariantesDePlaza() {
+		//PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
 		int[][] inv = new int[8][1];
 		inv[0][0] = MarcadoActual[11][0] + MarcadoActual[2][0];
 		inv[1][0] = MarcadoActual[0][0] + MarcadoActual[5][0];
@@ -386,9 +386,9 @@ public class RdP {
 
 		conflicto = Utils.calcularAND(secuencia, conflictos);	//la transicion a disparar tiene conflicto?
 
-		// si tiene conflicto entonces buscamos en que transicion es y la retornamos
-		for(int i=0;i < conflicto.length;i++) {
-			if(conflicto[i][0]==1) {
+		// buscamos que transicion tiene conflicto y la retornamos
+		for(int i=0; i < conflicto.length; i++) {
+			if(conflicto[i][0] == 1 ) {
 				indice = i;
 				break;
 			}
