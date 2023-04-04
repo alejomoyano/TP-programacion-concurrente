@@ -13,9 +13,9 @@ public class Monitor {
         this.politica = politica;
         RP = red;
 		this.colas = colas;
-		mutex = new Semaphore(1,true);//con o sin fairness? Esto nunca lo probe, en teoria con fairness seria mejor porque da prioridad al acquire a los que tienen mas tiempo esperando, seria una FIFO
-	}   // yo lo dejaria con fairness. No vi cambios en la ejecucion realmente, no debe afectar tanto. Por lo menos con la cantidad de ejecuciones que manejamos.
-	
+		mutex = new Semaphore(1,true);
+    }
+
 	public void Disparar (int [][] secuencia) {
 
         boolean disparar = false;
@@ -49,7 +49,7 @@ public class Monitor {
                     try {
                         // una vez que se levanta debe intentar adquirir el monitor de nuevo
                         mutex.acquire();
-                        // esta bien esto no? debe intentar entrar de nuevo al mutex, no debemos dormirlo en la cola de transicion.
+                        // debe dormirse por tiempo, no tiene q esperar a q alguien lo levante de las colas de transicion, sino se le pasa la ventana
                     }
                     catch (InterruptedException exception){
                         exception.printStackTrace();
@@ -79,9 +79,7 @@ public class Monitor {
             // dormidos que est an sensibilizados
             int[][] sensibilizadas = Utils.calcularAND(RP.getSensibilizado(),colas.getDormidos());
 
-                //System.out.println("Hilo: "+Thread.currentThread()+"Valor de And["+i+"][0]: "+and[i][0]);}
-
-            // obtenemos que cantidad de transiciones que estan sensibilizadas
+            // obtenemos que cantidad de transiciones que estan sensibilizadas y con hilos dormidos
             int cantDormidosSens = 0;
             
             for (int[] sensibilizada : sensibilizadas) {
@@ -90,9 +88,11 @@ public class Monitor {
                 }
             }
             // si hay uno o mas hilos dormidos cuya transicion esta sensibilizada debemos despertar uno
-            // o sea aca no soltamos el mutex ya que le dejamos el lugar al proximo hilo, que es, si existe, uno que este esperando en una cola de transicion?.
+
+            // si hay alguno dormido en una cola con su transicion sensibilizada le dejamos el mutex, sino hay nadie hacemos release para q lo agarre otro q este en la cola de entrada del mutex
             if(cantDormidosSens > 0) {
                 System.out.println("Hilo: " + Thread.currentThread() + ". Hay " + cantDormidosSens + " sensibilizadas dormida con hilos esperando");
+
                 colas.signal(sensibilizadas,this.politica,cantDormidosSens);
                 return;
             }

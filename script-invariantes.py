@@ -96,6 +96,7 @@ while 1:
 print("===============================================")                
 print("\nTransiciones restantes: " + transitions + "\n")
 
+
 #fijarse con las transiciones restantes de dispararlas segun la red. Deberia quedar un marcado igual al que figura al final de la ejecucion del main.
 #creo que se dispara desde el marcado inicial ya que se cuando quedan las restantes se completaron ciclos q hacen q el marcado quede como al principio, es decir
 # si no hubiesen transiciones restantes significa que se completaron las invariantes y el marcado en teoria deberia quedar igual q el marcado inicial.
@@ -126,9 +127,10 @@ print("\nTransiciones restantes: " + transitions + "\n")
 # 0
 
 # el tema es que hice la red en PIPE y no me tiro las transiciones en el mimsmo orden que estan puestas aca asi que es un quilombo
-# pero bueno mas o menos me doy cuenta. Voy a probar con mas ejecuciones...
+# pero bueno mas o menos me doy cuenta. Voy a probar con mas ejecuciones... Fijarse si en las propiedades del pipe te salen en algun 
+# lugar en el mismo orden, porque de algun lado sacamos ese orden del marcado inicial
 # No siempre las transiciones que sobran se pueden ejecutar, por ejemplo T0T2T11T4T6T16 sobro de una ejecucion de 357 tareas
-# y partiendo desde el marcado inicial no hay chance que llegue al marcado final (mismo que esta arriba)
+# y partiendo desde el marcado inicial no hay chance que llegue al marcado final (mismo que esta arriba) Raro, deberia quedar otro marcado si sobraron otras transiciones, pero bueno va queriendo
 
 
 
@@ -155,6 +157,8 @@ print("\nTransiciones restantes: " + transitions + "\n")
  #0
 
 
+
  # ahora que hice los cambios de las temporales queda esto T0T2T0T1T0T2T0T1T0T1T0T2T0T2T0T1T0T4T6T2T3T5T0T1T0T11T4T2T6T10T0T3T5T1T0T12T4T6T2T9T3T0T1T5T0T10T3T13T1T11T0T7T4T14T2T0T8T9T3T1T5T12T4T14T10T8T3T13T7T11T4T14T8T12T4T9T6T3T5T10T3T5T11T4T14T8T12T9T3T5
 # es como si no se ejecutaran las de vaciar y quedan todas las otras transiciones colgadas. Voy a debuggear en estos dias y ademas cambiar las matrices de incidencia, marcado y eso conr especto a la red que hice en PIPE
 # sino se hace dificil
+

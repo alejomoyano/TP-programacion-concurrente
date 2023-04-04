@@ -1,6 +1,6 @@
-import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.CachedRowSet;	//el compilador me tira que no se usan casi ninguna de estas librerias, revisar en otras clases tambien
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.FileNotFoundException;	//solo esta se estaria usando en esta clase rdp
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -33,8 +33,10 @@ public class RdP {
 		marcadoPath = "./Marcadoinicial.txt";
 
 		PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
-		temporales = new int[][]{{1},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales. Se supone que son 7 temporales no?
-		matrizTemp = new long[7][5];
+
+		temporales = new int[][]{{0},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
+		matrizTemp = new long[7][5]; // aca es de 7x5 pero hay 6 temporales, que serian hasta indice 5, no seria 5x5? son 7 temporales. Falta una entonces, arrivalRate
+
 		conflictos = new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}}; // contiene las transiciones con conflicto
 
 		// obtenemos la matriz de incidencia
@@ -92,6 +94,7 @@ public class RdP {
 				matrizTemp[k][1] =(long) ((Math.random() * 50) + 1);//alfa entre 1-50ms
 				matrizTemp[k][2] =(long) ((Math.random() * 1000) + 400);//beta	entre 400-1000ms
 				k++;
+
 			*//*Enunciado: La suma de los tiempos asignados a las transiciones relacionadas a las tareas de tipo T2,
 			debe ser mayor al tiempo asignado a la transición de tipo T1.
 			Tiempo de ProcesarT2Px + tiempo de FinalizarT2Px > tiempo de FinalizarT1Px
@@ -101,9 +104,37 @@ public class RdP {
 			el finalizarT1 porq no puede adquirir el mutex despues de hacer el sleep pero me parece algo medio fuera de 
 			nuestro control o algo demasiado engorroso de manejar*//*
 
-				*//* Claro, parece que con los sleeps antes de intentar disparar la transicion se soluciona. Aunque quedaria mas limpio si
-				* esas transiciones tuvieran un alpha mas grande(? o sea que para dispararla, despues de sensibilizarla, deba pasar mas tiempo
-				* (hablando de las T2 sobre las T1) *//*
+			/* 
+			for (int i = 0; i < 17; i++) {
+			if (temporales[i][0] == 1){	
+				if(k<2){					//matrizTemp[0] y [1] corresponden a FinalizarT1P1 y FinalizarT1P2
+
+					matrizTemp[k][1] = 10;//alfa 10ms		//FinalizarT1Px con ventana de 10-200 ms
+					matrizTemp[k][2] = 200;//beta 200ms
+					k++;
+				}
+				
+
+				//en el peor de los casos se demorara finalizarT1 200 ms luego, 
+				//ProcesarT2 en el mejor de los casos demorara 100ms y 
+				//FinalizarT2 100 ms siendo la suma 200ms cumpliendo el enunciado
+				//no random para no perderse con los calculos y dejarlo fijo, no deberia afectar el funcionamiento, eso se puede cambiar
+				//en teoria de esta forma no harian falta los sleep en los run
+			else{
+				matrizTemp[k][1] = 100;//alfa 100ms			 //ProcesarT2Px y Finalizar T2Px con ventanas de 100-500 ms
+				matrizTemp[k][2] = 500;//beta 500ms
+				k++;
+			}*/
+			
+			/*Enunciado: La suma de los tiempos asignados a las transiciones relacionadas a las tareas de tipo T2,
+			debe ser mayor al tiempo asignado a la transición de tipo T1.
+			Tiempo de ProcesarT2Px + tiempo de FinalizarT2Px > tiempo de FinalizarT1Px
+			*/
+
+
+				/* Claro, parece que con los sleeps antes de intentar disparar la transicion se soluciona. Aunque quedaria mas limpio si
+				 esas transiciones tuvieran un alpha mas grande(? o sea que para dispararla, despues de sensibilizarla, deba pasar mas tiempo
+				(hablando de las T2 sobre las T1) *//*
 			}
 		}*/
 	}
@@ -114,7 +145,6 @@ public class RdP {
 	 * @param secuencia secuencia que se quiere disparar
 	 * @return null si no es disparable, matriz con el nuevo marcado si es disparable
 	 */
-//	public static int[][] esDisparable(int[][] secuencia){
 	private static int[][] esDisparable(int[][] secuencia){
 		int[][] multiplicacion = Utils.MultiplicarMatrices(MIncidencia, secuencia); // realizamos el disparo de la secuencia [ W*si ]
 		int[][] NuevoMarcado = Utils.SumarMatrices(multiplicacion, MarcadoActual); // obtenemos el nuevo marcado [ W*si+mi = mi+1 ] [Ecuacion fundamental]
@@ -219,6 +249,7 @@ public class RdP {
 	 * @matrizTemp[n][1] -> alpha
 	 * @matrizTemp[n][0] -> tiempo de sensibilizacion (wi)
 	 */
+
 	private static void setTiempos() {
 
 		int counter = 0; // posicion en matrizTemp
@@ -276,7 +307,9 @@ public class RdP {
 				return true;
 			}
 
+
 			// si es menor que el alpha relativo entonces significa que esta entre wi y alfa. Ya que tampoco esta dentro de la ventana
+
 			else if(arrivalTime < alfaRelativo) {
 
 				// si no hay un id entonces guardamos el current.

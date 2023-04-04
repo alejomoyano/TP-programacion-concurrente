@@ -8,7 +8,7 @@ import java.util.List;
 public class Factory implements ThreadFactory{
     
     private int counter; // contador de hilos
-    private List<String> nombres;
+    private List<String> nombres; //el compilador dice que esta variable nunca se usa
     public Factory(){
         this.counter=0;
         
