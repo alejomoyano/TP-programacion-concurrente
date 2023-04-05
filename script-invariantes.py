@@ -162,3 +162,31 @@ print("\nTransiciones restantes: " + transitions + "\n")
 # es como si no se ejecutaran las de vaciar y quedan todas las otras transiciones colgadas. Voy a debuggear en estos dias y ademas cambiar las matrices de incidencia, marcado y eso conr especto a la red que hice en PIPE
 # sino se hace dificil
 
+# Marcado inicial con sus plazas:
+
+# 0 ColaP1
+# 0 ColaP2
+# 0 ColaProcesos
+# 8 DisponibleM1
+# 8 DisponibleM2
+# 4 LimiteColaP1
+# 4 LimiteColaP2
+# 0 ListoP1
+# 0 ListoP2
+# 0 M1
+# 0 M2
+# 1 P0
+# 1 Procesador1
+# 1 Procesador2
+# 0 ProcesandoP1
+# 0 ProcesandoP2
+# 1 RecursoTarea
+# 0 Tarea2P1
+# 0 Tarea2P2
+
+# pareceria funcionar bien el script, probe muchas veces y siempre tira algo coherente segun la cantidad de transiciones sobrantes
+# o la cantidad en memoria que no se alcanzaron a vaciar.
+# El unico detalle es que cuando coincide que no sobra ninguna transicion y queda la marca inicial al final del programa
+# figura como transicion restante la T15 o la T16, dependiendo cual fue la ultima q se ejecuto.
+# se hizo la prueba con una sola tarea, cosa de que quedara una sola invariante de transicion completa ejecutada en el log
+# y pasaba eso, que figura una restante en el script, cuando no sobra ninguna en el tlog
