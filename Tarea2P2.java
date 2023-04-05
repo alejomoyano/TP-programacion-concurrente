@@ -18,14 +18,14 @@ public class Tarea2P2 implements Runnable {
     public void run() {
         while (Main.getTareas() < ejecuciones) {
             monitor.Disparar(ProcesarT2P2);
-          /*  try {
+            /*try {
                 Thread.sleep(150);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }*/
             monitor.Disparar(FinalizarT2P2);
             Main.sumarTareas();
-     /*       try {
+            /*try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();

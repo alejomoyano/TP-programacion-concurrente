@@ -9,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        long Tiempoinicio = System.currentTimeMillis();
         RdP RedDePetri = new RdP();
         Colas colas = new Colas();
         Politicas politicas = new Politicas(RedDePetri);
@@ -19,41 +20,38 @@ public class Main {
         Memoria memoria2 = new Memoria();
         Log log = new Log(memoria1, memoria2);
 
-        int ejecuciones = 239; // cantidad de tiradas
-        //int ejecuciones2 = 998; // agregue esta variable para crear menos tareas y probar que pasa.
-        // claramente se queda el hilo main dando vueltas porque espera que se hagan 1000 ejecuciones pero hay 995 tareas
-        // tire el script de las invariantes y sobran transiciones asi que joya. buenisimo
-        // lo que si, cuando le di que haga 995 hizo 998. O sea hace mas tareas de las que le pido.
-        // todavia no le di vueltas al tema, seguro algo se me esta pasando.
-        // quiza sea esas cosas raras de java con los hilos que dependen de la maquina virtual de java, si no se encuentra nada raro no hay q darle mucha vuelta
-        
-        executor.ejecutar(new AsignarP2(monitor,ejecuciones));
-        executor.ejecutar(new Tarea2P1(monitor,ejecuciones));
-        executor.ejecutar(new AsignarP1(monitor,ejecuciones));
+        int ejecuciones = 69; // cantidad de tiradas
+
+        executor.ejecutar(new ArrivalRate(monitor,ejecuciones));    //T0
+        executor.ejecutar(new AsignarP1(monitor,ejecuciones));      //T1
+        executor.ejecutar(new AsignarP2(monitor,ejecuciones));      //T2 etc...
         executor.ejecutar(new EmpezarP1(monitor,ejecuciones));
         executor.ejecutar(new EmpezarP2(monitor,ejecuciones));
-        executor.ejecutar(new P1M2(monitor, memoria2,ejecuciones));
-        executor.ejecutar(new ArrivalRate(monitor,ejecuciones));
-        executor.ejecutar(new P1M1(monitor, memoria1,ejecuciones));
-        executor.ejecutar(new P2M1(monitor, memoria1,ejecuciones));
+        executor.ejecutar(new Tarea1P1(monitor,ejecuciones));
         executor.ejecutar(new Tarea1P2(monitor,ejecuciones));
-        executor.ejecutar(new P2M2(monitor, memoria2,ejecuciones));
+        executor.ejecutar(new Tarea2P1(monitor,ejecuciones));
         executor.ejecutar(new Tarea2P2(monitor,ejecuciones));
+        executor.ejecutar(new P1M1(monitor, memoria1,ejecuciones));
+        executor.ejecutar(new P1M2(monitor, memoria2,ejecuciones));
+        executor.ejecutar(new P2M1(monitor, memoria1,ejecuciones));
+        executor.ejecutar(new P2M2(monitor, memoria2,ejecuciones));
         executor.ejecutar(new VaciarM1(monitor, memoria1,ejecuciones));
         executor.ejecutar(new VaciarM2(monitor, memoria2,ejecuciones));
-        executor.ejecutar(new Tarea1P1(monitor,ejecuciones));
+        
 
 
         while (tareas <= ejecuciones) {
 //            System.out.println("while Tareas realizadas: " + tareas);
             try {
-                TimeUnit.MILLISECONDS.sleep(5000);
+                TimeUnit.MILLISECONDS.sleep(100);
             } catch (Exception e) {
                 System.out.println("Error al dormir hilo Main");
             }
 
             if (tareas == ejecuciones ){
                 log.logger();
+                System.out.println("");
+                System.out.println("------------Programa finalizado------------");
                 System.out.println("Log ejecutado");
                 System.out.println("Memoria1 cantidad actual: " + memoria1.getCantActual());
                 System.out.println("Memoria2 cantidad actual: " + memoria2.getCantActual());
@@ -61,6 +59,7 @@ public class Main {
                 System.out.println("Guardados en memoria2: " + memoria2.getHistorial());
 
                 System.out.println("Tareas realizadas: " + tareas);
+                System.out.println("Tiempo de ejecucion: "+ ((System.currentTimeMillis()-Tiempoinicio)/1000)+" segundos.");
                 System.out.println("-------------Marcado-------------");
                 Utils.imprimirMatriz2D(RedDePetri.getMarcado());
                 break;

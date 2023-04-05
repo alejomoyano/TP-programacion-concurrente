@@ -48,6 +48,7 @@ public class Monitor {
                     }
                     try {
                         // una vez que se levanta debe intentar adquirir el monitor de nuevo
+                        System.out.println("Soy "+Thread.currentThread()+ " he despertado de mi sleep, intento disparar de nuevo");
                         mutex.acquire();
                         // debe dormirse por tiempo, no tiene q esperar a q alguien lo levante de las colas de transicion, sino se le pasa la ventana
                     }

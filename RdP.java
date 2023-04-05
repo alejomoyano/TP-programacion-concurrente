@@ -34,9 +34,8 @@ public class RdP {
 
 		PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
 
-		temporales = new int[][]{{0},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
-		matrizTemp = new long[7][5]; // aca es de 7x5 pero hay 6 temporales, que serian hasta indice 5, no seria 5x5? son 7 temporales. Falta una entonces, arrivalRate
-
+		temporales = new int[][]{{1},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
+		matrizTemp = new long[7][5];
 		conflictos = new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}}; // contiene las transiciones con conflicto
 
 		// obtenemos la matriz de incidencia
@@ -65,13 +64,16 @@ public class RdP {
 		int k=0;
 
 		// re rompe si uso ento y le saco los sleeps a los hilos
-		for (int j = 0; j < 17; j++) {
+		// sacando los sleep y dejando los tiempos que estan ahora funciona bien excepto el T0, arrivalrate
+		// que en el caso de que llegue despues de beta y que no haya otro sensibilizado, se queda en la cola de transicion y queda en deadlock todo
+		// falta salvar ese caso o darle un beta gigante a T0
+		/*for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
 				System.out.println("Transicion: " + k);
-				if (k < 3) {                    //matrizTemp[0] y [1] corresponden a FinalizarT1P1 y FinalizarT1P2
+				if (k < 3) {                    //matrizTemp[1] y [2] corresponden a FinalizarT1P1 y FinalizarT1P2
 
 					matrizTemp[k][1] = (long) 10;//alfa 10ms		//FinalizarT1Px con ventana de 10-200 ms
-					matrizTemp[k][2] = (long) 50;//beta 200ms
+					matrizTemp[k][2] = (long) 400;//beta 200ms
 					//k++;
 				}
 
@@ -82,61 +84,20 @@ public class RdP {
 				//no random para no perderse con los calculos y dejarlo fijo, no deberia afectar el funcionamiento, eso se puede cambiar
 				//en teoria de esta forma no harian falta los sleep en los run
 				else {
-					matrizTemp[k][1] = (long) 40;//alfa 100ms			 //ProcesarT2Px y Finalizar T2Px con ventanas de 100-500 ms
-					matrizTemp[k][2] = (long) 100;//beta 500ms
+					matrizTemp[k][1] = (long) 100;//alfa 100ms			 //ProcesarT2Px y Finalizar T2Px con ventanas de 100-500 ms
+					matrizTemp[k][2] = (long) 500;//beta 500ms
 
 				}
 				k++;
 			}
-		}
-		/*for (int i = 0; i < 17; i++) {
+		}*/
+		for (int i = 0; i < 17; i++) {
 			if (temporales[i][0] == 1){	
 				matrizTemp[k][1] =(long) ((Math.random() * 50) + 1);//alfa entre 1-50ms
 				matrizTemp[k][2] =(long) ((Math.random() * 1000) + 400);//beta	entre 400-1000ms
 				k++;
-
-			*//*Enunciado: La suma de los tiempos asignados a las transiciones relacionadas a las tareas de tipo T2,
-			debe ser mayor al tiempo asignado a la transición de tipo T1.
-			Tiempo de ProcesarT2Px + tiempo de FinalizarT2Px > tiempo de FinalizarT1Px
-			Esto esta contemplado en los thread.sleep de cada hilo pero aca no. Podria darse el caso q una tareaT1 demore mas
-			que las T2 mas alla de los sleep q hay en los run? voy a seguir revisando eso aunque creo q esta bien asi
-			Ya revise y en teoria esta bien por los sleep q hay en los run. Ahora puede darse el caso que se demore de mas
-			el finalizarT1 porq no puede adquirir el mutex despues de hacer el sleep pero me parece algo medio fuera de 
-			nuestro control o algo demasiado engorroso de manejar*//*
-
-			/* 
-			for (int i = 0; i < 17; i++) {
-			if (temporales[i][0] == 1){	
-				if(k<2){					//matrizTemp[0] y [1] corresponden a FinalizarT1P1 y FinalizarT1P2
-
-					matrizTemp[k][1] = 10;//alfa 10ms		//FinalizarT1Px con ventana de 10-200 ms
-					matrizTemp[k][2] = 200;//beta 200ms
-					k++;
-				}
-				
-
-				//en el peor de los casos se demorara finalizarT1 200 ms luego, 
-				//ProcesarT2 en el mejor de los casos demorara 100ms y 
-				//FinalizarT2 100 ms siendo la suma 200ms cumpliendo el enunciado
-				//no random para no perderse con los calculos y dejarlo fijo, no deberia afectar el funcionamiento, eso se puede cambiar
-				//en teoria de esta forma no harian falta los sleep en los run
-			else{
-				matrizTemp[k][1] = 100;//alfa 100ms			 //ProcesarT2Px y Finalizar T2Px con ventanas de 100-500 ms
-				matrizTemp[k][2] = 500;//beta 500ms
-				k++;
-			}*/
-			
-			/*Enunciado: La suma de los tiempos asignados a las transiciones relacionadas a las tareas de tipo T2,
-			debe ser mayor al tiempo asignado a la transición de tipo T1.
-			Tiempo de ProcesarT2Px + tiempo de FinalizarT2Px > tiempo de FinalizarT1Px
-			*/
-
-
-				/* Claro, parece que con los sleeps antes de intentar disparar la transicion se soluciona. Aunque quedaria mas limpio si
-				 esas transiciones tuvieran un alpha mas grande(? o sea que para dispararla, despues de sensibilizarla, deba pasar mas tiempo
-				(hablando de las T2 sobre las T1) *//*
 			}
-		}*/
+		}
 	}
 	
 
@@ -179,11 +140,11 @@ public class RdP {
 		if(tempTransIndex >= 0 && disparar) {	// si es temporal y está sensibilizado/se puede disparar
 			//si no cumplen las condiciones de una transition temporal, disparar será falso y no se efectuara el disparo
 			disparar = RdP.dispararTemporal(tempTransIndex);
-			//System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
+			System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
 		}
 		// si no es temporal o si es temporal y se cumplen las condiciones, dispara.
 		if(disparar){
-			System.out.println("--------------------------------------------------------");
+			/*System.out.println("--------------------------------------------------------");
 
 			System.out.println("Acabo de disparar la secuencia:");
 			Utils.imprimirMatriz2D(secuencia);
@@ -191,7 +152,7 @@ public class RdP {
 			System.out.println("El Marcado quedo:");
 			Utils.imprimirMatriz2D(nuevoMarcado);
 			System.out.println("--------------------------------------------------------");
-
+*/
 			MarcadoActual = nuevoMarcado;    //efectuo el disparo si se cumplen las condiciones, guardando el nuevo marcado
 			RdP.Sensibilizados();            //se actualizan las transiciones sensibilizadas
 			RdP.invariantesDePlaza();
@@ -323,7 +284,7 @@ public class RdP {
 			}
 			// esta despues del beta
 			else{
-				System.out.println("No estoy en la ventana ni antes de alfa");
+				System.out.println("No estoy en la ventana ni antes de alfa, estoy despues de beta");
 				return false;//se debe ir a la cola de la transicion
 			}
 

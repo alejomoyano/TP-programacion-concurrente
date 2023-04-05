@@ -18,7 +18,7 @@ public class Tarea1P2 implements Runnable {
             monitor.Disparar(secuencia);
             Main.sumarTareas();
             Log.logTareas(secuencia);
-           /* try {
+            /*try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
