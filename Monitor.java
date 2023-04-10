@@ -56,7 +56,11 @@ public class Monitor {
                         exception.printStackTrace();
                     }
                 }
-                // si no es temporal la transicion o si es temporal pero estamos después del beta entramos aca
+                // si no es temporal la transicion o si es temporal pero estamos después del beta entramos aca.
+                // Problema: Si la temporal esta despues del beta deberia ir a la cola de entrada del mutex, no a la de transicion
+                // Se ha presentado el caso en el que T0 cae despues del beta, se va a su cola de transicion pero luego no hay ningun hilo
+                // que lo despierte porque no hay mas sensibilizados. Si se elige una ventana amplia esto no ocurriria pero el problema sigue estando, revisar, consultar 
+
                 else {
                    System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
                     mutex.release();
