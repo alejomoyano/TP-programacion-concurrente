@@ -20,12 +20,12 @@ public class Main {
         Memoria memoria2 = new Memoria();
         Log log = new Log(memoria1, memoria2);
 
-        int ejecuciones = 69; // cantidad de tiradas
+        int ejecuciones = 1000; // cantidad de tiradas
 
         executor.ejecutar(new ArrivalRate(monitor,ejecuciones));    //T0
         executor.ejecutar(new AsignarP1(monitor,ejecuciones));      //T1
         executor.ejecutar(new AsignarP2(monitor,ejecuciones));      //T2 etc...
-        executor.ejecutar(new EmpezarP1(monitor,ejecuciones));
+        executor.ejecutar(new EmpezarP1(monitor,ejecuciones));      // si, yo le cambie el orden para ver que pasaba
         executor.ejecutar(new EmpezarP2(monitor,ejecuciones));
         executor.ejecutar(new Tarea1P1(monitor,ejecuciones));
         executor.ejecutar(new Tarea1P2(monitor,ejecuciones));

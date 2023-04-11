@@ -518,3 +518,123 @@
 +Datos almacenados en memoria 1: 126/1000(52%)
 +Datos almacenados en memoria 2: 113/1000(48%)
 -----------------------------------
+-----------------------------------
++Procesador 1: 115/1000(48%)
+   Tarea 1: 82
+   Tarea 2: 33
++Procesador 2: 124/1000(52%)
+   Tarea 1: 88
+   Tarea 2: 36
++Datos almacenados en memoria 1: 117/1000(49%)
++Datos almacenados en memoria 2: 121/1000(51%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 33/1000(47%)
+   Tarea 1: 33
+   Tarea 2: 0
++Procesador 2: 36/1000(53%)
+   Tarea 1: 36
+   Tarea 2: 0
++Datos almacenados en memoria 1: 33/1000(49%)
++Datos almacenados en memoria 2: 34/1000(51%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 36/1000(52%)
+   Tarea 1: 35
+   Tarea 2: 1
++Procesador 2: 33/1000(48%)
+   Tarea 1: 33
+   Tarea 2: 0
++Datos almacenados en memoria 1: 33/1000(48%)
++Datos almacenados en memoria 2: 35/1000(52%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 33/1000(47%)
+   Tarea 1: 33
+   Tarea 2: 0
++Procesador 2: 36/1000(53%)
+   Tarea 1: 36
+   Tarea 2: 0
++Datos almacenados en memoria 1: 34/1000(50%)
++Datos almacenados en memoria 2: 33/1000(50%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 34/1000(49%)
+   Tarea 1: 34
+   Tarea 2: 0
++Procesador 2: 35/1000(51%)
+   Tarea 1: 35
+   Tarea 2: 0
++Datos almacenados en memoria 1: 34/1000(50%)
++Datos almacenados en memoria 2: 34/1000(50%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 36/1000(52%)
+   Tarea 1: 7
+   Tarea 2: 29
++Procesador 2: 33/1000(48%)
+   Tarea 1: 16
+   Tarea 2: 17
++Datos almacenados en memoria 1: 33/1000(49%)
++Datos almacenados en memoria 2: 35/1000(51%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 141/1000(52%)
+   Tarea 1: 18
+   Tarea 2: 123
++Procesador 2: 128/1000(48%)
+   Tarea 1: 89
+   Tarea 2: 39
++Datos almacenados en memoria 1: 135/1000(50%)
++Datos almacenados en memoria 2: 134/1000(50%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 138/1000(51%)
+   Tarea 1: 138
+   Tarea 2: 0
++Procesador 2: 131/1000(49%)
+   Tarea 1: 131
+   Tarea 2: 0
++Datos almacenados en memoria 1: 132/1000(49%)
++Datos almacenados en memoria 2: 135/1000(51%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 131/1000(48%)
+   Tarea 1: 131
+   Tarea 2: 0
++Procesador 2: 138/1000(52%)
+   Tarea 1: 138
+   Tarea 2: 0
++Datos almacenados en memoria 1: 131/1000(49%)
++Datos almacenados en memoria 2: 135/1000(51%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 134/1000(49%)
+   Tarea 1: 133
+   Tarea 2: 1
++Procesador 2: 135/1000(51%)
+   Tarea 1: 135
+   Tarea 2: 0
++Datos almacenados en memoria 1: 137/1000(51%)
++Datos almacenados en memoria 2: 129/1000(49%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 136/1000(50%)
+   Tarea 1: 136
+   Tarea 2: 0
++Procesador 2: 133/1000(50%)
+   Tarea 1: 133
+   Tarea 2: 0
++Datos almacenados en memoria 1: 132/1000(49%)
++Datos almacenados en memoria 2: 134/1000(51%)
+-----------------------------------
+-----------------------------------
++Procesador 1: 504/1000(50%)
+   Tarea 1: 504
+   Tarea 2: 0
++Procesador 2: 496/1000(50%)
+   Tarea 1: 495
+   Tarea 2: 1
++Datos almacenados en memoria 1: 500/1000(50%)
++Datos almacenados en memoria 2: 498/1000(50%)
+-----------------------------------

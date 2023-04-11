@@ -162,7 +162,7 @@ print("\nTransiciones restantes: " + transitions + "\n")
 # es como si no se ejecutaran las de vaciar y quedan todas las otras transiciones colgadas. Voy a debuggear en estos dias y ademas cambiar las matrices de incidencia, marcado y eso conr especto a la red que hice en PIPE
 # sino se hace dificil
 
-# no se si seria bueno cambiar las matrices, porque mucho esta segun ese orden inicial y quedo asi, ahi abajo puse la descripcion de cada uno para guiarse mejor
+# no se si seria bueno cambiar las matrices, porque mucho esta segun ese orden inicial y quedo asi, ahi abajo puse la descripcion de cada uno para guiarse mejor.transicion
 
 # Marcado inicial con sus plazas:
 
@@ -192,3 +192,5 @@ print("\nTransiciones restantes: " + transitions + "\n")
 # figura como transicion restante la T15 o la T16, dependiendo cual fue la ultima q se ejecuto.
 # se hizo la prueba con una sola tarea, cosa de que quedara una sola invariante de transicion completa ejecutada en el log
 # y pasaba eso, que figura una restante en el script, cuando no sobra ninguna en el tlog
+
+# si, eso pasa, queda la ultima transicion sin borrar por alguna razon. Pero al fin y al cabo funciona bien.

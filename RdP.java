@@ -67,7 +67,15 @@ public class RdP {
 		// sacando los sleep y dejando los tiempos que estan ahora funciona bien excepto el T0, arrivalrate
 		// que en el caso de que llegue despues de beta y que no haya otro sensibilizado, se queda en la cola de transicion y queda en deadlock todo
 		// falta salvar ese caso o darle un beta gigante a T0
-		/*for (int j = 0; j < 17; j++) {
+
+		// A mi me pasa que las memorias quedan llenas. es como si los vaciar no se ejecutaran tantas veces. Despues de tirar el script quedan muchas transiciones.
+		// Cosa que no pasa tan exagerado con los tiempos que teniamos antes. Voy a revisar eso en estos dias, ademas voy a modificar el diagrama de secuencia que quedo muy grande
+		// Puedo sacar algunas cositas para que quede mas compacto y entendible.
+
+		// Ademas voy a hablar con unos chicos que entregaron hace re poco a ver como hicieron el tema de las temporales despues del beta y algunas cositas mas.
+		// El miercoles seguro vuelvo a pushear algo.
+
+		for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
 				System.out.println("Transicion: " + k);
 				if (k < 3) {                    //matrizTemp[1] y [2] corresponden a FinalizarT1P1 y FinalizarT1P2
@@ -90,14 +98,14 @@ public class RdP {
 				}
 				k++;
 			}
-		}*/
-		for (int i = 0; i < 17; i++) {
+		}
+		/*for (int i = 0; i < 17; i++) {
 			if (temporales[i][0] == 1){	
 				matrizTemp[k][1] =(long) ((Math.random() * 50) + 1);//alfa entre 1-50ms
 				matrizTemp[k][2] =(long) ((Math.random() * 1000) + 400);//beta	entre 400-1000ms
 				k++;
 			}
-		}
+		}*/
 	}
 	
 
