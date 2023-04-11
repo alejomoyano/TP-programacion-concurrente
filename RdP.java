@@ -71,17 +71,22 @@ public class RdP {
 		// A mi me pasa que las memorias quedan llenas. es como si los vaciar no se ejecutaran tantas veces. Despues de tirar el script quedan muchas transiciones.
 		// Cosa que no pasa tan exagerado con los tiempos que teniamos antes. Voy a revisar eso en estos dias, ademas voy a modificar el diagrama de secuencia que quedo muy grande
 		// Puedo sacar algunas cositas para que quede mas compacto y entendible.
+		// Fijarse en la clase memoria, funcion vaciar hay un sleep, variando los tiempos a veces queda siempre llena, vacia o a medias
+		// hay q ir regulando cosa de que quede en termino medio
 
 		// Ademas voy a hablar con unos chicos que entregaron hace re poco a ver como hicieron el tema de las temporales despues del beta y algunas cositas mas.
 		// El miercoles seguro vuelvo a pushear algo.
+		// Tengo el recuerdo, ademas de mirar el informe que esta en el git, que se puede considerar un beta infinito(gigante)
+		// de modo que nunca caiga despues de beta y justificar despues porque se hace asi, porque considerar el caso de
+		// que caiga despues del beta es hacer un lio de ifs y casos con el sensibilizado y era un bardo
 
 		for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
 				System.out.println("Transicion: " + k);
 				if (k < 3) {                    //matrizTemp[1] y [2] corresponden a FinalizarT1P1 y FinalizarT1P2
 
-					matrizTemp[k][1] = (long) 10;//alfa 10ms		//FinalizarT1Px con ventana de 10-200 ms
-					matrizTemp[k][2] = (long) 400;//beta 200ms
+					matrizTemp[k][1] = (long) 20;//alfa 10ms		//FinalizarT1Px con ventana de 10-200 ms
+					matrizTemp[k][2] = (long) 500;//beta 200ms
 					//k++;
 				}
 

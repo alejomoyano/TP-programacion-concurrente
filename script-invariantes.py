@@ -194,3 +194,6 @@ print("\nTransiciones restantes: " + transitions + "\n")
 # y pasaba eso, que figura una restante en el script, cuando no sobra ninguna en el tlog
 
 # si, eso pasa, queda la ultima transicion sin borrar por alguna razon. Pero al fin y al cabo funciona bien.
+
+# una forma de darse cuenta si esta bien es mirar la cantidad de guardados en memoria sin vaciar que figura en el main
+# y esa cantidad de T0 tienen que sobrar en las restantes, si quedaron 3 guardadas sin vaciar, debe figurar 3 veces T0 en las t-restantes
