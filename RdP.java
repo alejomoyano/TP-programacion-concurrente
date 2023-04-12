@@ -85,21 +85,17 @@ public class RdP {
 				System.out.println("Transicion: " + k);
 				if (k < 3) {                    //matrizTemp[1] y [2] corresponden a FinalizarT1P1 y FinalizarT1P2
 
-					matrizTemp[k][1] = (long) 20;//alfa 10ms		//FinalizarT1Px con ventana de 10-200 ms
-					matrizTemp[k][2] = (long) 500;//beta 200ms
-					//k++;
+					matrizTemp[k][1] = (long) 20;//alfa 20ms		//FinalizarT1Px con ventana de 20-200 ms
+					matrizTemp[k][2] = (long) 5000;//beta 200ms
 				}
 
 
-				//en el peor de los casos se demorara finalizarT1 200 ms luego,
-				//ProcesarT2 en el mejor de los casos demorara 100ms y
-				//FinalizarT2 100 ms siendo la suma 200ms cumpliendo el enunciado
-				//no random para no perderse con los calculos y dejarlo fijo, no deberia afectar el funcionamiento, eso se puede cambiar
-				//en teoria de esta forma no harian falta los sleep en los run
 				else {
 					matrizTemp[k][1] = (long) 100;//alfa 100ms			 //ProcesarT2Px y Finalizar T2Px con ventanas de 100-500 ms
-					matrizTemp[k][2] = (long) 500;//beta 500ms
-
+					matrizTemp[k][2] = (long) 5000;//beta 500ms
+					// duda: de esta forma, con beta muy grande, nunca se pasaria de la ventana. Ahora, no se puede
+					// asegurar al 100% que el tiempo de ProcesarT2Px + FinalizarT2Px sea mayor al de FinalizarT1Px. Consultar con el profe
+					// solucionar con sleeps en los run?
 				}
 				k++;
 			}
