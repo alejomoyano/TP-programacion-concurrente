@@ -166,25 +166,25 @@ print("\nTransiciones restantes: " + transitions + "\n")
 
 # Marcado inicial con sus plazas:
 
-# 0 ColaP1
-# 0 ColaP2
-# 0 ColaProcesos
-# 8 DisponibleM1
-# 8 DisponibleM2
-# 4 LimiteColaP1
-# 4 LimiteColaP2
-# 0 ListoP1
-# 0 ListoP2
-# 0 M1
-# 0 M2
-# 1 P0
-# 1 Procesador1
-# 1 Procesador2
-# 0 ProcesandoP1
-# 0 ProcesandoP2
-# 1 RecursoTarea
-# 0 Tarea2P1
-# 0 Tarea2P2
+# 0 ColaP1          0  
+# 0 ColaP2          1
+# 0 ColaProcesos    2    
+# 8 DisponibleM1    3
+# 8 DisponibleM2    4
+# 4 LimiteColaP1    5
+# 4 LimiteColaP2    6
+# 0 ListoP1         7
+# 0 ListoP2         8
+# 0 M1              9
+# 0 M2              10
+# 1 P0              11
+# 1 Procesador1     12
+# 1 Procesador2     13
+# 0 ProcesandoP1    14
+# 0 ProcesandoP2    15
+# 1 RecursoTarea    16
+# 0 Tarea2P1        17
+# 0 Tarea2P2        18
 
 # pareceria funcionar bien el script, probe muchas veces y siempre tira algo coherente segun la cantidad de transiciones sobrantes
 # o la cantidad en memoria que no se alcanzaron a vaciar.

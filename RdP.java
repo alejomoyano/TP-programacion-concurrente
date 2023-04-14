@@ -85,16 +85,17 @@ public class RdP {
 				System.out.println("Transicion: " + k);
 				if (k < 3) {                    //matrizTemp[1] y [2] corresponden a FinalizarT1P1 y FinalizarT1P2
 
-					matrizTemp[k][1] = (long) 20;//alfa 20ms		//FinalizarT1Px con ventana de 20-200 ms
-					matrizTemp[k][2] = (long) 5000;//beta 200ms
+					matrizTemp[k][1] = (long) 30;//alfa 20ms		//FinalizarT1Px con ventana de 20-200 ms
+					matrizTemp[k][2] = (long) 5000;//beta 5000ms
 				}
 
 
 				else {
 					matrizTemp[k][1] = (long) 100;//alfa 100ms			 //ProcesarT2Px y Finalizar T2Px con ventanas de 100-500 ms
-					matrizTemp[k][2] = (long) 5000;//beta 500ms
+					matrizTemp[k][2] = (long) 5000;//beta 5000ms
 					// duda: de esta forma, con beta muy grande, nunca se pasaria de la ventana. Ahora, no se puede
-					// asegurar al 100% que el tiempo de ProcesarT2Px + FinalizarT2Px sea mayor al de FinalizarT1Px. Consultar con el profe
+					// asegurar al 100% que el tiempo de ProcesarT2Px + FinalizarT2Px sea mayor al de FinalizarT1Px,
+					// ya que el alfa es el tiempo minimo hasta q se puede disparar, de ahi en mas puede tardar hasta beta en disparar. Consultar con el profe
 					// solucionar con sleeps en los run?
 				}
 				k++;
@@ -362,14 +363,14 @@ public class RdP {
 	private static void invariantesDePlaza() {
 		//PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
 		int[][] inv = new int[8][1];
-		inv[0][0] = MarcadoActual[11][0] + MarcadoActual[2][0];
-		inv[1][0] = MarcadoActual[0][0] + MarcadoActual[5][0];
-		inv[2][0] = MarcadoActual[1][0] + MarcadoActual[6][0];
-		inv[3][0] = MarcadoActual[16][0] + MarcadoActual[14][0] + MarcadoActual[15][0] + MarcadoActual[18][0] + MarcadoActual[17][0];
-		inv[4][0] = MarcadoActual[15][0] + MarcadoActual[18][0] + MarcadoActual[8][0] + MarcadoActual[13][0];
-		inv[5][0] = MarcadoActual[4][0] + MarcadoActual[10][0];
-		inv[6][0] = MarcadoActual[3][0] + MarcadoActual[9][0];
-		inv[7][0] = MarcadoActual[14][0] + MarcadoActual[12][0] + MarcadoActual[17][0] + MarcadoActual[7][0];
+		inv[0][0] = MarcadoActual[11][0] + MarcadoActual[2][0];	// P0 + ColaProcesos
+		inv[1][0] = MarcadoActual[0][0] + MarcadoActual[5][0];	// ColaP1 + LimiteColaP1
+		inv[2][0] = MarcadoActual[1][0] + MarcadoActual[6][0];	// ColaP2 + LimiteColaP2
+		inv[3][0] = MarcadoActual[16][0] + MarcadoActual[14][0] + MarcadoActual[15][0] + MarcadoActual[18][0] + MarcadoActual[17][0]; // RecursoTarea + ProcesandoP1 + ProcesandoP2 + Tarea2P1 + Tarea2P2
+		inv[4][0] = MarcadoActual[15][0] + MarcadoActual[18][0] + MarcadoActual[8][0] + MarcadoActual[13][0];	// ProcesandoP2 + Tarea2P2 + ListoP2 + Procesador2
+		inv[5][0] = MarcadoActual[4][0] + MarcadoActual[10][0];	// DisponibleM2 + M2
+		inv[6][0] = MarcadoActual[3][0] + MarcadoActual[9][0];	// DisponibleM1 + M1
+		inv[7][0] = MarcadoActual[14][0] + MarcadoActual[12][0] + MarcadoActual[17][0] + MarcadoActual[7][0]; // ProcesandoP1 + Tarea2P1 + ListoP1 + Procesador1
 
 		for (int i = 0; i < 8; i++) {
 			if (inv[i][0] != PInvariantes[i][0]) {
