@@ -50,16 +50,11 @@ public class Monitor {
                         // una vez que se levanta debe intentar adquirir el monitor de nuevo
                         System.out.println("Soy "+Thread.currentThread()+ " he despertado de mi sleep, intento disparar de nuevo");
                         mutex.acquire();
-                        // debe dormirse por tiempo, no tiene q esperar a q alguien lo levante de las colas de transicion, sino se le pasa la ventana
                     }
                     catch (InterruptedException exception){
                         exception.printStackTrace();
                     }
                 }
-                // si no es temporal la transicion o si es temporal pero estamos después del beta entramos aca.
-                // Problema: Si la temporal esta despues del beta deberia ir a la cola de entrada del mutex, no a la de transicion
-                // Se ha presentado el caso en el que T0 cae despues del beta, se va a su cola de transicion pero luego no hay ningun hilo
-                // que lo despierte porque no hay mas sensibilizados. Si se elige una ventana amplia esto no ocurriria pero el problema sigue estando, revisar, consultar 
 
                 else {
                    System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
@@ -74,14 +69,14 @@ public class Monitor {
 
 
             /* Ya disparo, busca a quien despertar */
-//            System.out.println(" He disparado: "+Thread.currentThread());
+            // System.out.println(" He disparado: "+Thread.currentThread());
             // guardamos en el log de transiciones la que fue disparada
             Log.Tlogger(secuencia);
 
             // debemos dejarle el mutex a alguien, tienen más prioridad aquellos que ya entraron al monitor
             // y están esperando en las colas
             
-            // dormidos que est an sensibilizados
+            // dormidos que estan sensibilizados
             int[][] sensibilizadas = Utils.calcularAND(RP.getSensibilizado(),colas.getDormidos());
 
             // obtenemos que cantidad de transiciones que estan sensibilizadas y con hilos dormidos

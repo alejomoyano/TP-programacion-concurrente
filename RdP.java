@@ -1,4 +1,4 @@
-import javax.sql.rowset.CachedRowSet;	//el compilador me tira que no se usan casi ninguna de estas librerias, revisar en otras clases tambien
+import javax.sql.rowset.CachedRowSet;	//el compilador tira que no se usan casi ninguna de estas librerias, revisar en otras clases tambien
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;	//solo esta se estaria usando en esta clase rdp
 import java.io.FileReader;
@@ -63,29 +63,12 @@ public class RdP {
 		RdP.setTiempos();
 		int k=0;
 
-		// re rompe si uso ento y le saco los sleeps a los hilos
-		// sacando los sleep y dejando los tiempos que estan ahora funciona bien excepto el T0, arrivalrate
-		// que en el caso de que llegue despues de beta y que no haya otro sensibilizado, se queda en la cola de transicion y queda en deadlock todo
-		// falta salvar ese caso o darle un beta gigante a T0
-
-		// A mi me pasa que las memorias quedan llenas. es como si los vaciar no se ejecutaran tantas veces. Despues de tirar el script quedan muchas transiciones.
-		// Cosa que no pasa tan exagerado con los tiempos que teniamos antes. Voy a revisar eso en estos dias, ademas voy a modificar el diagrama de secuencia que quedo muy grande
-		// Puedo sacar algunas cositas para que quede mas compacto y entendible.
-		// Fijarse en la clase memoria, funcion vaciar hay un sleep, variando los tiempos a veces queda siempre llena, vacia o a medias
-		// hay q ir regulando cosa de que quede en termino medio
-
-		// Ademas voy a hablar con unos chicos que entregaron hace re poco a ver como hicieron el tema de las temporales despues del beta y algunas cositas mas.
-		// El miercoles seguro vuelvo a pushear algo.
-		// Tengo el recuerdo, ademas de mirar el informe que esta en el git, que se puede considerar un beta infinito(gigante)
-		// de modo que nunca caiga despues de beta y justificar despues porque se hace asi, porque considerar el caso de
-		// que caiga despues del beta es hacer un lio de ifs y casos con el sensibilizado y era un bardo
-
 		for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
 				System.out.println("Transicion: " + k);
 				if (k < 3) {                    //matrizTemp[1] y [2] corresponden a FinalizarT1P1 y FinalizarT1P2
 
-					matrizTemp[k][1] = (long) 30;//alfa 20ms		//FinalizarT1Px con ventana de 20-200 ms
+					matrizTemp[k][1] = (long) 30;//alfa 30ms		//FinalizarT1Px con ventana de 20-200 ms
 					matrizTemp[k][2] = (long) 5000;//beta 5000ms
 				}
 
