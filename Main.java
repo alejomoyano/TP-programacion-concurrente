@@ -38,7 +38,7 @@ public class Main {
         executor.ejecutar(new VaciarM1(monitor, memoria1,ejecuciones));
         executor.ejecutar(new VaciarM2(monitor, memoria2,ejecuciones));
         
-
+        // Cuando ejecuto, las tareas2 no las hace, hace solo las 1. Mirar en log.txt que hace rato hace eso.
 
         while (tareas <= ejecuciones) {
 //            System.out.println("while Tareas realizadas: " + tareas);

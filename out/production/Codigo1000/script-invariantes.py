@@ -97,100 +97,28 @@ print("===============================================")
 print("\nTransiciones restantes: " + transitions + "\n")
 
 
-#fijarse con las transiciones restantes de dispararlas segun la red. Deberia quedar un marcado igual al que figura al final de la ejecucion del main.
-#creo que se dispara desde el marcado inicial ya que se cuando quedan las restantes se completaron ciclos q hacen q el marcado quede como al principio, es decir
-# si no hubiesen transiciones restantes significa que se completaron las invariantes y el marcado en teoria deberia quedar igual q el marcado inicial.
-# eso recuerdo del trabajo que hicieron el grupo de fran bonino, ver eso.
-
-# hice eso, a partir del marcado inicial fui ejecutando las transiciones que me sobraron y llegue al marcado final de la red despues de una ejecucion
-# esto me sobro del script: T0T2T4T6T12
-# y este es el marcado que quedo
-
-# 0
-# 0
-# 0
-# 8
-# 7
-# 4
-# 4
-# 0
-# 0
-# 0
-# 1
-# 1
-# 1
-# 1
-# 0
-# 0
-# 1
-# 0
-# 0
-
-# el tema es que hice la red en PIPE y no me tiro las transiciones en el mimsmo orden que estan puestas aca asi que es un quilombo
-# pero bueno mas o menos me doy cuenta. Voy a probar con mas ejecuciones... Fijarse si en las propiedades del pipe te salen en algun 
-# lugar en el mismo orden, porque de algun lado sacamos ese orden del marcado inicial
-# No siempre las transiciones que sobran se pueden ejecutar, por ejemplo T0T2T11T4T6T16 sobro de una ejecucion de 357 tareas
-# y partiendo desde el marcado inicial no hay chance que llegue al marcado final (mismo que esta arriba) Raro, deberia quedar otro marcado si sobraron otras transiciones, pero bueno va queriendo
-
-
-
-# con este marcado y con estas transiciones sobrantes T0T1T0T1T3T13T7T9T3T5T10 funciono joya
-
- #0
- #0
- #0
- #7
- #7
- #4
- #4
- #0
- #0
- #1
- #1
- #1
- #1
- #1
- #0
- #0
- #1
- #0
- #0
-
-
-
- # ahora que hice los cambios de las temporales queda esto T0T2T0T1T0T2T0T1T0T1T0T2T0T2T0T1T0T4T6T2T3T5T0T1T0T11T4T2T6T10T0T3T5T1T0T12T4T6T2T9T3T0T1T5T0T10T3T13T1T11T0T7T4T14T2T0T8T9T3T1T5T12T4T14T10T8T3T13T7T11T4T14T8T12T4T9T6T3T5T10T3T5T11T4T14T8T12T9T3T5
-# es como si no se ejecutaran las de vaciar y quedan todas las otras transiciones colgadas. Voy a debuggear en estos dias y ademas cambiar las matrices de incidencia, marcado y eso conr especto a la red que hice en PIPE
-# sino se hace dificil
-
-# no se si seria bueno cambiar las matrices, porque mucho esta segun ese orden inicial y quedo asi, ahi abajo puse la descripcion de cada uno para guiarse mejor.transicion
-
 # Marcado inicial con sus plazas:
 
-# 0 ColaP1
-# 0 ColaP2
-# 0 ColaProcesos
-# 8 DisponibleM1
-# 8 DisponibleM2
-# 4 LimiteColaP1
-# 4 LimiteColaP2
-# 0 ListoP1
-# 0 ListoP2
-# 0 M1
-# 0 M2
-# 1 P0
-# 1 Procesador1
-# 1 Procesador2
-# 0 ProcesandoP1
-# 0 ProcesandoP2
-# 1 RecursoTarea
-# 0 Tarea2P1
-# 0 Tarea2P2
+# 0 ColaP1          0  
+# 0 ColaP2          1
+# 0 ColaProcesos    2    
+# 8 DisponibleM1    3
+# 8 DisponibleM2    4
+# 4 LimiteColaP1    5
+# 4 LimiteColaP2    6
+# 0 ListoP1         7
+# 0 ListoP2         8
+# 0 M1              9
+# 0 M2              10
+# 1 P0              11
+# 1 Procesador1     12
+# 1 Procesador2     13
+# 0 ProcesandoP1    14
+# 0 ProcesandoP2    15
+# 1 RecursoTarea    16
+# 0 Tarea2P1        17
+# 0 Tarea2P2        18
 
-# pareceria funcionar bien el script, probe muchas veces y siempre tira algo coherente segun la cantidad de transiciones sobrantes
-# o la cantidad en memoria que no se alcanzaron a vaciar.
-# El unico detalle es que cuando coincide que no sobra ninguna transicion y queda la marca inicial al final del programa
-# figura como transicion restante la T15 o la T16, dependiendo cual fue la ultima q se ejecuto.
-# se hizo la prueba con una sola tarea, cosa de que quedara una sola invariante de transicion completa ejecutada en el log
-# y pasaba eso, que figura una restante en el script, cuando no sobra ninguna en el tlog
 
-# si, eso pasa, queda la ultima transicion sin borrar por alguna razon. Pero al fin y al cabo funciona bien.
+# una forma de darse cuenta si esta bien es mirar la cantidad de guardados en memoria sin vaciar que figura en el main
+# y esa cantidad de T0 tienen que sobrar en las restantes, si quedaron 3 guardadas sin vaciar, debe figurar 3 veces T0 en las t-restantes

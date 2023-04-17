@@ -43,7 +43,6 @@ public class Politicas {
      * @param sensAndDormidos transiciones sensibilizadas con hilos dormidos
      * @return indice de la transicion elegida
      */
-
     private int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
 
         int auxiliar = 0;
@@ -62,6 +61,9 @@ public class Politicas {
             } else {
                 auxiliar = 13;
             }
+            System.out.println("-------------------------------------------");
+            System.out.println("Elegimos " + auxiliar);
+            System.out.println("-------------------------------------------");
         }
 
         //conflicto en tareas procesador2 - 50% de probabilidad cada uno
@@ -76,6 +78,9 @@ public class Politicas {
                 auxiliar = 14;
 
             }
+            System.out.println("-------------------------------------------");
+            System.out.println("Elegimos " + auxiliar);
+            System.out.println("-------------------------------------------");
         }
 
         //conflicto en memorias desde procesador1

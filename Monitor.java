@@ -81,7 +81,29 @@ public class Monitor {
 
             // obtenemos que cantidad de transiciones que estan sensibilizadas y con hilos dormidos
             int cantDormidosSens = 0;
-            
+
+            System.out.println("-------------------------------------------");
+            if(secuencia[5][0] == 1)
+                System.out.println("Disparada Tarea1P1");
+            if(secuencia[6][0] == 1)
+                System.out.println("Disparada Tarea1P2");
+
+            if(secuencia[7][0] == 1)
+                System.out.println("Disparada Tarea2P1");
+            if(secuencia[8][0] == 1)
+                System.out.println("Disparada Tarea2P2");
+
+
+            if(secuencia[13][0] == 1)
+                System.out.println("Disparada Tarea2P1");
+            if(secuencia[14][0] == 1)
+                System.out.println("Disparada Tarea2P2");
+            if(sensibilizadas[13][0] == 1)
+                System.out.println("Sensibilizada Tarea2P1");
+            if(sensibilizadas[14][0] == 1)
+                System.out.println("Sensibilizada Tarea2P2");
+            System.out.println("-------------------------------------------");
+
             for (int[] sensibilizada : sensibilizadas) {
                 if (sensibilizada[0] == 1) {
                     cantDormidosSens++;
