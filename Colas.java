@@ -66,9 +66,6 @@ public class Colas {
         // devolvera el indice de la transicion que debera dispararse.
         indexTransicion = politica.HayConflicto(secuencia,sensibilizadas);
         semaforos.get(indexTransicion).release();
-        System.out.println("-------------------------------------------");
-        System.out.println("Despertamos " + indexTransicion);
-        System.out.println("-------------------------------------------");
     }
 
 }

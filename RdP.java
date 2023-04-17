@@ -66,17 +66,18 @@ public class RdP {
 		for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
 				System.out.println("Transicion: " + k);
-				if (k < 3) {                    //matrizTemp[1] y [2] corresponden a FinalizarT1P1 y FinalizarT1P2
+				if (k == 3 || k == 4) {                    //matrizTemp[3] y [4] corresponden a FinalizarT2P1 y FinalizarT2P2
 
-					matrizTemp[k][1] = (long) 30;//alfa 30ms		//FinalizarT1Px con ventana de 20-200 ms
+					matrizTemp[k][1] = (long) 60;//alfa 60ms		//FinalizarT2Px demoran como minimo 60ms
 					matrizTemp[k][2] = (long) 5000;//beta 5000ms
 				}
 
 
 				else {
-					matrizTemp[k][1] = (long) 100;//alfa 100ms			 //ProcesarT2Px y Finalizar T2Px con ventanas de 100-500 ms
+					matrizTemp[k][1] = (long) 20;//alfa 30ms		// El resto de temporales demora como minimo 20 ms
 					matrizTemp[k][2] = (long) 5000;//beta 5000ms
-					// duda: de esta forma, con beta muy grande, nunca se pasaria de la ventana. Ahora, no se puede
+
+					// duda: de esta forma, con beta muy grande, nunca se pasaria de la ventana y salvamos ese caso. Ahora, no se puede
 					// asegurar al 100% que el tiempo de ProcesarT2Px + FinalizarT2Px sea mayor al de FinalizarT1Px,
 					// ya que el alfa es el tiempo minimo hasta q se puede disparar, de ahi en mas puede tardar hasta beta en disparar. Consultar con el profe
 					// solucionar con sleeps en los run?
@@ -84,13 +85,6 @@ public class RdP {
 				k++;
 			}
 		}
-		/*for (int i = 0; i < 17; i++) {
-			if (temporales[i][0] == 1){	
-				matrizTemp[k][1] =(long) ((Math.random() * 50) + 1);//alfa entre 1-50ms
-				matrizTemp[k][2] =(long) ((Math.random() * 1000) + 400);//beta	entre 400-1000ms
-				k++;
-			}
-		}*/
 	}
 	
 

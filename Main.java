@@ -39,6 +39,9 @@ public class Main {
         executor.ejecutar(new VaciarM2(monitor, memoria2,ejecuciones));
         
         // Cuando ejecuto, las tareas2 no las hace, hace solo las 1. Mirar en log.txt que hace rato hace eso.
+        // Solucionado, eran los tiempos en las temporales en el set de la RdP
+        // Lo que pasaba es que cuando se dormian los hilos en las temporales, al tener uno un alfa mas chico se despertaba siempre primero
+        // el de tarea1 y se "robaba" el token y entonces casi siempre tarea2 se quedaba sin token. Ahora con el mismo alfa se distribuyen uniformemente
 
         while (tareas <= ejecuciones) {
 //            System.out.println("while Tareas realizadas: " + tareas);
