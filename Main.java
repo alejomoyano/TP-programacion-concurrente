@@ -43,6 +43,11 @@ public class Main {
         // Lo que pasaba es que cuando se dormian los hilos en las temporales, al tener uno un alfa mas chico se despertaba siempre primero
         // el de tarea1 y se "robaba" el token y entonces casi siempre tarea2 se quedaba sin token. Ahora con el mismo alfa se distribuyen uniformemente
 
+        // Estuve en la consulta y Ventre me dijo que los Beta sean lo mas grande que podamos y que los alfa los hagamos
+        // 2 o 3 veces mas grandes en las tareas 2 y que con eso esta bien.
+        // Ademas me dijo que entregue yo cuando pueda y que de esa manera ellos vean como esta el TP. Para que si hay alguna cosa
+        // para corregir lo hagamos y luego nos presentemos los 2 para que sea la entrega final.
+
         while (tareas <= ejecuciones) {
 //            System.out.println("while Tareas realizadas: " + tareas);
             try {
