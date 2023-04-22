@@ -93,7 +93,12 @@ public class Monitor {
             if(cantDormidosSens > 0) {
                 System.out.println("Hilo: " + Thread.currentThread() + ". Hay " + cantDormidosSens + " sensibilizadas dormida con hilos esperando");
 
-                colas.signal(sensibilizadas,this.politica,cantDormidosSens);
+                // obtenemos la transicion a despertar
+                int[][] transicion = colas.getThreadFromCola(sensibilizadas,cantDormidosSens);
+                // resolvemos si tiene conflicto
+                int indexTransicion = politica.HayConflicto(transicion,sensibilizadas);
+                // despertamos el hilo
+                colas.signal(indexTransicion);
                 return;
             }
 
