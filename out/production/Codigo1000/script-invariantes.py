@@ -35,11 +35,13 @@ CONVINATIONS = [
     EIGHTH_GROUPS
 ]
 
+matchs_counter = 0
+
 # expresion regular que encuentra las invariantes
 pattern = r"(T0)(((T1)(.*?)(T3)(.*?))((T5)(.*?)((T9)(.*?)(T15)|(T10)(.*?)(T16))|(T13)(.*?)(T7)(.*?)((T9)(.*?)(T15)|(T10)(.*?)(T16)))|((T2)(.*?)(T4)(.*?))((T6)(.*?)((T11)(.*?)(T15)|(T12)(.*?)(T16))|(T14)(.*?)(T8)(.*?)((T11)(.*?)(T15)|(T12)(.*?)(T16))))"
 
 # abrimos el archivo y pasamos todas las lineas a una variable
-with open('Tlog.txt') as file:
+with open('logs/Tlog.txt') as file:
     transitions = file.readlines()
 transitions = transitions[1]
 # print(transitions)
@@ -49,27 +51,27 @@ while 1:
     # print(transitions)
     # buscamos un match
     result = re.search(pattern,transitions)
-    print(result)
+#     print(result)
     # si result es None significa que no se encontro match, salimos del loop
     if result == None:
         break
 
     # posicion del caracter donde inicia el match
     start = result.span()[0]
-
+    matchs_counter += 1
     # si el match no empieza en 0 entonces dividimos el string
     if start > 0:
         pre, transitions = transitions[:start], transitions[start:]
     else:
         pre = ""
 
-    print("===============================================")
+#     print("===============================================")
     # obtenemos un array de lo que fue matcheado por todos los grupos que conforman la regex
     groups_list = list(result.groups())
-    print("Inicio de match: " + str(start))
-    print("Grupos: ", end="")
-    print(*groups_list, sep=", ")
-    print("Match encontrado: ", end="")
+#     print("Inicio de match: " + str(start))
+#     print("Grupos: ", end="")
+#     print(*groups_list, sep=", ")
+#     print("Match encontrado: ", end="")
 
     # vamos a revisar a que invariante corresponde
     # loopeamos entre todas
@@ -85,16 +87,16 @@ while 1:
                 # vamos grupo por grupo obteniendo la transicion a la que corresponde y eliminandola del string de transiciones.
                 # agregue (?=\w) porque si ponia T1 por ejemplo y encontraba una T10 me sacaba el T1 y quedaba el 0 colgado.
                 for group in groups:
-                    print(groups_list[group-1], end="")
+#                     print(groups_list[group-1], end="")
                     transitions = re.sub(groups_list[group-1] + r'(?=\w)',"",transitions,1)
             break
 
     transitions = pre + transitions
-    print()
-    # time.sleep(1)
+#     print()
 
-print("===============================================")                
-print("\nTransiciones restantes: " + transitions + "\n")
+# print("===============================================")
+print("Transiciones restantes: " + transitions + "\n")
+print("Cantidad de matchs encontrados: " + str(matchs_counter) + "\n")
 
 
 # Marcado inicial con sus plazas:
@@ -116,8 +118,8 @@ print("\nTransiciones restantes: " + transitions + "\n")
 # 0 ProcesandoP1    14
 # 0 ProcesandoP2    15
 # 1 RecursoTarea    16
-# 0 Tarea2P1        17
-# 0 Tarea2P2        18
+# 0 src.Tarea2P1        17
+# 0 src.Tarea2P2        18
 
 
 # una forma de darse cuenta si esta bien es mirar la cantidad de guardados en memoria sin vaciar que figura en el main
