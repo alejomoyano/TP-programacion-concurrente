@@ -41,26 +41,27 @@ public class Colas {
      * @param sensibilizadas transiciones sensibilizadas con hilos dormidos
      * @param cantDormidosSens cantidad de transiciones sensibilizadas
      */
-    public int[][] getThreadFromCola(int[][] sensibilizadas, int cantDormidosSens){
-        int count = 0;
-        int transicionSeleccionada = (int) (Math.random() * cantDormidosSens) + 1;//rand entre 1 y la cant de hilos disparables
-        int indexTransicion = 0;
-
-        //encuentra la posicion del hilo elegido, se elige un hilo al azar para despertar,
-        // en caso de que deba aplicarse politicas se aplicara
-        while(count != transicionSeleccionada){
-            if(sensibilizadas[indexTransicion][0]==1)
-                count++;
-            if(count == transicionSeleccionada)
-                break;
-            indexTransicion++;
-        }
-
-        // generamos la secuencia que fue elegida para ser disparada, revisamos y solucionamos el conflicto.
-        int[][] secuencia = new int[17][1];
-        secuencia[indexTransicion][0] = 1;
-        return secuencia;
-    }
+//    public int[][] getThreadFromCola(int[][] sensibilizadas, int cantDormidosSens){
+//
+//        // me parece que esto lo deberia hacer la politica, que la cola solo le devuelva los hilos dormidos
+//        int count = 0;
+//        int transicionSeleccionada = (int) (Math.random() * cantDormidosSens) + 1;//rand entre 1 y la cant de hilos disparables
+//        int indexTransicion = 0;
+//
+//        //encuentra la posicion del hilo elegido, se elige un hilo al azar para despertar
+//        while(count != transicionSeleccionada){
+//            if(sensibilizadas[indexTransicion][0]==1)
+//                count++;
+//            if(count == transicionSeleccionada)
+//                break;
+//            indexTransicion++;
+//        }
+//
+//        // generamos la secuencia que fue elegida para ser disparada, revisamos y solucionamos el conflicto.
+//        int[][] secuencia = new int[17][1];
+//        secuencia[indexTransicion][0] = 1;
+//        return secuencia;
+//    }
 
     /**
      * Metodo que despierta un hilo dormido en una cola

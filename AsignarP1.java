@@ -21,6 +21,5 @@ public class AsignarP1 implements Runnable {
         while (Main.getTareas() < ejecuciones) {
             monitor.Disparar(secuencia);
         }
-        System.out.println("Asignar p1 yo ya gane");
     }
 }

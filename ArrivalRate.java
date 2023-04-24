@@ -15,13 +15,9 @@ public class ArrivalRate implements Runnable {
     }
 
     public void run() {
-        for (int i = 0; i < ejecuciones; i++) {
-            //System.out.println("Entro al for, proximo a disparar");
+        while (Main.getTareas() < ejecuciones) {
             monitor.Disparar(secuencia);
-            //System.out.println("T0 ya dispare");
-
         }
-//        System.out.println("T0, yo ya gane");
     }
 
     @Override

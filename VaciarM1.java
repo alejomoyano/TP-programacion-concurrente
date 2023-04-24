@@ -16,10 +16,7 @@ public class VaciarM1 implements Runnable {
     public void run() {
         while (Main.getTareas() < ejecuciones) {
             monitor.Disparar(secuencia);
-
-            m1.vaciar();    
-            System.out.println("vaciarm1");
-
+            m1.vaciar();
         }
     }
 }

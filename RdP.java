@@ -34,8 +34,8 @@ public class RdP {
 
 		PInvariantes = new int[][]{{1},{4},{4},{1},{1},{8},{8},{1}};
 
-		temporales = new int[][]{{1},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{0},{0}}; // matriz con las transiciones que son temporales
-		matrizTemp = new long[7][5];
+		temporales = new int[][]{{1},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{1},{1}}; // matriz con las transiciones que son temporales
+		matrizTemp = new long[9][5];
 		conflictos = new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}}; // contiene las transiciones con conflicto
 
 		// obtenemos la matriz de incidencia
@@ -65,23 +65,14 @@ public class RdP {
 
 		for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
-				System.out.println("Transicion: " + k);
+				System.out.println("Transicion:" + k);
 				if (k == 3 || k == 4) {                    //matrizTemp[3] y [4] corresponden a FinalizarT2P1 y FinalizarT2P2
-
 					matrizTemp[k][1] = (long) 60;//alfa 60ms		//FinalizarT2Px demoran como minimo 60ms
-					matrizTemp[k][2] = (long) 5000;//beta 5000ms
 				}
-
-
 				else {
 					matrizTemp[k][1] = (long) 20;//alfa 30ms		// El resto de temporales demora como minimo 20 ms
-					matrizTemp[k][2] = (long) 5000;//beta 5000ms
-
-					// duda: de esta forma, con beta muy grande, nunca se pasaria de la ventana y salvamos ese caso. Ahora, no se puede
-					// asegurar al 100% que el tiempo de ProcesarT2Px + FinalizarT2Px sea mayor al de FinalizarT1Px,
-					// ya que el alfa es el tiempo minimo hasta q se puede disparar, de ahi en mas puede tardar hasta beta en disparar. Consultar con el profe
-					// solucionar con sleeps en los run?
 				}
+				matrizTemp[k][2] = (long) 0xffff;//beta infinito
 				k++;
 			}
 		}

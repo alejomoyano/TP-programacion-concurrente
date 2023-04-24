@@ -15,7 +15,7 @@ public class Politicas {
      * @param sensConDormidos transiciones sensibilidadas que ademas tienen hilos dormidos en cola
      * @return secuencia a ejecutar
      */
-    public int HayConflicto(int[][] secuencia, int[][] sensConDormidos) {
+    private int HayConflicto(int[][] secuencia, int[][] sensConDormidos) {
 
         boolean hayConflicto = false;
         int indice = 0;
@@ -122,10 +122,10 @@ public class Politicas {
 
         // mirando en el marcado, seleccionamos el que tiene menos ocupados
         if (marca[9][0] < marca[10][0]) {
-            return 9;        //devolver la transicion P1M1
+            return 9;       //devolver la transicion P1M1
         }
         if (marca[9][0] > marca[10][0]) {
-            return 10;    //devolver la transicion P1M2
+            return 10;      //devolver la transicion P1M2
         }
 
         // seleccionamos con un 50% alguna de las transiciones.
@@ -157,6 +157,34 @@ public class Politicas {
         } else {
             return 12;
         }
+    }
+
+    /**
+     * Metodo que decide que hilo despertar, seleccionando uno random y resolviendo conflicto
+     * @param cantDormidosSens cantidad de dormidos sensibilizados
+     * @param sensAndDormidos transiciones sensibilizadas con hilos dormidos
+     * @return indice de la transicion elegida
+     */
+    public int decideTransicion(int cantDormidosSens, int[][] sensAndDormidos){
+        int count = 0;
+        int transicionSeleccionada = (int) (Math.random() * cantDormidosSens) + 1;//rand entre 1 y la cant de hilos disparables
+        int indexTransicion = 0;
+
+        //encuentra la posicion del hilo elegido
+        while(count != transicionSeleccionada){
+            if(sensAndDormidos[indexTransicion][0]==1)
+                count++;
+            if(count == transicionSeleccionada)
+                break;
+            indexTransicion++;
+        }
+
+        // generamos la secuencia que fue elegida para ser disparada.
+        int[][] secuencia = new int[17][1];
+        secuencia[indexTransicion][0] = 1;
+
+        return HayConflicto(secuencia,sensAndDormidos);
+//        return secuencia;
     }
 }
 	

@@ -3,20 +3,20 @@ import java.util.concurrent.Semaphore;
 
 
 public class Monitor {
-	
-	private RdP RP;
+
+    private RdP RP;
     public Semaphore mutex;
     private Politicas politica;
-    private Colas colas; 
+    private Colas colas;
 
-	public Monitor(RdP red, Politicas politica,Colas colas){
+    public Monitor(RdP red, Politicas politica,Colas colas){
         this.politica = politica;
         RP = red;
-		this.colas = colas;
-		mutex = new Semaphore(1,true);
+        this.colas = colas;
+        mutex = new Semaphore(1,true);
     }
 
-	public void Disparar (int [][] secuencia) {
+    public void Disparar (int [][] secuencia) {
 
         boolean disparar = false;
 
@@ -36,7 +36,7 @@ public class Monitor {
 
                 //  si debe dormirse y es temporal entra
                 if(RP.getDormirse() && RP.esTemporal(secuencia)) {
-                    RdP.setDormirse(false);	//bajo el flag, borro el indicador para el proximo hilo
+                    RdP.setDormirse(false);    //bajo el flag, borro el indicador para el proximo hilo
                     System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread());
                     try{
                         // suelta el mutex ya que debe dormirse
@@ -70,19 +70,15 @@ public class Monitor {
 
             /* Ya disparo, busca a quien despertar */
             // System.out.println(" He disparado: "+Thread.currentThread());
-            // guardamos en el log de transiciones la que fue disparada
             Log.Tlogger(secuencia);
 
-            // debemos dejarle el mutex a alguien, tienen más prioridad aquellos que ya entraron al monitor
-            // y están esperando en las colas
-            
             // dormidos que estan sensibilizados
-            int[][] sensibilizadas = Utils.calcularAND(RP.getSensibilizado(),colas.getDormidos());
+            int[][] sensAndDormidos = Utils.calcularAND(RP.getSensibilizado(),colas.getDormidos());
 
             // obtenemos que cantidad de transiciones que estan sensibilizadas y con hilos dormidos
             int cantDormidosSens = 0;
 
-            for (int[] sensibilizada : sensibilizadas) {
+            for (int[] sensibilizada : sensAndDormidos) {
                 if (sensibilizada[0] == 1) {
                     cantDormidosSens++;
                 }
@@ -93,10 +89,13 @@ public class Monitor {
             if(cantDormidosSens > 0) {
                 System.out.println("Hilo: " + Thread.currentThread() + ". Hay " + cantDormidosSens + " sensibilizadas dormida con hilos esperando");
 
-                // obtenemos la transicion a despertar
-                int[][] transicion = colas.getThreadFromCola(sensibilizadas,cantDormidosSens);
-                // resolvemos si tiene conflicto
-                int indexTransicion = politica.HayConflicto(transicion,sensibilizadas);
+                /* cambie esto, pase todo a politicas pero ahora no termina de ejecutar. Hace 1002 tareas y queda ahi.
+                 * si no lo solucionamos vuelvo como estaba antes y listo. Es porque creo que todas esas desiciones las debe hacer la politica
+                 */
+
+
+                // decidimos que transicion despertar de la cola y resolvemos si tiene conflicto
+                int indexTransicion = politica.decideTransicion(cantDormidosSens,sensAndDormidos);
                 // despertamos el hilo
                 colas.signal(indexTransicion);
                 return;
