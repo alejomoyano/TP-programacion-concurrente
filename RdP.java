@@ -65,12 +65,12 @@ public class RdP {
 
 		for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
-				System.out.println("Transicion:" + k);
+				//System.out.println("Transicion:" + k);
 				if (k == 3 || k == 4) {                    //matrizTemp[3] y [4] corresponden a FinalizarT2P1 y FinalizarT2P2
 					matrizTemp[k][1] = (long) 60;//alfa 60ms		//FinalizarT2Px demoran como minimo 60ms
 				}
 				else {
-					matrizTemp[k][1] = (long) 20;//alfa 30ms		// El resto de temporales demora como minimo 20 ms
+					matrizTemp[k][1] = (long) 20;//alfa 20ms		// El resto de temporales demora como minimo 20 ms
 				}
 				matrizTemp[k][2] = (long) 0xffff;//beta infinito
 				k++;
@@ -118,7 +118,7 @@ public class RdP {
 		if(tempTransIndex >= 0 && disparar) {	// si es temporal y está sensibilizado/se puede disparar
 			//si no cumplen las condiciones de una transition temporal, disparar será falso y no se efectuara el disparo
 			disparar = RdP.dispararTemporal(tempTransIndex);
-			System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
+			//System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
 		}
 		// si no es temporal o si es temporal y se cumplen las condiciones, dispara.
 		if(disparar){
@@ -242,7 +242,7 @@ public class RdP {
 
 			// si esta dentro de la ventana debe dispararse
 			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)) {
-				System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
+				//System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
 				return true;
 			}
 
@@ -257,12 +257,12 @@ public class RdP {
 				// debemos dormir el hilo durante alfaRelativo-arrivalTime que es lo mismo que (alfa-(tiempo actual-wi))
 				RdP.setDormirse(true); // para indicar que se debe dormir y no saltar a la cola de la transicion
 				RdP.setSleepTime(alfaRelativo-arrivalTime);
-				System.out.println("Llegue antes de la ventana, deberia dormirme. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
+				//System.out.println("Llegue antes de la ventana, deberia dormirme. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
 				return false;
 			}
 			// esta despues del beta
 			else{
-				System.out.println("No estoy en la ventana ni antes de alfa, estoy despues de beta");
+				//System.out.println("No estoy en la ventana ni antes de alfa, estoy despues de beta");
 				return false;//se debe ir a la cola de la transicion
 			}
 

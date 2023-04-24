@@ -32,12 +32,12 @@ public class Monitor {
 
             // si no puede disparar entonces
             while (!disparar){
-                   System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
+                   //System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
 
                 //  si debe dormirse y es temporal entra
                 if(RP.getDormirse() && RP.esTemporal(secuencia)) {
                     RdP.setDormirse(false);    //bajo el flag, borro el indicador para el proximo hilo
-                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread());
+                    //System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread());
                     try{
                         // suelta el mutex ya que debe dormirse
                         mutex.release();
@@ -48,7 +48,7 @@ public class Monitor {
                     }
                     try {
                         // una vez que se levanta debe intentar adquirir el monitor de nuevo
-                        System.out.println("Soy "+Thread.currentThread()+ " he despertado de mi sleep, intento disparar de nuevo");
+                      //  System.out.println("Soy "+Thread.currentThread()+ " he despertado de mi sleep, intento disparar de nuevo");
                         mutex.acquire();
                     }
                     catch (InterruptedException exception){
@@ -57,10 +57,10 @@ public class Monitor {
                 }
 
                 else {
-                   System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
+                  // System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
                     mutex.release();
                     colas.setDormirse(secuencia);
-                    System.out.println("Soy: " + Thread.currentThread() + " voy a intentar disparar de nuevo, me sacaron de la cola.");
+                    //System.out.println("Soy: " + Thread.currentThread() + " voy a intentar disparar de nuevo, me sacaron de la cola.");
 
                 }
                 // cuando se despierte va a volver a preguntar si puede disparar
@@ -87,7 +87,7 @@ public class Monitor {
 
             // si hay alguno dormido en una cola con su transicion sensibilizada le dejamos el mutex, sino hay nadie hacemos release para q lo agarre otro q este en la cola de entrada del mutex
             if(cantDormidosSens > 0) {
-                System.out.println("Hilo: " + Thread.currentThread() + ". Hay " + cantDormidosSens + " sensibilizadas dormida con hilos esperando");
+                //System.out.println("Hilo: " + Thread.currentThread() + ". Hay " + cantDormidosSens + " sensibilizadas dormida con hilos esperando");
 
                 /* cambie esto, pase todo a politicas pero ahora no termina de ejecutar. Hace 1002 tareas y queda ahi.
                  * si no lo solucionamos vuelvo como estaba antes y listo. Es porque creo que todas esas desiciones las debe hacer la politica
