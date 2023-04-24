@@ -39,7 +39,7 @@ public class Memoria {
             }
         }
             try {
-                Thread.sleep((long)((Math.random() * 45) + 35)); //se demora entre alfa 1ms y beta 10ms. Bastara con esto para cumplir con el enunciado?
+                Thread.sleep((long)((Math.random() * 45) + 35)); //se demora entre alfa 35ms y beta 45ms
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } 
