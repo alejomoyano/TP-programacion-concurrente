@@ -21,15 +21,18 @@ public class Log {
         }
     }
 
-    public static void logTareas(int[][] sec) {//revisa si es una t1p1  o una t1p2
+    /* esta funcion se ejecuta fuera del mutex, puede ser que entren 2 al mismo tiempo
+    * muy raro seria pero porlas mepa que sirve */
+    public static synchronized void logTareas(int[][] sec) {//revisa si es una t1p1  o una t1p2
         if (sec[5][0] == 1) {
             t1p1++;
         } else if (sec[6][0] == 1) {
             t1p2++;
         }
     }
-
-    public static void logProcesadores(int[][] sec) {//revisa que procesador se ejecuta
+    /* esta funcion se ejecuta fuera del mutex, puede ser que entren 2 al mismo tiempo
+     * muy raro seria pero porlas mepa que sirve */
+    public static synchronized void logProcesadores(int[][] sec) {//revisa que procesador se ejecuta
         if (sec[3][0] == 1) {
             p1++;
         } else {
@@ -43,8 +46,8 @@ public class Log {
         try {
             PrintWriter pw = new PrintWriter(new FileWriter("logs/log.txt", true));
             pw.println("-----------------------------------");
-            pw.println("+Procesador 1: " + p1 + "/1000" + "(" + pp + "%)\n" + "   Tarea 1: " + t1p1 + "\n   Tarea 2: " + (p1 - t1p1));
-            pw.println("+Procesador 2: " + p2 + "/1000" + "(" + (100 - pp) + "%)\n" + "   Tarea 1: " + t1p2 + "\n   Tarea 2: " + (p2 - t1p2));
+            pw.println("+Procesador 1: " + p1 + "/1000" + "(" + pp + "%)\n" + "   Tarea 1: " + t1p1 + " (" + t1p1 * 100 / p1 +"%)\n   Tarea 2: " + (p1 - t1p1) + " (" + (p1 - t1p1) * 100 / p1 + "%)");
+            pw.println("+Procesador 2: " + p2 + "/1000" + "(" + (100 - pp) + "%)\n" + "   Tarea 1: " + t1p2 + " (" + t1p2 * 100 / p2 +"%)\n   Tarea 2: " + (p2 - t1p2) + " (" + (p2 - t1p2) * 100 / p2 + "%)");
             pw.println("+Datos almacenados en memoria 1: " + m1.getHistorial() + "/1000" + "(" + mp + "%)");
             pw.println("+Datos almacenados en memoria 2: " + m2.getHistorial() + "/1000" + "(" + (100 - mp) + "%)");
             pw.println("-----------------------------------");
@@ -54,6 +57,7 @@ public class Log {
         }
 
     }
+
 
     public static void Tlogger(int[][] secuencia) {
         for (int i = 0; i < 17; i++) {

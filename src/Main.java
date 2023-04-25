@@ -23,7 +23,7 @@ public class Main {
         Memoria memoria2 = new Memoria();
         Log log = new Log(memoria1, memoria2);
 
-        int ejecuciones = 200; // cantidad de tiradas
+        int ejecuciones = 1000; // cantidad de tiradas
 
         executor.ejecutar(new ArrivalRate(monitor,ejecuciones));    //T0
         executor.ejecutar(new AsignarP1(monitor,ejecuciones));      //T1

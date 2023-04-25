@@ -19,7 +19,7 @@ public class ThreadExecutor {
     /**
      * Constructor donde definimos a la pool para que cree n hilos con un
      * factory definido
-     * @param factory: src.Factory que le indica a la pool como va a crear los hilos
+     * @param factory: Factory que le indica a la pool como va a crear los hilos
      */
     public ThreadExecutor(Factory factory){
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(15,factory);
