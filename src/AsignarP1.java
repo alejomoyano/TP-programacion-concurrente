@@ -11,7 +11,7 @@ public class AsignarP1 implements Runnable {
         secuencia = new int[17][1];
         secuencia[1][0] = 1;
         this.monitor = monitor;
-        nombre = "src.AsignarP1";
+        nombre = "AsignarP1";
         this.ejecuciones = ejecuciones;
     }
 

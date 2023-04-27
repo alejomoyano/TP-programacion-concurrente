@@ -51,24 +51,19 @@ public class Main {
             }
 
         }
-//        if (tareas == ejecuciones ){
-            log.logger();
-            System.out.println("");
-            System.out.println("------------Programa finalizado------------");
-            System.out.println("Memoria1 cantidad actual: " + memoria1.getCantActual());
-            System.out.println("Memoria2 cantidad actual: " + memoria2.getCantActual());
-            System.out.println("Guardados en memoria1: " + memoria1.getHistorial());
-            System.out.println("Guardados en memoria2: " + memoria2.getHistorial());
+        log.logger();
+        System.out.println("");
+        System.out.println("------------Programa finalizado------------");
+        System.out.println("Memoria1 cantidad actual: " + memoria1.getCantActual());
+        System.out.println("Memoria2 cantidad actual: " + memoria2.getCantActual());
+        System.out.println("Guardados en memoria1: " + memoria1.getHistorial());
+        System.out.println("Guardados en memoria2: " + memoria2.getHistorial());
 
-            System.out.println("Tareas realizadas: " + tareas);
-            System.out.println("Tiempo de ejecucion: "+ ((System.currentTimeMillis()-Tiempoinicio)/1000)+" segundos.");
-            System.out.println("-------------Marcado-------------");
-            Utils.imprimirMatriz2D(RedDePetri.getMarcado());
-            System.out.println("---------------------------------");
-
-//            break;
-//        }
-
+        System.out.println("Tareas realizadas: " + tareas);
+        System.out.println("Tiempo de ejecucion: "+ ((System.currentTimeMillis()-Tiempoinicio)/1000)+" segundos.");
+        System.out.println("-------------Marcado-------------");
+        Utils.imprimirMatriz2D(RedDePetri.getMarcado());
+        System.out.println("---------------------------------");
         System.out.println("Ejecucion terminada...");
     }
 

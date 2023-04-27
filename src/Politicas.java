@@ -7,7 +7,6 @@ public class Politicas {
 
     public Politicas(RdP red) {
         this.Red = red;
-
     }
 
     /**
@@ -22,14 +21,11 @@ public class Politicas {
         boolean hayConflicto = false;
         int indice = 0;
 
-        // indice que corresponde a que transicion tiene conflicto. Puede devolver -1 que sig
-        // que no hay conflicto en la secuencia
         indice = RdP.tieneConflicto(secuencia);
 
         // coloca true si >= 0 y false si == -1
         hayConflicto = indice != -1;
 
-        // si hay conflicto lo resolvemos
         if (hayConflicto) {
             return resolvemosConflicto(indice, sensConDormidos);
         }
@@ -57,11 +53,13 @@ public class Politicas {
         //conflicto Tareas en procesador1 - 50% de probabilidad cada uno
         if ((indice == 5 || indice == 13) && (sensAndDormidos[5][0] == 1 && sensAndDormidos[13][0] == 1)){
             int rand = random.nextInt(2);
+
             if (rand == 0) {
                 auxiliar = 5;
             } else {
                 auxiliar = 13;
             }
+
         }
 
         //conflicto en tareas procesador2 - 50% de probabilidad cada uno
@@ -71,11 +69,10 @@ public class Politicas {
 
             if (rand == 0) {
                 auxiliar = 6;
-
             } else {
                 auxiliar = 14;
-
             }
+
         }
 
         //conflicto en memorias desde procesador1

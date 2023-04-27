@@ -85,7 +85,6 @@ while 1:
             # revisamos si en el grupo final hay una transicion o no. Eso indica si fue esa la invariante encontrada
             if len(groups_list[last_group]) == 2 or len(groups_list[last_group]) == 3:
                 # vamos grupo por grupo obteniendo la transicion a la que corresponde y eliminandola del string de transiciones.
-                # agregue (?=\w) porque si ponia T1 por ejemplo y encontraba una T10 me sacaba el T1 y quedaba el 0 colgado.
                 for group in groups:
 #                     print(groups_list[group-1], end="")
                     transitions = re.sub(groups_list[group-1] + r'(?=\w)',"",transitions,1)
@@ -121,6 +120,3 @@ print("Cantidad de matchs encontrados: " + str(matchs_counter) + "\n")
 # 0 src.Tarea2P1        17
 # 0 src.Tarea2P2        18
 
-
-# una forma de darse cuenta si esta bien es mirar la cantidad de guardados en memoria sin vaciar que figura en el main
-# y esa cantidad de T0 tienen que sobrar en las restantes, si quedaron 3 guardadas sin vaciar, debe figurar 3 veces T0 en las t-restantes

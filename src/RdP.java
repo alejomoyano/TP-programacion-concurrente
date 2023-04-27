@@ -61,15 +61,21 @@ public class RdP {
 
 		for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
-
-				if (k == 3 || k == 4) {                    //matrizTemp[3] y [4] corresponden a FinalizarT2P1 y FinalizarT2P2
-					matrizTemp[k][1] = (long) 60;//alfa 60ms		//FinalizarT2Px demoran como minimo 60ms
+				if (k == 3 || k == 4) {  // alfa FinalizarT2Px
+					matrizTemp[k][1] = (long) 60;
+				}
+				else if (k == 15 || k == 16) {  // alfa VaciarMx
+					matrizTemp[k][1] = (long) 130;
+				}
+				else if (k == 0){ // alfa arrivalRate
+					matrizTemp[k][1] = (long) 20;
 				}
 				else {
-					matrizTemp[k][1] = (long) 20;//alfa 20ms		// El resto de temporales demora como minimo 20 ms
+					matrizTemp[k][1] = (long) 40;
 				}
-				matrizTemp[k][2] = (long) 0xffff;//beta infinito
+				matrizTemp[k][2] = (long) 0xffff; // beta
 				k++;
+
 			}
 		}
 	}
@@ -100,13 +106,13 @@ public class RdP {
 	 * @param secuencia secuencia a disparar
 	 * @return true si se disparo, false si no
 	 */
-	public static boolean shootIfWeCan(int[][] secuencia) {
+	public static boolean dispararTransicion(int[][] secuencia) {
 
 		boolean disparar = false;
 
 		int[][] nuevoMarcado = esDisparable(secuencia); // obtenemos el nuevo marcado si es que es disparable
 
-		int tempTransIndex = isTemporal(secuencia); // -1 no es temporal, 0 <= si es temporal
+		int tempTransIndex = getTempIndex(secuencia); // -1 no es temporal, 0 <= si es temporal
 		//System.out.println("Disparar segun marcado: "+disparar+" Hilo: "+Thread.currentThread().getName());
 
 		disparar = nuevoMarcado != null; 		// true si tiene marcado, false si es null
@@ -115,24 +121,14 @@ public class RdP {
 			//si no cumplen las condiciones de una transition temporal, disparar será falso y no se efectuara el disparo
 			disparar = dispararTemporal(tempTransIndex);
 //			System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
-
 		}
+
 		// si no es temporal o si es temporal y se cumplen las condiciones, dispara.
 		if(disparar){
-			/*System.out.println("--------------------------------------------------------");
-
-			System.out.println("Acabo de disparar la secuencia:");
-			src.Utils.imprimirMatriz2D(secuencia);
-			System.out.println(Thread.currentThread().getName());
-			System.out.println("El Marcado quedo:");
-			src.Utils.imprimirMatriz2D(nuevoMarcado);
-			System.out.println("--------------------------------------------------------");
-*/
 			MarcadoActual = nuevoMarcado;    //efectuo el disparo si se cumplen las condiciones, guardando el nuevo marcado
 			Sensibilizados();            //se actualizan las transiciones sensibilizadas
 			invariantesDePlaza();
 			setTiempos();
-
 		}
 		//System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+Thread.currentThread().getName());
 		return disparar;
@@ -148,7 +144,6 @@ public class RdP {
 		int[][] vector = new int[17][1];
 		int[][] sensibilizadas = new int[17][1];
 
-		// ---- vamos probando transicion por transicion si es posible dispararla ----
 		for (int i = 0; i < 17; i++) {
 			vector[i][0] = 1;
 			if (!(i == 0)) {
@@ -160,7 +155,6 @@ public class RdP {
 			}
 
 		}
-		// ---- 0 ----
 
 		// seteamos la matriz con todas las transiciones actualmente sensibilizadas
 		TSensibilizadas = sensibilizadas;
@@ -314,7 +308,7 @@ public class RdP {
 	 * @param secuencia secuencia a disparar
 	 * @return posicion en la matrizTemp
 	 */
-	private static int isTemporal(int[][] secuencia) {
+	private static int getTempIndex(int[][] secuencia) {
 		int pos = -1;
 		int[][] sens = Utils.calcularAND(secuencia, temporales);
 

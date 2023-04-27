@@ -3,15 +3,6 @@ package src;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-/**
- * Entonces la pool va a tener listos 15 hilos para ser ejecutados.
- * Estos quedan "esperando" a que le demos la tarea a realizar.
- * Cuando hagamos execute(Runnable), el executor busca un hilo y lo
- * pone a ejecutar.
- */
-
-
-
 public class ThreadExecutor {
 
     private final ThreadPoolExecutor executor;

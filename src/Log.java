@@ -21,18 +21,16 @@ public class Log {
         }
     }
 
-    /* esta funcion se ejecuta fuera del mutex, puede ser que entren 2 al mismo tiempo
-    * muy raro seria pero porlas mepa que sirve */
-    public static synchronized void logTareas(int[][] sec) {//revisa si es una t1p1  o una t1p2
+
+    public static synchronized void logTareas(int[][] sec) {
         if (sec[5][0] == 1) {
             t1p1++;
         } else if (sec[6][0] == 1) {
             t1p2++;
         }
     }
-    /* esta funcion se ejecuta fuera del mutex, puede ser que entren 2 al mismo tiempo
-     * muy raro seria pero porlas mepa que sirve */
-    public static synchronized void logProcesadores(int[][] sec) {//revisa que procesador se ejecuta
+
+    public static synchronized void logProcesadores(int[][] sec) {
         if (sec[3][0] == 1) {
             p1++;
         } else {

@@ -31,9 +31,6 @@ public class Colas {
       
         for(int i=0;i<17;i++){
             if(secuencia[i][0] == 1){
-                /* Estuve viendo sobre la diferencia entre acquireUninterruptibly() y acquire().
-                 * Porque en el mutex usamos acquire() y aca el acquireUninterruptibly() y vos recordas si hicimos esto por alguna razon?
-                 */
                 semaforos.get(i).acquireUninterruptibly();
                 break;
             }

@@ -15,8 +15,6 @@ public class ArrivalRate implements Runnable {
     }
 
     public void run() {
-
-//        while (Main.getTareas() < ejecuciones) {
         for (int i = 0; i < ejecuciones; i++) {
             monitor.Disparar(secuencia);
         }
