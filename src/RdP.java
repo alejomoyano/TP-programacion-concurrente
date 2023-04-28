@@ -150,7 +150,7 @@ public class RdP {
 				vector[i - 1][0] = 0;	//vamos rotando haciendo la anterior 0 y la actual 1 ej: 100.. 0100.. 0010..
 			}
 
-			if(esDisparable(vector) != null){ // entra si es disparable
+			if(esDisparable(vector) != null){
 				sensibilizadas[i][0] = 1;
 			}
 

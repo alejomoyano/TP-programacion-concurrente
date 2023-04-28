@@ -31,7 +31,12 @@ public class Colas {
       
         for(int i=0;i<17;i++){
             if(secuencia[i][0] == 1){
-                semaforos.get(i).acquireUninterruptibly();
+                try{
+                    semaforos.get(i).acquire();
+                }
+                catch (InterruptedException exception){
+                    exception.printStackTrace();
+                }
                 break;
             }
         }
@@ -39,7 +44,7 @@ public class Colas {
 
     /**
      * Metodo que despierta un hilo dormido en una cola
-     * @param hilo hilo a despertar
+     * @param indexTransicion hilo a despertar
      */
     public void signal(int indexTransicion){
         semaforos.get(indexTransicion).release();

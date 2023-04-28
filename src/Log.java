@@ -63,7 +63,7 @@ public class Log {
                 PrintWriter pw;
                 try {
                     pw = new PrintWriter(new FileWriter("logs/Tlog.txt", true));
-                    pw.print("T" + i);
+                    pw.print("T" + i + "-");
                     pw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
