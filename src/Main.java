@@ -43,7 +43,7 @@ public class Main {
 
 
         while (tareas < ejecuciones) {
-//            System.out.println("while Tareas realizadas: " + tareas);
+            System.out.println("Procesando...Tareas realizadas: " + tareas);
             try {
                 TimeUnit.MILLISECONDS.sleep(2000);
             } catch (Exception e) {
