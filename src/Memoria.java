@@ -35,4 +35,7 @@ public class Memoria {
      Esto de las memorias lo vio el profe? en q estado estaba? como antes? Es medio rebuscado que pase que se pisen adentro 
      pero hay una infima posibilidad de que pase y ventre seguro nos va a preguntar como lo planteamos. Yo lo dejaria como antes para asegurar
      de que no pase nunca que se pisen adentro de la memoria
+
+     No vio esto Ventre pero la proxima vez quizas este ludemann, asi que quizas el si le pegue una mirada.
+     Entiendo, pero se podria solucionar mas facil poniendo al metodo como synchronized que deja entrar de a uno y bloquea a otro que quiera ingresar
      */

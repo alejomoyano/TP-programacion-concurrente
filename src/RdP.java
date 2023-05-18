@@ -59,23 +59,40 @@ public class RdP {
 		RdP.setTiempos();
 		int k=0;
 
+//		for (int j = 0; j < 17; j++) {
+//			if (temporales[j][0] == 1) {
+//				if (k == 3 || k == 4) {  // alfa FinalizarT2Px
+//					matrizTemp[k][1] = (long) 60;
+//				}
+//				else if (k == 15 || k == 16) {  // alfa VaciarMx
+//					matrizTemp[k][1] = (long) 130;
+//				}
+//				else if (k == 0){ // alfa arrivalRate
+//					matrizTemp[k][1] = (long) 20;
+//				}
+//				else {
+//					matrizTemp[k][1] = (long) 40;
+//				}
+//				matrizTemp[k][2] = (long) 0xffff; // beta
+//				k++;
+//			}
+//		}
 		for (int j = 0; j < 17; j++) {
 			if (temporales[j][0] == 1) {
 				if (k == 3 || k == 4) {  // alfa FinalizarT2Px
-					matrizTemp[k][1] = (long) 60;
+					matrizTemp[k][1] = (long) 10;
 				}
 				else if (k == 15 || k == 16) {  // alfa VaciarMx
-					matrizTemp[k][1] = (long) 130;
+					matrizTemp[k][1] = (long) 400;
 				}
 				else if (k == 0){ // alfa arrivalRate
-					matrizTemp[k][1] = (long) 20;
+					matrizTemp[k][1] = (long) 60;
 				}
 				else {
-					matrizTemp[k][1] = (long) 40;
+					matrizTemp[k][1] = (long)100;
 				}
 				matrizTemp[k][2] = (long) 0xffff; // beta
 				k++;
-
 			}
 		}
 	}
