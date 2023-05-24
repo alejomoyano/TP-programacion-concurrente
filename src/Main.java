@@ -3,6 +3,8 @@ package src;
 import src.*;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 // import sun.management.Sensor;
 
@@ -10,7 +12,14 @@ public class Main {
 
     private static int tareas;
 
+    private static Object get_tareas_lock;
+    private static Object tareas_lock;
+
+
     public static void main(String[] args) {
+
+        get_tareas_lock = new Object();
+        tareas_lock = new Object();
 
         long Tiempoinicio = System.currentTimeMillis();
         RdP RedDePetri = new RdP();
@@ -67,12 +76,16 @@ public class Main {
         System.out.println("Ejecucion terminada...");
     }
 
-    public static synchronized void sumarTareas() {
-        tareas++;
+    public static void sumarTareas() {
+        synchronized (tareas_lock){
+            tareas ++;
+        }
 //        System.out.println("Tareas realizadas: " + tareas);
     }
 
-    public static synchronized int getTareas() {
-        return tareas;
+    public static int getTareas() {
+        synchronized (get_tareas_lock){
+            return tareas;
+        }
     }
 }

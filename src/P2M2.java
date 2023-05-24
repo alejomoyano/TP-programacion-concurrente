@@ -6,7 +6,6 @@ public class P2M2 implements Runnable {
     private Memoria m2;
 
     private int ejecuciones;
-        private int counter;
 
     public P2M2(Monitor monitor, Memoria m2, int ejecuciones) {
         secuencia = new int[17][1];
@@ -14,15 +13,12 @@ public class P2M2 implements Runnable {
         this.m2 = m2;
         this.monitor = monitor;
         this.ejecuciones = ejecuciones;
-        this.counter = 0;
     }
 
     public void run() {
         while (Main.getTareas() < ejecuciones) {
             monitor.Disparar(secuencia);
             m2.guardar();
-            this.counter++;
         }
-        System.out.println("P2M2: " + this.counter);
     }
 }

@@ -10,6 +10,7 @@ public class Monitor {
     private Politicas politica;
     private Colas colas;
 
+
     public Monitor(RdP red, Politicas politica,Colas colas){
         this.politica = politica;
         RP = red;
@@ -35,7 +36,7 @@ public class Monitor {
 //                   System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
                 if(RP.getDormirse() && RP.esTemporal(secuencia)) {
                     RP.setDormirse(false);    //bajo el flag, borro el indicador para el proximo hilo
-//                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread());
+//                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread().getName());
 
                     try{
                         // suelta el mutex ya que debe dormirse
@@ -47,7 +48,7 @@ public class Monitor {
                     }
                     try {
                         // una vez que se levanta debe intentar adquirir el monitor de nuevo
-//                        System.out.println("Soy "+Thread.currentThread()+ " he despertado de mi sleep, intento disparar de nuevo");
+//                        System.out.println("Soy "+Thread.currentThread().getName()+ " he despertado de mi sleep, intento disparar de nuevo");
                         mutex.acquire();
                     }
                     catch (InterruptedException exception){
@@ -72,7 +73,6 @@ public class Monitor {
 
             int[][] sensAndDormidos = Utils.calcularAND(RP.getSensibilizado(),colas.getDormidos());
             int cantDormidosSens = 0;
-
             for (int[] sensibilizada : sensAndDormidos) {
                 if (sensibilizada[0] == 1) {
                     cantDormidosSens++;

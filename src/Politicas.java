@@ -5,6 +5,7 @@ import java.util.Random;
 public class Politicas {
     private RdP Red;
 
+
     public Politicas(RdP red) {
         this.Red = red;
     }
@@ -41,7 +42,6 @@ public class Politicas {
      * @return indice de la transicion elegida
      */
     private int resolvemosConflicto(int indice, int[][] sensAndDormidos) {
-
         int auxiliar = 0;
         Random random = new Random();
 
@@ -53,12 +53,11 @@ public class Politicas {
         //conflicto Tareas en procesador1 - 50% de probabilidad cada uno
         if ((indice == 5 || indice == 13) && (sensAndDormidos[5][0] == 1 && sensAndDormidos[13][0] == 1)){
             int rand = random.nextInt(2);
+//            System.out.println("--------------------");
+//            Utils.imprimirMatriz2D(sensAndDormidos);
 
-            if (rand == 0) {
-                auxiliar = 5;
-            } else {
-                auxiliar = 13;
-            }
+//            System.out.println("Decidi ejecutar P1 " + auxiliar + " Soy " + Thread.currentThread().getName());
+//            System.out.println("--------------------");
 
         }
 
@@ -66,13 +65,12 @@ public class Politicas {
         if ((indice == 6 || indice == 14) && (sensAndDormidos[6][0] == 1 && sensAndDormidos[14][0] == 1)) {
 
             int rand = random.nextInt(2);
+//            System.out.println("--------------------");
+//            Utils.imprimirMatriz2D(sensAndDormidos);
 
-            if (rand == 0) {
-                auxiliar = 6;
-            } else {
-                auxiliar = 14;
-            }
+//            System.out.println("Decidi ejecutar P2 " + auxiliar + " Soy " + Thread.currentThread().getName());
 
+//        System.out.println("--------------------");
         }
 
         //conflicto en memorias desde procesador1
@@ -182,7 +180,7 @@ public class Politicas {
         int[][] secuencia = new int[17][1];
         secuencia[indexTransicion][0] = 1;
 
-        return HayConflicto(secuencia,sensAndDormidos);
+        return HayConflicto(secuencia, sensAndDormidos);
 //        return secuencia;
     }
 }

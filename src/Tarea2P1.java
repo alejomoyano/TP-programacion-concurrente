@@ -6,7 +6,6 @@ public class Tarea2P1 implements Runnable {
     private Monitor monitor;
 
     private int ejecuciones;
-        private int counter;
 
     public Tarea2P1(Monitor monitor, int ejecuciones) {
         ProcesarT2P1 = new int[17][1];
@@ -15,7 +14,6 @@ public class Tarea2P1 implements Runnable {
         FinalizarT2P1[7][0] = 1;
         this.monitor = monitor;
         this.ejecuciones = ejecuciones;
-        this.counter = 0;
     }
 
     public void run() {
@@ -23,8 +21,6 @@ public class Tarea2P1 implements Runnable {
             monitor.Disparar(ProcesarT2P1);
             monitor.Disparar(FinalizarT2P1);
             Main.sumarTareas();
-            this.counter++;
         }
-        System.out.println("Tarea2P1: " + this.counter);
     }
 }

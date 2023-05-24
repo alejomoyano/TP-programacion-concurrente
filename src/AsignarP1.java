@@ -6,7 +6,6 @@ public class AsignarP1 implements Runnable {
     private String nombre;
 
     private int ejecuciones;
-    private int counter;
 
     public AsignarP1(Monitor monitor, int ejecuciones) {
         secuencia = new int[17][1];
@@ -14,7 +13,6 @@ public class AsignarP1 implements Runnable {
         this.monitor = monitor;
         nombre = "AsignarP1";
         this.ejecuciones = ejecuciones;
-        this.counter = 0;
     }
 
     public String getNombre() {
@@ -24,8 +22,6 @@ public class AsignarP1 implements Runnable {
     public void run() {
         while (Main.getTareas() < ejecuciones) {
             monitor.Disparar(secuencia);
-            this.counter++;
         }
-        System.out.println("AsignarP1: " + this.counter);
     }
 }

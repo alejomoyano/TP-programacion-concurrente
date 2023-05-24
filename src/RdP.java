@@ -57,43 +57,37 @@ public class RdP {
 //		Utils.imprimirMatriz2D(TSensibilizadas);
 
 		RdP.setTiempos();
-		int k=0;
 
-//		for (int j = 0; j < 17; j++) {
-//			if (temporales[j][0] == 1) {
-//				if (k == 3 || k == 4) {  // alfa FinalizarT2Px
-//					matrizTemp[k][1] = (long) 60;
-//				}
-//				else if (k == 15 || k == 16) {  // alfa VaciarMx
-//					matrizTemp[k][1] = (long) 130;
-//				}
-//				else if (k == 0){ // alfa arrivalRate
-//					matrizTemp[k][1] = (long) 20;
-//				}
-//				else {
-//					matrizTemp[k][1] = (long) 40;
-//				}
-//				matrizTemp[k][2] = (long) 0xffff; // beta
-//				k++;
-//			}
-//		}
-		for (int j = 0; j < 17; j++) {
-			if (temporales[j][0] == 1) {
-				if (k == 3 || k == 4) {  // alfa FinalizarT2Px
-					matrizTemp[k][1] = (long) 10;
-				}
-				else if (k == 15 || k == 16) {  // alfa VaciarMx
-					matrizTemp[k][1] = (long) 400;
-				}
-				else if (k == 0){ // alfa arrivalRate
-					matrizTemp[k][1] = (long) 60;
-				}
-				else {
-					matrizTemp[k][1] = (long)100;
-				}
-				matrizTemp[k][2] = (long) 0xffff; // beta
-				k++;
-			}
+		matrizTemp[0][1] = (long) 20; // alfa arrivalRate
+
+		matrizTemp[1][1] = (long) 30; // alfa FinalizarT1Px
+		matrizTemp[2][1] = (long) 30;
+
+		matrizTemp[3][1] = (long) 60;// alfa FinalizarT2Px
+		matrizTemp[4][1] = (long) 60;
+		matrizTemp[5][1] = (long) 30; // alfa ProcesarT2Px
+		matrizTemp[6][1] = (long) 30;
+
+		matrizTemp[7][1] = (long) 130; // alfa VaciarMx
+		matrizTemp[8][1] = (long) 130;
+//
+//		matrizTemp[0][1] = (long) 10; // alfa arrivalRate
+//
+//		matrizTemp[1][1] = (long) 100; // alfa FinalizarT1Px
+//		matrizTemp[2][1] = (long) 100;
+//
+//		matrizTemp[3][1] = (long) 10;// alfa FinalizarT2Px
+//		matrizTemp[4][1] = (long) 10;
+//		matrizTemp[5][1] = (long) 100; // alfa ProcesarT2Px
+//		matrizTemp[6][1] = (long) 100;
+//
+//		matrizTemp[7][1] = (long) 400; // alfa VaciarMx
+//		matrizTemp[8][1] = (long) 400;
+
+
+		// beta
+		for (int j = 0; j < 9; j++) {
+			matrizTemp[j][2] = (long) 0xffff;
 		}
 	}
 	
@@ -115,7 +109,6 @@ public class RdP {
 		}
 		return NuevoMarcado;
 	}
-
 
 
 	/**
@@ -164,7 +157,7 @@ public class RdP {
 		for (int i = 0; i < 17; i++) {
 			vector[i][0] = 1;
 			if (!(i == 0)) {
-				vector[i - 1][0] = 0;	//vamos rotando haciendo la anterior 0 y la actual 1 ej: 100.. 0100.. 0010..
+				vector[i - 1][0] = 0;	//vamos rotando haciendo la anterior 0 y la actual 1 ek: 100.. 0100.. 0010..
 			}
 
 			if(esDisparable(vector) != null){
@@ -251,7 +244,8 @@ public class RdP {
 			// si esta dentro de la ventana debe dispararse
 			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)) {
 
-//				System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
+//				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
+//					System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
 
 				return true;
 			}
@@ -267,7 +261,8 @@ public class RdP {
 				// debemos dormir el hilo durante alfaRelativo-arrivalTime que es lo mismo que (alfa-(tiempo actual-wi))
 				RdP.setDormirse(true); // para indicar que se debe dormir y no saltar a la cola de la transicion
 
-//				System.out.println("Llegue antes de la ventana, deberia dormirme. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
+//				System.out.println(Thread.currentThread().getName() +" Llegue antes de la ventana, deberia dormirme: "+ (alfaRelativo - matrizTemp[pos][0])+"ms.");
+				setSleepTime(alfaRelativo - arrivalTime);
 
 				return false;
 			}
