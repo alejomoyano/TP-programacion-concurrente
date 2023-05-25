@@ -25,20 +25,14 @@ public class Colas {
     /**
      * Metodo que en el que se manda a dormir al hilo que intento disparar una transicion no disponible.
      * Puede que haya sido porque no estaba sensibilizada o porque esta después de la ventana temporal.
-     * @param secuencia secuencia de disparo
+     * @param transicion secuencia de disparo
      */
-    public void setDormirse(int[][] secuencia){
-      
-        for(int i=0;i<17;i++){
-            if(secuencia[i][0] == 1){
-                try{
-                    semaforos.get(i).acquire();
-                }
-                catch (InterruptedException exception){
-                    exception.printStackTrace();
-                }
-                break;
-            }
+    public void setDormirse(int transicion){
+        try{
+            semaforos.get(transicion).acquire();
+        }
+        catch (InterruptedException exception){
+            exception.printStackTrace();
         }
     }
 

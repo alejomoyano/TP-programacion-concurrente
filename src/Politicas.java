@@ -53,30 +53,24 @@ public class Politicas {
         //conflicto Tareas en procesador1 - 50% de probabilidad cada uno
         if ((indice == 5 || indice == 13) && (sensAndDormidos[5][0] == 1 && sensAndDormidos[13][0] == 1)){
             int rand = random.nextInt(2);
-//            System.out.println("--------------------");
-//            Utils.imprimirMatriz2D(sensAndDormidos);
-
-//            System.out.println("Decidi ejecutar P1 " + auxiliar + " Soy " + Thread.currentThread().getName());
-//            System.out.println("--------------------");
-
+            if(rand == 0)
+                auxiliar = 5;
+            else
+                auxiliar = 13;
         }
 
         //conflicto en tareas procesador2 - 50% de probabilidad cada uno
         if ((indice == 6 || indice == 14) && (sensAndDormidos[6][0] == 1 && sensAndDormidos[14][0] == 1)) {
-
             int rand = random.nextInt(2);
-//            System.out.println("--------------------");
-//            Utils.imprimirMatriz2D(sensAndDormidos);
-
-//            System.out.println("Decidi ejecutar P2 " + auxiliar + " Soy " + Thread.currentThread().getName());
-
-//        System.out.println("--------------------");
+            if(rand == 0)
+                auxiliar = 6;
+            else
+                auxiliar = 14;
         }
 
         //conflicto en memorias desde procesador1
         if ((indice == 9 || indice == 10) && (sensAndDormidos[9][0] == 1 && sensAndDormidos[10][0] == 1)){
             auxiliar = this.ConflictoMemoriasP1();
-
         }
 
         //conflicto en memorias desde procesador2
@@ -95,10 +89,10 @@ public class Politicas {
 
         // mirando en el marcado, seleccionamos el que tiene menos asignados
         if (marca[0][0] < marca[1][0]) {
-            return 1;//devolver la transicion src.AsignarP1
+            return 1;//devolver la transicion AsignarP1
         }
         if (marca[0][0] > marca[1][0]) {
-            return 2;//devolver la transicion src.AsignarP2
+            return 2;//devolver la transicion AsignarP2
         }
 
 
@@ -119,10 +113,10 @@ public class Politicas {
 
         // mirando en el marcado, seleccionamos el que tiene menos ocupados
         if (marca[9][0] < marca[10][0]) {
-            return 9;       //devolver la transicion src.P1M1
+            return 9;       //devolver la transicion P1M1
         }
         if (marca[9][0] > marca[10][0]) {
-            return 10;      //devolver la transicion src.P1M2
+            return 10;      //devolver la transicion P1M2
         }
 
         // seleccionamos con un 50% alguna de las transiciones.
@@ -141,10 +135,10 @@ public class Politicas {
 
         // mirando en el marcado, seleccionamos el que tiene menos ocupados
         if (marca[9][0] < marca[10][0]) {
-            return 11;      //devolver la transicion src.P2M1
+            return 11;      //devolver la transicion P2M1
         }
         if (marca[9][0] > marca[10][0]) {
-            return 12;      //devolver la transicion src.P2M2
+            return 12;      //devolver la transicion P2M2
         }
 
         // seleccionamos con un 50% alguna de las transiciones.

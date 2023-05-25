@@ -70,19 +70,6 @@ public class RdP {
 
 		matrizTemp[7][1] = (long) 130; // alfa VaciarMx
 		matrizTemp[8][1] = (long) 130;
-//
-//		matrizTemp[0][1] = (long) 10; // alfa arrivalRate
-//
-//		matrizTemp[1][1] = (long) 100; // alfa FinalizarT1Px
-//		matrizTemp[2][1] = (long) 100;
-//
-//		matrizTemp[3][1] = (long) 10;// alfa FinalizarT2Px
-//		matrizTemp[4][1] = (long) 10;
-//		matrizTemp[5][1] = (long) 100; // alfa ProcesarT2Px
-//		matrizTemp[6][1] = (long) 100;
-//
-//		matrizTemp[7][1] = (long) 400; // alfa VaciarMx
-//		matrizTemp[8][1] = (long) 400;
 
 
 		// beta
@@ -113,19 +100,22 @@ public class RdP {
 
 	/**
 	 * Metodo que realiza el disparo de una secuencia si es posible hacerlo
-	 * @param secuencia secuencia a disparar
+	 * @param transicion secuencia a disparar
 	 * @return true si se disparo, false si no
 	 */
-	public static boolean dispararTransicion(int[][] secuencia) {
+	public boolean dispararTransicion(int transicion) {
 
 		boolean disparar = false;
 
-		int[][] nuevoMarcado = esDisparable(secuencia); // obtenemos el nuevo marcado si es que es disparable
+		int[][] secuencia = new int[17][1];
+		secuencia[transicion][0] = 1;
 
-		int tempTransIndex = getTempIndex(secuencia); // -1 no es temporal, 0 <= si es temporal
+		int[][] nuevoMarcado = esDisparable(secuencia);
+
+		int tempTransIndex = getTempIndex(secuencia);
 		//System.out.println("Disparar segun marcado: "+disparar+" Hilo: "+Thread.currentThread().getName());
 
-		disparar = nuevoMarcado != null; 		// true si tiene marcado, false si es null
+		disparar = nuevoMarcado != null;
 
 		if(tempTransIndex >= 0 && disparar) {	// si es temporal y está sensibilizado/se puede disparar
 			//si no cumplen las condiciones de una transition temporal, disparar será falso y no se efectuara el disparo
@@ -224,7 +214,7 @@ public class RdP {
 	 * @param pos transicion temporal a disparar
 	 * @return true si se puede disparar (esta dentro de la ventana), false si no puede hacerlo
 	 */
-	private static boolean dispararTemporal(int pos) {
+	private boolean dispararTemporal(int pos) {
 		/*
 		   -Si llega entre el wi y el alfa entonces sleep(alfa-(tiempo actual-wi)).
 		   -Si llega en la ventana se dispara.
@@ -259,7 +249,7 @@ public class RdP {
 				matrizTemp[pos][3] =  matrizTemp[pos][3] == 0 ? currentThreadId : matrizTemp[pos][3];
 
 				// debemos dormir el hilo durante alfaRelativo-arrivalTime que es lo mismo que (alfa-(tiempo actual-wi))
-				RdP.setDormirse(true); // para indicar que se debe dormir y no saltar a la cola de la transicion
+				setDormirse(true); // para indicar que se debe dormir y no saltar a la cola de la transicion
 
 //				System.out.println(Thread.currentThread().getName() +" Llegue antes de la ventana, deberia dormirme: "+ (alfaRelativo - matrizTemp[pos][0])+"ms.");
 				setSleepTime(alfaRelativo - arrivalTime);
@@ -301,17 +291,20 @@ public class RdP {
 
 	/**
 	 * Metodo que indica si una secuencia tiene una transicion que es temporal o no
-	 * @param secuencia secuencia de ejecucion
+	 * @param transicion secuencia de ejecucion
 	 * @return true si tiene una temporal, false si no tiene
 	 */
-	public boolean esTemporal(int[][] secuencia) {
-		int[][] sens = Utils.calcularAND(secuencia, temporales);
+	public boolean esTemporal(int transicion) {
 
-		for (int i = 0; i < sens.length; i++) {
-			if (sens[i][0] == 1)
-				return true;
-		}
-		return false;
+		return temporales[transicion][0] == 1;
+
+//		int[][] sens = Utils.calcularAND(secuencia, temporales);
+//
+//		for (int i = 0; i < sens.length; i++) {
+//			if (sens[i][0] == 1)
+//				return true;
+//		}
+//		return false;
 	}
 
 
@@ -399,7 +392,7 @@ public class RdP {
 		return sleepTime;
 	}
 
-	public static void setDormirse(boolean c) {
+	public void setDormirse(boolean c) {
 		dormirse=c;
 	}
 

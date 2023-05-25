@@ -2,6 +2,7 @@ package src;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ThreadExecutor {
 
@@ -23,4 +24,5 @@ public class ThreadExecutor {
     public void ejecutar(Runnable task){
         executor.execute(task);
     }
+    public void shutdown() {executor.shutdown(); }
 }
