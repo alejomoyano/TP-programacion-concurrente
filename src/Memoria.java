@@ -8,30 +8,21 @@ public class Memoria {
 
     private int buffer;
     private int contador; //cuenta el total de tareas que se guardaron en las memorias
-    private final Object guardar_lock;
-    private final Object vaciar_lock;
 
     public Memoria(){
         buffer=0;
         contador=0;
-        guardar_lock = new Object();
-        vaciar_lock = new Object();
     }
 
     public int getCantActual() {return buffer;}
     public int getHistorial() {return contador;}
 
-    public void guardar(){
-        synchronized (guardar_lock){
+    public synchronized void guardar(){
             buffer++;
             contador++;
-        }
-
     }
 
-    public void vaciar(){
-        synchronized (vaciar_lock){
+    public synchronized void vaciar(){
             buffer--;
-        }
     }
 }

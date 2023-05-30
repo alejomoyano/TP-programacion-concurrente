@@ -12,14 +12,7 @@ public class Main {
 
     private static int tareas;
 
-    private static Object get_tareas_lock;
-    private static Object tareas_lock;
-
-
     public static void main(String[] args) {
-
-        get_tareas_lock = new Object();
-        tareas_lock = new Object();
 
         long Tiempoinicio = System.currentTimeMillis();
         RdP RedDePetri = new RdP();
@@ -34,21 +27,6 @@ public class Main {
 
         int ejecuciones = 1000; // cantidad de tiradas
 
-//        executor.ejecutar(new ArrivalRate(monitor,ejecuciones));    //T0
-//        executor.ejecutar(new AsignarP1(monitor,ejecuciones));      //T1
-//        executor.ejecutar(new AsignarP2(monitor,ejecuciones));      //T2 etc...
-//        executor.ejecutar(new EmpezarP1(monitor,ejecuciones));
-//        executor.ejecutar(new EmpezarP2(monitor,ejecuciones));
-//        executor.ejecutar(new Tarea1P1(monitor,ejecuciones));
-//        executor.ejecutar(new Tarea1P2(monitor,ejecuciones));
-//        executor.ejecutar(new Tarea2P1(monitor,ejecuciones));
-//        executor.ejecutar(new Tarea2P2(monitor,ejecuciones));
-//        executor.ejecutar(new P1M1(monitor, memoria1,ejecuciones));
-//        executor.ejecutar(new P1M2(monitor, memoria2,ejecuciones));
-//        executor.ejecutar(new P2M1(monitor, memoria1,ejecuciones));
-//        executor.ejecutar(new P2M2(monitor, memoria2,ejecuciones));
-//        executor.ejecutar(new VaciarM1(monitor, memoria1,ejecuciones));
-//        executor.ejecutar(new VaciarM2(monitor, memoria2,ejecuciones));
         executor.ejecutar(new Task(monitor,ejecuciones,0));
         executor.ejecutar(new Task(monitor,ejecuciones,1));
         executor.ejecutar(new Task(monitor,ejecuciones,2));
@@ -76,7 +54,6 @@ public class Main {
 
         }
 
-
         executor.shutdown();
         log.logger();
         System.out.println("");
@@ -94,16 +71,12 @@ public class Main {
         System.out.println("Ejecucion terminada...");
     }
 
-    public static void sumarTareas() {
-        synchronized (tareas_lock){
+    public synchronized static void sumarTareas() {
             tareas++;
-        }
 //        System.out.println("Tareas realizadas: " + tareas);
     }
 
-    public static int getTareas() {
-        synchronized (get_tareas_lock){
+    public synchronized static int getTareas() {
             return tareas;
-        }
     }
 }

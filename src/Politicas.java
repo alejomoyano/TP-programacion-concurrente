@@ -95,7 +95,6 @@ public class Politicas {
             return 2;//devolver la transicion AsignarP2
         }
 
-
         // seleccionamos con un 50% alguna de las transiciones en caso de que esten iguales de tokens
         int random = rand.nextInt(2);
         if (random == 0) {
@@ -103,7 +102,6 @@ public class Politicas {
         } else {
             return 2;
         }
-
     }
 
     private int ConflictoMemoriasP1() {

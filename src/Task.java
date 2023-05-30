@@ -6,6 +6,7 @@ public class Task implements Runnable{
     private final Monitor monitor;
     private int segunda_transicion;
     private Memoria memoria;
+
     public Task(Monitor monitor, int ejecuciones,  int transicion, int segunda_transicion) {
         this.transicion = transicion;
         this.segunda_transicion = segunda_transicion;
