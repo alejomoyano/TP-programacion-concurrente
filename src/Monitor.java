@@ -38,7 +38,7 @@ public class Monitor {
 //                   System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
                 if(RP.getDormirse() && RP.esTemporal(transicion)) {
                     RP.setDormirse(false);    //bajo el flag, borro el indicador para el proximo hilo
-//                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread().getName());
+                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread().getName());
 
                     try{
                         // suelta el mutex ya que debe dormirse
@@ -58,7 +58,7 @@ public class Monitor {
                     }
                 }
                 else {
-//                   System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
+                   System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
                     mutex.release();
                     colas.setDormirse(transicion);
 //                    System.out.println("Soy: " + Thread.currentThread() + " voy a intentar disparar de nuevo, me sacaron de la cola.");

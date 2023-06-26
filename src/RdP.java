@@ -68,8 +68,8 @@ public class RdP {
 		matrizTemp[5][1] = (long) 30; // alfa ProcesarT2Px
 		matrizTemp[6][1] = (long) 30;
 
-		matrizTemp[7][1] = (long) 130; // alfa VaciarMx
-		matrizTemp[8][1] = (long) 130;
+		matrizTemp[7][1] = (long) 1000; // alfa VaciarMx
+		matrizTemp[8][1] = (long) 1000;
 
 
 		// beta
@@ -130,7 +130,9 @@ public class RdP {
 			invariantesDePlaza();
 			setTiempos();
 		}
-		//System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+Thread.currentThread().getName());
+		System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+"-"+Thread.currentThread().getName());
+		System.out.println("Marcado memorias 1 y 2: "+ MarcadoActual[9][0]+"-"+MarcadoActual[10][0]);
+
 		return disparar;
 	}
 
@@ -194,7 +196,19 @@ public class RdP {
 						matrizTemp[counter][0] = wiStart; // guarda wiStart en la matriz, en la transicion que corresponde
 						matrizTemp[counter][4] = 1; // set sensibilizada
 					}
-					// else -> antes estaba sensibilizada
+					/*  else -> antes estaba sensibilizada. ATENCION ACA 
+					 Antes estaba sensibilizada y ahora lo sigue estando. En el caso de las memorias tenemos 8 tokens u 8 lugares de memoria
+					 cuando esta vacia la memoria, la tarea vaciarx no esta sensibilizada porque no tiene nada q vaciar
+					 cuando se guarda un dato, se sensibiliza vaciarmx y se setean los tiempos. Pero estos tiempos quedan fijos
+					 porque va a seguir estando sensibilizada mientras haya dato en la memoria y los tiempos van a quedar de la primera vez
+					 q se cargo la memoria cuando estaba vacia. Es decir el wiStart va a quedar de ese primer dato guardado y luego el alfarelativo
+					 va a quedar constante mientras este con datos la memoria, entonces el thread va a vaciar la memoria a lo loco
+					 sin respetar tiempos porque el alfa es el del primer dato guardado y vacia sin parar hasta que quede vacia y ahi se repite el ciclo
+
+
+					 */
+					long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
+					matrizTemp[counter][0] = wiStart;
 				}
 				else{ // no esta sensibilizada
 					if(matrizTemp[counter][4] == 1){ // estaba sensibilizada
@@ -234,8 +248,8 @@ public class RdP {
 			// si esta dentro de la ventana debe dispararse
 			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)) {
 
-//				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
-//					System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
+				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
+					System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
 
 				return true;
 			}
