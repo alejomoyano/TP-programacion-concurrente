@@ -68,8 +68,8 @@ public class RdP {
 		matrizTemp[5][1] = (long) 30; // alfa ProcesarT2Px
 		matrizTemp[6][1] = (long) 30;
 
-		matrizTemp[7][1] = (long) 1000; // alfa VaciarMx
-		matrizTemp[8][1] = (long) 1000;
+		matrizTemp[7][1] = (long) 100; // alfa VaciarMx
+		matrizTemp[8][1] = (long) 100;
 
 
 		// beta
@@ -207,8 +207,10 @@ public class RdP {
 
 
 					 */
+					if(counter == 7 || counter == 8){		//solo actualizamos Vaciarx
 					long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
 					matrizTemp[counter][0] = wiStart;
+					}
 				}
 				else{ // no esta sensibilizada
 					if(matrizTemp[counter][4] == 1){ // estaba sensibilizada

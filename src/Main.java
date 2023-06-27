@@ -14,7 +14,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        long Tiempoinicio = System.currentTimeMillis();
         RdP RedDePetri = new RdP();
         Colas colas = new Colas();
         Politicas politicas = new Politicas(RedDePetri);
@@ -26,6 +25,8 @@ public class Main {
         Log log = new Log(memoria_uno, memoria_dos);
 
         int ejecuciones = 1000; // cantidad de tiradas
+
+        long Tiempoinicio = System.currentTimeMillis();
 
         executor.ejecutar(new Task(monitor,ejecuciones,0));
         executor.ejecutar(new Task(monitor,ejecuciones,1));
@@ -69,6 +70,8 @@ public class Main {
         Utils.imprimirMatriz2D(RedDePetri.getMarcado());
         System.out.println("---------------------------------");
         System.out.println("Ejecucion terminada...");
+        System.exit(0); // Para que el programa realmente termine (se cierra la JVM). Sino siguen corriendo los hilos
+                        // ya que son independientes del main y siempre terminan las t-invariantes completas vaciando todas las memorias
     }
 
     public synchronized static void sumarTareas() {
