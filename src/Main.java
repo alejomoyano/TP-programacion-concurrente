@@ -1,12 +1,6 @@
 package src;
 
-import src.*;
-
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-// import sun.management.Sensor;
 
 public class Main {
 
@@ -19,7 +13,7 @@ public class Main {
         Politicas politicas = new Politicas(RedDePetri);
         Memoria memoria_uno = new Memoria();
         Memoria memoria_dos = new Memoria();
-        Monitor monitor = new Monitor(RedDePetri, politicas, colas, memoria_uno, memoria_dos);
+        Monitor monitor = new Monitor(RedDePetri, politicas, colas);
         Factory factory = new Factory();
         ThreadExecutor executor = new ThreadExecutor(factory);
         Log log = new Log(memoria_uno, memoria_dos);

@@ -130,8 +130,8 @@ public class RdP {
 			invariantesDePlaza();
 			setTiempos();
 		}
-		System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+"-"+Thread.currentThread().getName());
-		System.out.println("Marcado memorias 1 y 2: "+ MarcadoActual[9][0]+"-"+MarcadoActual[10][0]);
+		//System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+"-"+Thread.currentThread().getName());
+		//System.out.println("Marcado memorias 1 y 2: "+ MarcadoActual[9][0]+"-"+MarcadoActual[10][0]);
 
 		return disparar;
 	}
@@ -250,8 +250,8 @@ public class RdP {
 			// si esta dentro de la ventana debe dispararse
 			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)) {
 
-				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
-					System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
+				//if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
+					//System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
 
 				return true;
 			}
