@@ -1,6 +1,6 @@
 package src;
 
-import java.io.FileNotFoundException;	//solo esta se estaria usando en esta clase rdp
+import java.io.FileNotFoundException;
 
 
 public class RdP {
@@ -136,8 +136,8 @@ public class RdP {
 			transicionPorDisparar = transicion; // actualizamos cuando se va a disparar
 			setTiempos();
 		}
-//		System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+"-"+Thread.currentThread().getName());
-//		System.out.println("Marcado memorias 1 y 2: "+ MarcadoActual[9][0]+"-"+MarcadoActual[10][0]);
+		//System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+"-"+Thread.currentThread().getName());
+		//System.out.println("Marcado memorias 1 y 2: "+ MarcadoActual[9][0]+"-"+MarcadoActual[10][0]);
 
 
 		return disparar;
@@ -204,20 +204,17 @@ public class RdP {
 						matrizTemp[counter][4] = 1; // set sensibilizada
 					}
 					// esta sensibilizada y antes tambien
-					// revisamos si estando sensibilizada se le sumo algun token (caso de VaciarMx)
-					else if(counter == 7 || counter == 8) {
+					
+					// Actualizamos cada vez que se dispara VaciarMx y sigue estando sensibilizada 
+					else if(counter == 7 && (transicionPorDisparar == 15)) {
+						
 						long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
 						matrizTemp[counter][0] = wiStart;
 					}
-					// realmente no se cual esta bien. Si actualizar siempre o solo cuadno entra un token.
-//					else if(counter == 7 && (transicionPorDisparar == 9 || transicionPorDisparar == 11)) {
-//						long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
-//						matrizTemp[counter][0] = wiStart;
-//					}
-//					else if(counter == 8 && (transicionPorDisparar == 10 || transicionPorDisparar == 12)) {
-//						long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
-//						matrizTemp[counter][0] = wiStart;
-//					}
+					else if(counter == 8 && (transicionPorDisparar == 16)) {
+						long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
+						matrizTemp[counter][0] = wiStart;
+					}
 				}
 				else{ // no esta sensibilizada
 					if(matrizTemp[counter][4] == 1){ // estaba sensibilizada
@@ -255,8 +252,8 @@ public class RdP {
 
 			// si esta dentro de la ventana debe dispararse
 			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)) {
-//				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
-//					System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
+				//if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
+				//	System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
 				return true;
 			}
 
@@ -266,6 +263,7 @@ public class RdP {
 
 				// si no hay un id entonces guardamos el current.
 				matrizTemp[pos][3] =  matrizTemp[pos][3] == 0 ? currentThreadId : matrizTemp[pos][3];
+				//System.out.println("Llegue antes de la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
 
 				// debemos dormir el hilo durante alfaRelativo-arrivalTime que es lo mismo que (alfa-(tiempo actual-wi))
 				setDormirse(true); // para indicar que se debe dormir y no saltar a la cola de la transicion

@@ -33,19 +33,21 @@ public class Task implements Runnable{
             memoria.guardar();
         if(transicion == 15 || transicion == 16){
 //        	System.out.println("Soy: "+Thread.currentThread().getName()+". Voy a vaciar memoria.");
-
             memoria.vaciar();
         }
         Log.loggeo(transicion);
     }
 
     public void run() {
-//        while (Main.getTareas() < ejecuciones) {
+        //while (Main.getTareas() < ejecuciones) {
         for(int i = 0; i < ejecuciones; i++ ){
             monitor.Disparar(this.transicion);
             if(transicion == 13 || transicion == 14)
                 monitor.Disparar(this.segunda_transicion);
             after_shoot_tasks();
+            if(Main.getTareas() == ejecuciones){
+                break;
+            }
         }
     }
 
