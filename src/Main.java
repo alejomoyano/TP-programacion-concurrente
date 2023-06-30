@@ -55,7 +55,6 @@ public class Main {
 
         }
 
-        executor.shutdown();
         log.logger();
         System.out.println("");
         System.out.println("------------Programa finalizado------------");
@@ -70,6 +69,7 @@ public class Main {
         Utils.imprimirMatriz2D(RedDePetri.getMarcado());
         System.out.println("---------------------------------");
         System.out.println("Ejecucion terminada...");
+        executor.shutdown();
         System.exit(0); // Para que el programa realmente termine (se cierra la JVM). Sino siguen corriendo los hilos
                         // ya que son independientes del main y siempre terminan las t-invariantes completas vaciando todas las memorias
     }

@@ -9,7 +9,7 @@ public class Monitor {
     public Semaphore mutex;
     private Politicas politica;
     private Colas colas;
-    private Memoria memoria_uno,memoria_dos;
+    private Memoria memoria_uno, memoria_dos;
 
     public Monitor(RdP red, Politicas politica,Colas colas, Memoria memoria_uno, Memoria memoria_dos){
         this.politica = politica;
@@ -38,7 +38,7 @@ public class Monitor {
 //                   System.out.println(" No pude disparar, me voy a dormir: "+Thread.currentThread());
                 if(RP.getDormirse() && RP.esTemporal(transicion)) {
                     RP.setDormirse(false);    //bajo el flag, borro el indicador para el proximo hilo
-                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread().getName());
+//                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread().getName());
 
                     try{
                         // suelta el mutex ya que debe dormirse
@@ -58,7 +58,7 @@ public class Monitor {
                     }
                 }
                 else {
-                   System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
+//                   System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
                     mutex.release();
                     colas.setDormirse(transicion);
 //                    System.out.println("Soy: " + Thread.currentThread() + " voy a intentar disparar de nuevo, me sacaron de la cola.");
@@ -92,25 +92,6 @@ public class Monitor {
             /* Soltamos el mutex en caso de no haber nadie esperando en alguna transicion. Entra un hilo en la cola del monitor. */
             mutex.release();
 //                System.out.println(" Me voy del monitor y hago Release desde: "+Thread.currentThread()+" - Permisos restantes: " + mutex.availablePermits() + " - Hilos esperando: " + mutex.getQueueLength());
-
-
-            // ahora los hilos deben llenar los logs
-//            if(transicion == 3 || transicion == 4)
-//                Log.logProcesadores(transicion);
-//            if(transicion == 9 || transicion == 11)
-//                memoria_uno.guardar();
-//            if(transicion == 10 || transicion == 12)
-//                memoria_dos.guardar();
-//            if(transicion == 5 || transicion == 6) {
-//                Log.logTareas(transicion);
-//                Main.sumarTareas();
-//            }
-////            if(transicion == 7 || transicion == 8)
-////                Main.sumarTareas();
-//            if(transicion == 15)
-//                memoria_uno.guardar();
-//            if(transicion == 16)
-//                memoria_dos.guardar();
 
         } catch (InterruptedException e) {
             e.printStackTrace();

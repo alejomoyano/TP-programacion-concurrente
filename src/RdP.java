@@ -18,6 +18,8 @@ public class RdP {
 
 	private static int[][] conflictos;
 
+	private static int transicionPorDisparar;
+
 
 	/**
 	 * Metodo donde inicializamos la red
@@ -33,6 +35,8 @@ public class RdP {
 		temporales = new int[][]{{1},{0},{0},{0},{0},{1},{1},{1},{1},{0},{0},{0},{0},{1},{1},{1},{1}}; // matriz con las transiciones que son temporales
 		matrizTemp = new long[9][5];
 		conflictos = new int[][]{{0},{1},{1},{0},{0},{1},{1},{0},{0},{1},{1},{1},{1},{1},{1},{0},{0}}; // contiene las transiciones con conflicto
+
+		transicionPorDisparar = 0;
 
 		// obtenemos la matriz de incidencia
 		try {
@@ -68,8 +72,8 @@ public class RdP {
 		matrizTemp[5][1] = (long) 30; // alfa ProcesarT2Px
 		matrizTemp[6][1] = (long) 30;
 
-		matrizTemp[7][1] = (long) 100; // alfa VaciarMx
-		matrizTemp[8][1] = (long) 100;
+		matrizTemp[7][1] = (long) 130; // alfa VaciarMx
+		matrizTemp[8][1] = (long) 130;
 
 
 		// beta
@@ -119,6 +123,7 @@ public class RdP {
 
 		if(tempTransIndex >= 0 && disparar) {	// si es temporal y está sensibilizado/se puede disparar
 			//si no cumplen las condiciones de una transition temporal, disparar será falso y no se efectuara el disparo
+
 			disparar = dispararTemporal(tempTransIndex);
 //			System.out.println("dispararTemporal: "+disparar+" Hilo: "+Thread.currentThread().getName());
 		}
@@ -128,10 +133,11 @@ public class RdP {
 			MarcadoActual = nuevoMarcado;    //efectuo el disparo si se cumplen las condiciones, guardando el nuevo marcado
 			Sensibilizados();            //se actualizan las transiciones sensibilizadas
 			invariantesDePlaza();
+			transicionPorDisparar = transicion; // actualizamos cuando se va a disparar
 			setTiempos();
 		}
-		System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+"-"+Thread.currentThread().getName());
-		System.out.println("Marcado memorias 1 y 2: "+ MarcadoActual[9][0]+"-"+MarcadoActual[10][0]);
+//		System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+"-"+Thread.currentThread().getName());
+//		System.out.println("Marcado memorias 1 y 2: "+ MarcadoActual[9][0]+"-"+MarcadoActual[10][0]);
 
 		return disparar;
 	}
@@ -196,21 +202,21 @@ public class RdP {
 						matrizTemp[counter][0] = wiStart; // guarda wiStart en la matriz, en la transicion que corresponde
 						matrizTemp[counter][4] = 1; // set sensibilizada
 					}
-					/*  else -> antes estaba sensibilizada. ATENCION ACA 
-					 Antes estaba sensibilizada y ahora lo sigue estando. En el caso de las memorias tenemos 8 tokens u 8 lugares de memoria
-					 cuando esta vacia la memoria, la tarea vaciarx no esta sensibilizada porque no tiene nada q vaciar
-					 cuando se guarda un dato, se sensibiliza vaciarmx y se setean los tiempos. Pero estos tiempos quedan fijos
-					 porque va a seguir estando sensibilizada mientras haya dato en la memoria y los tiempos van a quedar de la primera vez
-					 q se cargo la memoria cuando estaba vacia. Es decir el wiStart va a quedar de ese primer dato guardado y luego el alfarelativo
-					 va a quedar constante mientras este con datos la memoria, entonces el thread va a vaciar la memoria a lo loco
-					 sin respetar tiempos porque el alfa es el del primer dato guardado y vacia sin parar hasta que quede vacia y ahi se repite el ciclo
-
-
-					 */
-					if(counter == 7 || counter == 8){		//solo actualizamos Vaciarx
-					long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
-					matrizTemp[counter][0] = wiStart;
+					// esta sensibilizada y antes tambien
+					// revisamos si estando sensibilizada se le sumo algun token (caso de VaciarMx)
+					else if(counter == 7 || counter == 8) {
+						long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
+						matrizTemp[counter][0] = wiStart;
 					}
+					// realmente no se cual esta bien. Si actualizar siempre o solo cuadno entra un token.
+//					else if(counter == 7 && (transicionPorDisparar == 9 || transicionPorDisparar == 11)) {
+//						long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
+//						matrizTemp[counter][0] = wiStart;
+//					}
+//					else if(counter == 8 && (transicionPorDisparar == 10 || transicionPorDisparar == 12)) {
+//						long wiStart = System.currentTimeMillis(); // wiStart = tiempo en ese instante en ms
+//						matrizTemp[counter][0] = wiStart;
+//					}
 				}
 				else{ // no esta sensibilizada
 					if(matrizTemp[counter][4] == 1){ // estaba sensibilizada
@@ -250,12 +256,11 @@ public class RdP {
 			// si esta dentro de la ventana debe dispararse
 			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)) {
 
-				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
-					System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
+//				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
+//					System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
 
 				return true;
 			}
-
 
 			// si es menor que el alpha relativo entonces significa que esta entre wi y alfa. Ya que tampoco esta dentro de la ventana
 
@@ -267,7 +272,8 @@ public class RdP {
 				// debemos dormir el hilo durante alfaRelativo-arrivalTime que es lo mismo que (alfa-(tiempo actual-wi))
 				setDormirse(true); // para indicar que se debe dormir y no saltar a la cola de la transicion
 
-//				System.out.println(Thread.currentThread().getName() +" Llegue antes de la ventana, deberia dormirme: "+ (alfaRelativo - matrizTemp[pos][0])+"ms.");
+				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
+					System.out.println(Thread.currentThread().getName() +" Llegue antes de la ventana, deberia dormirme: "+ (alfaRelativo - matrizTemp[pos][0])+"ms.");
 				setSleepTime(alfaRelativo - arrivalTime);
 
 				return false;
@@ -311,16 +317,7 @@ public class RdP {
 	 * @return true si tiene una temporal, false si no tiene
 	 */
 	public boolean esTemporal(int transicion) {
-
 		return temporales[transicion][0] == 1;
-
-//		int[][] sens = Utils.calcularAND(secuencia, temporales);
-//
-//		for (int i = 0; i < sens.length; i++) {
-//			if (sens[i][0] == 1)
-//				return true;
-//		}
-//		return false;
 	}
 
 
@@ -368,7 +365,7 @@ public class RdP {
 				return;
 			}
 		}
-//		System.out.println("Se cumplen las p-inv\n");
+
 	}
 
 
