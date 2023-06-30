@@ -1,9 +1,5 @@
 package src;
 
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 public class Memoria {
 
     private int buffer;

@@ -9,15 +9,12 @@ public class Monitor {
     public Semaphore mutex;
     private Politicas politica;
     private Colas colas;
-    private Memoria memoria_uno, memoria_dos;
 
-    public Monitor(RdP red, Politicas politica,Colas colas, Memoria memoria_uno, Memoria memoria_dos){
+    public Monitor(RdP red, Politicas politica,Colas colas){
         this.politica = politica;
         RP = red;
         this.colas = colas;
         mutex = new Semaphore(1,true);
-        this.memoria_uno = memoria_uno;
-        this.memoria_dos = memoria_dos;
     }
 
     public void Disparar (int transicion) {
@@ -40,6 +37,7 @@ public class Monitor {
                     RP.setDormirse(false);    //bajo el flag, borro el indicador para el proximo hilo
 //                    System.out.println(" No pude disparar temporal, me voy a dormir por: "+RP.getSleepTime()+" ms.Thread:"+Thread.currentThread().getName());
 
+
                     try{
                         // suelta el mutex ya que debe dormirse
                         mutex.release();
@@ -59,6 +57,7 @@ public class Monitor {
                 }
                 else {
 //                   System.out.println(" No pude disparar me voy a mi cola. "+Thread.currentThread());
+
                     mutex.release();
                     colas.setDormirse(transicion);
 //                    System.out.println("Soy: " + Thread.currentThread() + " voy a intentar disparar de nuevo, me sacaron de la cola.");

@@ -139,6 +139,7 @@ public class RdP {
 //		System.out.println("Vuelvo de ecuacion estado con disparar: "+disparar+"-"+Thread.currentThread().getName());
 //		System.out.println("Marcado memorias 1 y 2: "+ MarcadoActual[9][0]+"-"+MarcadoActual[10][0]);
 
+
 		return disparar;
 	}
 
@@ -242,7 +243,6 @@ public class RdP {
 		   -Si llega en la ventana se dispara.
 		   -Si llega y ya hay un id en la matriz, se duerme en la cola del semaforo que corresponde.
 		*/
-
 		long arrivalTime = System.currentTimeMillis();//tiempo en el que llega el hilo a disparar la transicion
 
 		long alfaRelativo = matrizTemp[pos][0] + matrizTemp[pos][1]; // wi + alfa
@@ -255,10 +255,8 @@ public class RdP {
 
 			// si esta dentro de la ventana debe dispararse
 			if ((alfaRelativo <= arrivalTime) && (betaRelativo >= arrivalTime)) {
-
 //				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
 //					System.out.println("Llegue justo en la ventana. Alfa: "+alfaRelativo+"ms. arrivalTime: "+arrivalTime+"ms.");
-
 				return true;
 			}
 
@@ -271,18 +269,12 @@ public class RdP {
 
 				// debemos dormir el hilo durante alfaRelativo-arrivalTime que es lo mismo que (alfa-(tiempo actual-wi))
 				setDormirse(true); // para indicar que se debe dormir y no saltar a la cola de la transicion
-
-				if(Thread.currentThread().getName().equals("Thread T13") || Thread.currentThread().getName().equals("Thread T14"))
-					System.out.println(Thread.currentThread().getName() +" Llegue antes de la ventana, deberia dormirme: "+ (alfaRelativo - matrizTemp[pos][0])+"ms.");
 				setSleepTime(alfaRelativo - arrivalTime);
-
 				return false;
 			}
 			// esta despues del beta
 			else{
-
 //				System.out.println("No estoy en la ventana ni antes de alfa, estoy despues de beta");
-
 				return false;//se debe ir a la cola de la transicion
 			}
 

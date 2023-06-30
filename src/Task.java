@@ -33,6 +33,7 @@ public class Task implements Runnable{
             memoria.guardar();
         if(transicion == 15 || transicion == 16){
 //        	System.out.println("Soy: "+Thread.currentThread().getName()+". Voy a vaciar memoria.");
+
             memoria.vaciar();
         }
         Log.loggeo(transicion);

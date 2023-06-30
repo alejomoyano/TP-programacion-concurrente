@@ -1,7 +1,6 @@
 package src;
 
 import java.util.concurrent.ThreadFactory;
-import java.util.List;
 
 /**
  * Implementa ThreadFactory que es la clase que nos permite crear hilos
